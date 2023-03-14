@@ -13,16 +13,16 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class TrechoCreateDTO {
     @Schema(description = "código do aeroporto de origem", example = "BEL", required = true)
-    @NotNull
+    @NotNull(message = "Informe a origem!")
     @Size(min = 3, max = 3, message = "Campo origem deve ser no formato XXX!")
     private String origem;
 
     @Schema(description = "código do aeroporto de destino", example = "FOR", required = true)
-    @NotNull
+    @NotNull(message = "Informe o destino!")
     @Size(min = 3, max = 3, message = "Campo destino deve ser no formato XXX!")
     private String destino;
 
     @Schema(description = "id da companhia que oferece o trecho", example = "6", required = true)
-    @NotNull
+    @NotNull(message = "Informe o ID da companhia!")
     private Integer idCompanhia;
 }
