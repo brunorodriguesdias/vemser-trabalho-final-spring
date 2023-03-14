@@ -16,6 +16,7 @@ public final class CompanhiaEntity extends UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_companhia")
     @SequenceGenerator(name = "seq_companhia", sequenceName = "seq_companhia", allocationSize = 1)
     private Integer idCompanhia;
+    @Column(name = "cnpj")
     private String cnpj;
     @Column(name = "nome_fantasia")
     private String nomeFantasia;

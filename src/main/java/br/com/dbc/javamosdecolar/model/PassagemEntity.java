@@ -2,7 +2,7 @@ package br.com.dbc.javamosdecolar.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -12,12 +12,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity(name = "PASSAGEM")
 public class PassagemEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_passagem")
+    @SequenceGenerator(name = "seq_passagem", sequenceName = "seq_passagem", allocationSize = 1)
     private int idPassagem;
+    @Column(name = "CODIGO")
     private String codigo;
+    @Column(name = "DATA_PARTIDA")
     private LocalDateTime dataPartida;
+    @Column(name = "DATA_CHEGADA")
     private LocalDateTime dataChegada;
     private boolean disponivel;
+    @Column(name = "VALOR")
     private BigDecimal valor;
+    @Column(name = "TRECHO")
     private TrechoEntity trecho;
 
     public PassagemEntity(String codigo, LocalDateTime dataPartida, LocalDateTime dataChegada,
