@@ -11,5 +11,5 @@ public class Trecho {
     private int idTrecho;
     private String origem;
     private String destino;
-    private Companhia companhia;
+    private CompanhiaEntity companhiaEntity;
 }

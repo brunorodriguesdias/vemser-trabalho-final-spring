@@ -2,7 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.Comprador;
-import br.com.dbc.javamosdecolar.model.Usuario;
+import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.model.Venda;
 import freemarker.template.*;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class EmailService {
             mimeMessageHelper.setSubject("Javamos Decolar");
             mimeMessageHelper.setText(template, true);
 
-//            emailSender.send(mimeMessageHelper.getMimeMessage());
+//            emailSender.send(mimeMessageHelper.getMimeMessage()); <TODO> descomentar
 
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -51,8 +51,8 @@ public class EmailService {
         this.sendEmail(this.getVendaTemplate(venda, acao), comprador.getLogin());
     }
 
-    public void sendEmail(Usuario usuario) throws RegraDeNegocioException {
-        this.sendEmail(this.getNovoUsuarioTemplate(usuario), usuario.getLogin());
+    public void sendEmail(UsuarioEntity usuarioEntity) throws RegraDeNegocioException {
+        this.sendEmail(this.getNovoUsuarioTemplate(usuarioEntity), usuarioEntity.getLogin());
     }
 
     public String getVendaTemplate(Venda venda, String acao) throws RegraDeNegocioException {
@@ -78,9 +78,9 @@ public class EmailService {
             throw new RegraDeNegocioException("Erro ao enviar e-mail.");
         }
     }
-    public String getNovoUsuarioTemplate(Usuario usuario) throws RegraDeNegocioException {
+    public String getNovoUsuarioTemplate(UsuarioEntity usuarioEntity) throws RegraDeNegocioException {
         Map<String, Object> dados = new HashMap<>();
-        dados.put("nome", usuario.getNome());
+        dados.put("nome", usuarioEntity.getNome());
         dados.put("email", from);
 
         try {

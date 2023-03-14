@@ -4,7 +4,7 @@ import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoDTO;
 import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.Companhia;
+import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.model.Trecho;
 import br.com.dbc.javamosdecolar.repository.TrechoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,25 +22,25 @@ public class TrechoService {
 
     public TrechoDTO create(TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
         try {
-            Companhia companhia = objectMapper
+            CompanhiaEntity companhiaEntity = objectMapper
                     .convertValue(companhiaService.getById(trechoDTO.getIdCompanhia()),
-                            Companhia.class);
+                            CompanhiaEntity.class);
 
-            if(!companhia.isAtivo()) {
+            if(!companhiaEntity.isAtivo()) {
                 throw new RegraDeNegocioException("Companhia indisponível.");
             }
 
             // Checa se a companhia já cadastrou esse trecho
             if(trechoRepository.getOne(trechoDTO.getOrigem().toUpperCase(),
-                    trechoDTO.getDestino().toUpperCase(), companhia).isPresent()) {
+                    trechoDTO.getDestino().toUpperCase(), companhiaEntity).isPresent()) {
                 throw new RegraDeNegocioException("Trecho já existe!");
             }
             Trecho trecho = objectMapper.convertValue(trechoDTO, Trecho.class);
-            trecho.setCompanhia(companhia);
+            trecho.setCompanhiaEntity(companhiaEntity);
 
             TrechoDTO trechoNovo = objectMapper
                     .convertValue(trechoRepository.create(trecho), TrechoDTO.class);
-            trechoNovo.setIdCompanhia(companhia.getIdCompanhia());
+            trechoNovo.setIdCompanhia(companhiaEntity.getIdCompanhia());
 
             return trechoNovo;
 
@@ -54,11 +54,11 @@ public class TrechoService {
             trechoRepository.getById(idTrecho)
                     .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
 
-            Companhia companhia = objectMapper
-                    .convertValue(companhiaService.getById(trechoDTO.getIdCompanhia()), Companhia.class);
+            CompanhiaEntity companhiaEntity = objectMapper
+                    .convertValue(companhiaService.getById(trechoDTO.getIdCompanhia()), CompanhiaEntity.class);
 
             if(trechoRepository.getOne(trechoDTO.getOrigem().toUpperCase(),
-                    trechoDTO.getDestino().toUpperCase(), companhia).isPresent()) {
+                    trechoDTO.getDestino().toUpperCase(), companhiaEntity).isPresent()) {
                 throw new RegraDeNegocioException("Trecho já existe!");
             }
 
@@ -67,7 +67,7 @@ public class TrechoService {
 
             if(trechoRepository.update(idTrecho, trechoEditado)){
                 TrechoDTO trechoEditadoDTO = objectMapper.convertValue(trechoEditado, TrechoDTO.class);
-                trechoEditadoDTO.setIdCompanhia(companhia.getIdCompanhia());
+                trechoEditadoDTO.setIdCompanhia(companhiaEntity.getIdCompanhia());
 
                 return trechoEditadoDTO;
 
@@ -96,7 +96,7 @@ public class TrechoService {
             List<TrechoDTO> listaTrechos = trechoRepository.getAll().stream()
                     .map(trecho -> {
                         TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-                        trechoDTO.setIdCompanhia(trecho.getCompanhia().getIdCompanhia());
+                        trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdCompanhia());
                         return trechoDTO;
                     })
                     .toList();
@@ -128,7 +128,7 @@ public class TrechoService {
                     .orElseThrow(() -> new RegraDeNegocioException("Aconteceu algum problema durante a listagem."));
 
             TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-            trechoDTO.setIdCompanhia(trecho.getCompanhia().getIdCompanhia());
+            trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdCompanhia());
 
             return trechoDTO;
 

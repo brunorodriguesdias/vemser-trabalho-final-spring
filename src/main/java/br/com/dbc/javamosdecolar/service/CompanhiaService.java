@@ -1,10 +1,11 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.exception.DatabaseException;
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.*;
-import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
+import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.model.TipoUsuario;
+import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,109 +23,112 @@ public class CompanhiaService {
     private final ObjectMapper objectMapper;
 
     public List<CompanhiaDTO> getAll() throws RegraDeNegocioException {
-        try{
-            List<CompanhiaDTO> listaCompradores = companhiaRepository.getAll().stream()
+//        try{
+            List<CompanhiaDTO> listaCompradores = companhiaRepository.findAll().stream()
                     .map(companhia -> objectMapper.convertValue(companhia, CompanhiaDTO.class))
                     .collect(Collectors.toList());
 
             return listaCompradores;
 
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
-        }
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
+//        }
     }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
-        try {
-            Usuario usuarioNovo = new Usuario(
+//        try {
+            UsuarioEntity usuarioNovo = new UsuarioEntity(
                     companhiaDTO.getLogin(),
                     companhiaDTO.getSenha(),
                     companhiaDTO.getNome(),
                     TipoUsuario.COMPANHIA,
                     true);
 
-            Usuario usuarioCriado = usuarioService.create(usuarioNovo);
-            Companhia companhia = objectMapper.convertValue(companhiaDTO, Companhia.class);
-            companhia.setIdUsuario(usuarioCriado.getIdUsuario());
+            UsuarioEntity usuarioCriado = usuarioService.create(usuarioNovo);
+            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaDTO, CompanhiaEntity.class);
+            companhiaEntity.setIdUsuario(usuarioCriado.getIdUsuario());
 
-            CompanhiaDTO companhiaCriada = objectMapper.convertValue(companhiaRepository.create(companhia),
+            CompanhiaDTO companhiaCriada = objectMapper.convertValue(companhiaRepository.save(companhiaEntity),
                     CompanhiaDTO.class);
             companhiaCriada.setAtivo(usuarioCriado.isAtivo());
 
             return companhiaCriada;
 
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a criação.");
-        }
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a criação.");
+//        }
     }
 
     public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
-        try {
-            Companhia companhia = companhiaRepository.getById(id)
+//        try {
+            CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
                     .orElseThrow(() -> new RegraDeNegocioException("Companhia não existe."));
 
-            Usuario usuario = new Usuario(
-                    companhia.getIdUsuario(),
+            UsuarioEntity usuario = new UsuarioEntity(
+                    companhiaEntity.getIdUsuario(),
                     companhiaDTO.getLogin(),
                     companhiaDTO.getSenha(),
                     companhiaDTO.getNome(),
                     TipoUsuario.COMPANHIA,
                     true);
 
-            usuarioService.update(companhia.getIdUsuario(), usuario);
+            usuarioService.update(companhiaEntity.getIdUsuario(), usuario);
 
-            Companhia companhiaEditada = objectMapper.convertValue(companhiaDTO, Companhia.class);
+            CompanhiaEntity companhiaEntityEditada = objectMapper.convertValue(companhiaDTO, CompanhiaEntity.class);
 
-            if(companhiaRepository.update(id, companhiaEditada)) {
-                companhiaEditada.setIdCompanhia(id);
-                companhiaEditada.setAtivo(companhia.isAtivo());
+//            if(
+                companhiaRepository.save(companhiaEntityEditada);
+//                ) {
+                companhiaEntityEditada.setIdCompanhia(id);
+                companhiaEntityEditada.setAtivo(companhiaEntity.isAtivo());
 
-                return objectMapper.convertValue(companhiaEditada, CompanhiaDTO.class);
+                return objectMapper.convertValue(companhiaEntityEditada, CompanhiaDTO.class);
 
-            } else {
-                throw new RegraDeNegocioException("Companhia não pode ser editada.");
-            }
-        } catch (DatabaseException e) {
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
-        }
+//            } else {
+//                throw new RegraDeNegocioException("Companhia não pode ser editada.");
+//            }
+//        } catch (DatabaseException e) {
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
+//        }
     }
 
     public void delete(Integer idCompanhia) throws RegraDeNegocioException {
-        try {
-            Companhia companhiaEncontrada = companhiaRepository.getById(idCompanhia)
+//        try {
+            CompanhiaEntity companhiaEntityEncontrada = companhiaRepository.findById(idCompanhia)
                     .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada!"));
 
-            usuarioService.delete(companhiaEncontrada.getIdUsuario());
+            usuarioService.delete(companhiaEntityEncontrada.getIdUsuario());
 
-        }catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
-        }
+//        }catch (DatabaseException e) {
+//            e.printStackTrace();
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
+//        }
     }
 
     public CompanhiaDTO getById(Integer id) throws RegraDeNegocioException {
-        try {
-            Companhia companhia = companhiaRepository.getById(id)
+//        try {
+            CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
                     .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
 
-            return objectMapper.convertValue(companhia, CompanhiaDTO.class);
+            return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
 
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a recuperação da companhia.");
-        }
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a recuperação da companhia.");
+//        }
     }
 
-    public Companhia getByNome(String nome) throws RegraDeNegocioException {
-        try {
-            return companhiaRepository.getByNome(nome)
-                    .orElseThrow(() -> new RegraDeNegocioException("Companhia não Encontrada"));
+    public CompanhiaEntity getByNome(String nome) throws RegraDeNegocioException {
+//        try {
+//            return companhiaRepository.getByNome(nome)
+//                    .orElseThrow(() -> new RegraDeNegocioException("Companhia não Encontrada"));
+            return null;
 
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-            throw new RegraDeNegocioException("Aconteceu algum problema durante a recuperação da companhia.");
-        }
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//            throw new RegraDeNegocioException("Aconteceu algum problema durante a recuperação da companhia.");
+//        }
     }
 }

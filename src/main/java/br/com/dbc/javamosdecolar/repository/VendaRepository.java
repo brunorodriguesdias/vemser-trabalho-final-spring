@@ -53,7 +53,7 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
                 Venda venda = new Venda();
                 venda.setIdVenda(resultSet.getInt("id_venda"));
                 venda.setComprador((Comprador) resultSet.getObject("comprador"));
-                venda.setCompanhia((Companhia) resultSet.getObject("companhia"));
+                venda.setCompanhiaEntity((CompanhiaEntity) resultSet.getObject("companhia"));
                 venda.setData((LocalDateTime) resultSet.getObject("data"));
                 venda.setStatus((Status) resultSet.getObject("status"));
                 vendas.add(venda);
@@ -92,7 +92,7 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
 
             preparedStatement.setInt(1, venda.getIdVenda());
             preparedStatement.setObject(2, venda.getComprador().getIdComprador());
-            preparedStatement.setObject(3, venda.getCompanhia().getIdCompanhia());
+            preparedStatement.setObject(3, venda.getCompanhiaEntity().getIdCompanhia());
             preparedStatement.setObject(4, LocalDateTime.now());
             preparedStatement.setString(5, venda.getStatus().name());
             preparedStatement.setString(6, venda.getCodigo());
@@ -133,7 +133,7 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
             PreparedStatement statement = conexao.prepareStatement(sql.toString());
 
             statement.setObject(1, venda.getComprador().getIdComprador());
-            statement.setObject(2, venda.getCompanhia().getIdCompanhia());
+            statement.setObject(2, venda.getCompanhiaEntity().getIdCompanhia());
             statement.setObject(3, venda.getData());
             statement.setObject(4, venda.getStatus());
             statement.setInt(5, id);
@@ -384,7 +384,7 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
     private Venda getByResultSet(ResultSet resultSet) throws SQLException {
 
         Venda venda = new Venda();
-        Companhia companhia = new Companhia();
+        CompanhiaEntity companhiaEntity = new CompanhiaEntity();
         Comprador comprador = new Comprador();
         Trecho trecho = new Trecho();
         Passagem passagem = new Passagem();
@@ -399,8 +399,8 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
             venda.setStatus(Status.CONCLUIDO);
         }
 
-        companhia.setNomeFantasia(resultSet.getString("nome_fantasia"));
-        companhia.setIdCompanhia(resultSet.getInt("id_companhia"));
+        companhiaEntity.setNomeFantasia(resultSet.getString("nome_fantasia"));
+        companhiaEntity.setIdCompanhia(resultSet.getInt("id_companhia"));
         comprador.setIdComprador(resultSet.getInt("id_comprador"));
         trecho.setIdTrecho(resultSet.getInt("id_trecho"));
         trecho.setOrigem(resultSet.getString("origem"));
@@ -410,9 +410,9 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
         passagem.setDataChegada((resultSet.getTimestamp("data_chegada").toLocalDateTime()));
         passagem.setValor((resultSet.getBigDecimal("valor")));
         passagem.setIdPassagem(resultSet.getInt("id_passagem"));
-        trecho.setCompanhia(companhia);
+        trecho.setCompanhiaEntity(companhiaEntity);
         passagem.setTrecho(trecho);
-        venda.setCompanhia(companhia);
+        venda.setCompanhiaEntity(companhiaEntity);
         venda.setComprador(comprador);
         venda.setPassagem(passagem);
 
@@ -422,7 +422,7 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
     private Venda getByResultSetWithCompradorNome(ResultSet resultSet) throws SQLException {
 
         Venda venda = new Venda();
-        Companhia companhia = new Companhia();
+        CompanhiaEntity companhiaEntity = new CompanhiaEntity();
         Comprador comprador = new Comprador();
         Trecho trecho = new Trecho();
         Passagem passagem = new Passagem();
@@ -437,8 +437,8 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
             venda.setStatus(Status.CONCLUIDO);
         }
 
-        companhia.setNomeFantasia(resultSet.getString("nome_fantasia"));
-        companhia.setIdCompanhia(resultSet.getInt("id_companhia"));
+        companhiaEntity.setNomeFantasia(resultSet.getString("nome_fantasia"));
+        companhiaEntity.setIdCompanhia(resultSet.getInt("id_companhia"));
         comprador.setIdComprador(resultSet.getInt("id_comprador"));
         comprador.setNome(resultSet.getString("nome"));
         trecho.setIdTrecho(resultSet.getInt("id_trecho"));
@@ -449,9 +449,9 @@ public class VendaRepository implements RepositoryCRUD<Venda, Integer> {
         passagem.setDataChegada((resultSet.getTimestamp("data_chegada").toLocalDateTime()));
         passagem.setValor((resultSet.getBigDecimal("valor")));
         passagem.setIdPassagem(resultSet.getInt("id_passagem"));
-        trecho.setCompanhia(companhia);
+        trecho.setCompanhiaEntity(companhiaEntity);
         passagem.setTrecho(trecho);
-        venda.setCompanhia(companhia);
+        venda.setCompanhiaEntity(companhiaEntity);
         venda.setComprador(comprador);
         venda.setPassagem(passagem);
 

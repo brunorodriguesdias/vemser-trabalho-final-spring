@@ -1,7 +1,7 @@
 package br.com.dbc.javamosdecolar.repository;
 
 import br.com.dbc.javamosdecolar.exception.DatabaseException;
-import br.com.dbc.javamosdecolar.model.Companhia;
+import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.model.Trecho;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -52,7 +52,7 @@ public class TrechoRepository implements RepositoryCRUD<Trecho, Integer> {
             preparedStatement.setInt(1, trecho.getIdTrecho());
             preparedStatement.setString(2, trecho.getOrigem());
             preparedStatement.setString(3, trecho.getDestino());
-            preparedStatement.setInt(4, trecho.getCompanhia().getIdCompanhia());
+            preparedStatement.setInt(4, trecho.getCompanhiaEntity().getIdCompanhia());
 
             preparedStatement.executeUpdate();
 
@@ -219,7 +219,7 @@ public class TrechoRepository implements RepositoryCRUD<Trecho, Integer> {
         }
     }
 
-    public Optional<Trecho> getOne(String origem, String destino, Companhia companhia) throws DatabaseException {
+    public Optional<Trecho> getOne(String origem, String destino, CompanhiaEntity companhiaEntity) throws DatabaseException {
         Connection connection = null;
 
         try {
@@ -235,7 +235,7 @@ public class TrechoRepository implements RepositoryCRUD<Trecho, Integer> {
 
             preparedStatement.setString(1, origem);
             preparedStatement.setString(2, destino);
-            preparedStatement.setInt(3, companhia.getIdCompanhia());
+            preparedStatement.setInt(3, companhiaEntity.getIdCompanhia());
 
             // Executa-se a consulta
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -305,15 +305,15 @@ public class TrechoRepository implements RepositoryCRUD<Trecho, Integer> {
     private Trecho getByResultSet(ResultSet resultSet) throws SQLException {
 
         // Retira os dados necessários da companhia para serem usados no trecho
-        Companhia companhia = new Companhia();
-        companhia.setIdCompanhia(resultSet.getInt("id_companhia"));
-        companhia.setNomeFantasia(resultSet.getString("nome_fantasia"));
+        CompanhiaEntity companhiaEntity = new CompanhiaEntity();
+        companhiaEntity.setIdCompanhia(resultSet.getInt("id_companhia"));
+        companhiaEntity.setNomeFantasia(resultSet.getString("nome_fantasia"));
 
         Trecho trecho = new Trecho();
         trecho.setIdTrecho(resultSet.getInt("id_trecho"));
         trecho.setOrigem(resultSet.getString("origem"));
         trecho.setDestino(resultSet.getString("destino"));
-        trecho.setCompanhia(companhia);
+        trecho.setCompanhiaEntity(companhiaEntity);
 
         return trecho;
     }

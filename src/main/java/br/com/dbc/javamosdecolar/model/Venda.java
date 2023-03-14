@@ -13,15 +13,15 @@ public class Venda {
     private Status status;
     private LocalDateTime data;
     private Comprador comprador;
-    private Companhia companhia;
+    private CompanhiaEntity companhiaEntity;
     private Passagem passagem;
 
     public Venda(String codigo, Passagem passagem, Comprador comprador,
-                 Companhia companhia, LocalDateTime data, Status status) {
+                 CompanhiaEntity companhiaEntity, LocalDateTime data, Status status) {
         this.codigo = codigo;
         this.passagem = passagem;
         this.comprador = comprador;
-        this.companhia = companhia;
+        this.companhiaEntity = companhiaEntity;
         this.data = data;
         this.status = status;
     }

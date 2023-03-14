@@ -4,7 +4,7 @@ import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.Comprador;
 import br.com.dbc.javamosdecolar.model.TipoUsuario;
-import br.com.dbc.javamosdecolar.model.Usuario;
+import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
@@ -38,14 +38,14 @@ public class CompradorService {
 
     public CompradorDTO create(CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
         try {
-            Usuario usuarioNovo = new Usuario(
+            UsuarioEntity usuarioNovo = new UsuarioEntity(
                     compradorDTO.getLogin(),
                     compradorDTO.getSenha(),
                     compradorDTO.getNome(),
                     TipoUsuario.COMPRADOR,
                     true);
 
-            Usuario usuarioCriado = usuarioService.create(usuarioNovo);
+            UsuarioEntity usuarioCriado = usuarioService.create(usuarioNovo);
             Comprador comprador = objectMapper.convertValue(compradorDTO, Comprador.class);
             comprador.setIdUsuario(usuarioCriado.getIdUsuario());
 
@@ -69,7 +69,7 @@ public class CompradorService {
                     .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
             // Cria usuario e passa os dados para edição
-            Usuario usuario = new Usuario(
+            UsuarioEntity usuario = new UsuarioEntity(
                     comprador.getIdUsuario(),
                     compradorDTO.getLogin(),
                     compradorDTO.getSenha(),
@@ -77,7 +77,7 @@ public class CompradorService {
                     TipoUsuario.COMPRADOR,
                     true);
 
-            Usuario usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuario);
+            UsuarioEntity usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuario);
             comprador.setNome(usuarioEditado.getNome());
 
             return objectMapper.convertValue(comprador, CompradorDTO.class);

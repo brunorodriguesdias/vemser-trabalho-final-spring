@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Comprador extends Usuario {
+public class Comprador extends UsuarioEntity {
 
     private Integer idComprador;
     private String cpf;

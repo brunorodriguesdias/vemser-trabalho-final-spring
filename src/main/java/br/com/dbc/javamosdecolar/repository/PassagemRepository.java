@@ -1,7 +1,7 @@
 package br.com.dbc.javamosdecolar.repository;
 
 import br.com.dbc.javamosdecolar.exception.DatabaseException;
-import br.com.dbc.javamosdecolar.model.Companhia;
+import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.model.Passagem;
 import br.com.dbc.javamosdecolar.model.Trecho;
 import lombok.RequiredArgsConstructor;
@@ -447,16 +447,16 @@ public class PassagemRepository {
 
     private Passagem getByResultSet(ResultSet resultSet) throws SQLException {
         // Retira os dados necessários da companhia para serem usados no trecho
-        Companhia companhia = new Companhia();
-        companhia.setNomeFantasia(resultSet.getString("nome_fantasia"));
-        companhia.setIdCompanhia(resultSet.getInt("id_companhia"));
+        CompanhiaEntity companhiaEntity = new CompanhiaEntity();
+        companhiaEntity.setNomeFantasia(resultSet.getString("nome_fantasia"));
+        companhiaEntity.setIdCompanhia(resultSet.getInt("id_companhia"));
 
         // Retira os dados necessários de trecho para serem usados na passagem
         Trecho trecho = new Trecho();
         trecho.setIdTrecho(resultSet.getInt("id_trecho"));
         trecho.setOrigem(resultSet.getString("origem"));
         trecho.setDestino(resultSet.getString("destino"));
-        trecho.setCompanhia(companhia);
+        trecho.setCompanhiaEntity(companhiaEntity);
 
         Passagem passagem = new Passagem();
         passagem.setIdPassagem(resultSet.getInt("id_passagem"));
