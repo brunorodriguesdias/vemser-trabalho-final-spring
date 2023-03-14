@@ -1,13 +1,15 @@
 package br.com.dbc.javamosdecolar.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import javax.persistence.Entity;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Trecho {
+@Entity(name = "TRECHO")
+public class TrechoEntity {
     private int idTrecho;
     private String origem;
     private String destino;

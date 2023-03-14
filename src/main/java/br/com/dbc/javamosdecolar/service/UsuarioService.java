@@ -1,11 +1,11 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.exception.DatabaseException;
-
+import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
+import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.model.TipoUsuario;
 import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.repository.UsuarioRepository;
-import br.com.dbc.javamosdecolar.repository.UsuarioRepositoryOld;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,20 +16,24 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 //    private final EmailService emailService;
 
-    public UsuarioEntity create(UsuarioEntity usuarioEntity) throws RegraDeNegocioException {
-//        try{
-//            if (usuarioRepository.getByLogin(usuarioEntity.getLogin()).isEmpty()) {
-//            emailService.sendEmail(usuarioEntity);
-            return usuarioRepository.save(usuarioEntity);
+    public <T> UsuarioEntity create(T object) throws RegraDeNegocioException {
+        UsuarioEntity usuarioNovo = new UsuarioEntity();
 
-//            } else {
-//                throw new RegraDeNegocioException("Não foi possível concluir o cadastro.");
-//            }
+        if(object instanceof CompanhiaCreateDTO){
+            usuarioNovo.setLogin(((CompanhiaCreateDTO) object).getLogin());
+            usuarioNovo.setSenha(((CompanhiaCreateDTO) object).getSenha());
+            usuarioNovo.setNome(((CompanhiaCreateDTO) object).getNome());
+            usuarioNovo.setTipoUsuario(TipoUsuario.COMPANHIA);
+        }
 
-//        } catch (DatabaseException e) {
-//            e.printStackTrace();
-//            throw new RegraDeNegocioException("Aconteceu algum problema durante o cadastro");
-//        }
+        if(object instanceof CompradorCreateDTO){
+            usuarioNovo.setLogin(((CompradorCreateDTO) object).getLogin());
+            usuarioNovo.setSenha(((CompradorCreateDTO) object).getSenha());
+            usuarioNovo.setNome(((CompradorCreateDTO) object).getNome());
+            usuarioNovo.setTipoUsuario(TipoUsuario.COMPRADOR);
+        }
+
+        return usuarioRepository.save(usuarioNovo);
     }
 
     public UsuarioEntity update(Integer id, UsuarioEntity usuarioEntity) throws RegraDeNegocioException {

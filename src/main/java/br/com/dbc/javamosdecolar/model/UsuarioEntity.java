@@ -20,7 +20,7 @@ public class UsuarioEntity {
     private String nome;
     @Column(name = "tipo")
     private TipoUsuario tipoUsuario;
-    private boolean ativo;
+    private boolean ativo = true;
 
     public UsuarioEntity(String login, String senha, String nome, TipoUsuario tipoUsuario, boolean ativo) {
         this.login = login;

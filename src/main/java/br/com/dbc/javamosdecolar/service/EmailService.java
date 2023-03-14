@@ -1,9 +1,9 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.Comprador;
+import br.com.dbc.javamosdecolar.model.CompradorEntity;
 import br.com.dbc.javamosdecolar.model.UsuarioEntity;
-import br.com.dbc.javamosdecolar.model.Venda;
+import br.com.dbc.javamosdecolar.model.VendaEntity;
 import freemarker.template.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +47,7 @@ public class EmailService {
         }
     }
 
-    public void sendEmail(Venda venda, String acao, Comprador comprador) throws RegraDeNegocioException {
+    public void sendEmail(VendaEntity venda, String acao, CompradorEntity comprador) throws RegraDeNegocioException {
         this.sendEmail(this.getVendaTemplate(venda, acao), comprador.getLogin());
     }
 
@@ -55,7 +55,7 @@ public class EmailService {
         this.sendEmail(this.getNovoUsuarioTemplate(usuarioEntity), usuarioEntity.getLogin());
     }
 
-    public String getVendaTemplate(Venda venda, String acao) throws RegraDeNegocioException {
+    public String getVendaTemplate(VendaEntity venda, String acao) throws RegraDeNegocioException {
         Map<String, Object> dados = new HashMap<>();
         dados.put("nome", venda.getComprador().getNome());
         dados.put("codigo", venda.getCodigo());

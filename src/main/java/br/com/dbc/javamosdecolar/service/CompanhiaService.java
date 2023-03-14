@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,30 +22,20 @@ public class CompanhiaService {
     private final ObjectMapper objectMapper;
 
     public List<CompanhiaDTO> getAll() throws RegraDeNegocioException {
-//        try{
-            List<CompanhiaDTO> listaCompradores = companhiaRepository.findAll().stream()
-                    .map(companhia -> objectMapper.convertValue(companhia, CompanhiaDTO.class))
-                    .collect(Collectors.toList());
-
-            return listaCompradores;
-
-//        } catch (DatabaseException e) {
-//            e.printStackTrace();
-//            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
-//        }
+        List<CompanhiaDTO> companhiaDTOS = companhiaRepository.findAll()
+                .stream()
+                .map(companhiaEntity -> objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class))
+                .toList();
+        if(companhiaDTOS == null){
+            throw new RegraDeNegocioException("Sem registros de companhias!");
+        }
+        return companhiaDTOS;
     }
 
-    public CompanhiaDTO create(CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
-//        try {
-            UsuarioEntity usuarioNovo = new UsuarioEntity(
-                    companhiaDTO.getLogin(),
-                    companhiaDTO.getSenha(),
-                    companhiaDTO.getNome(),
-                    TipoUsuario.COMPANHIA,
-                    true);
+    public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTODTO) throws RegraDeNegocioException {
 
-            UsuarioEntity usuarioCriado = usuarioService.create(usuarioNovo);
-            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaDTO, CompanhiaEntity.class);
+            UsuarioEntity usuarioCriado = usuarioService.create(companhiaCreateDTODTO);
+            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaCreateDTODTO, CompanhiaEntity.class);
             companhiaEntity.setIdUsuario(usuarioCriado.getIdUsuario());
 
             CompanhiaDTO companhiaCriada = objectMapper.convertValue(companhiaRepository.save(companhiaEntity),
@@ -54,11 +43,6 @@ public class CompanhiaService {
             companhiaCriada.setAtivo(usuarioCriado.isAtivo());
 
             return companhiaCriada;
-
-//        } catch (DatabaseException e) {
-//            e.printStackTrace();
-//            throw new RegraDeNegocioException("Aconteceu algum problema durante a criação.");
-//        }
     }
 
     public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
@@ -131,4 +115,5 @@ public class CompanhiaService {
 //            throw new RegraDeNegocioException("Aconteceu algum problema durante a recuperação da companhia.");
 //        }
     }
+
 }

@@ -1,23 +1,26 @@
 package br.com.dbc.javamosdecolar.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Venda {
+@Entity(name = "VENDA")
+public class VendaEntity {
     private int idVenda;
     private String codigo;
     private Status status;
     private LocalDateTime data;
-    private Comprador comprador;
+    private CompradorEntity comprador;
     private CompanhiaEntity companhiaEntity;
-    private Passagem passagem;
+    private PassagemEntity passagem;
 
-    public Venda(String codigo, Passagem passagem, Comprador comprador,
-                 CompanhiaEntity companhiaEntity, LocalDateTime data, Status status) {
+    public VendaEntity(String codigo, PassagemEntity passagem, CompradorEntity comprador,
+                       CompanhiaEntity companhiaEntity, LocalDateTime data, Status status) {
         this.codigo = codigo;
         this.passagem = passagem;
         this.comprador = comprador;
