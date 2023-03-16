@@ -12,5 +12,5 @@ public class CompradorDTO extends CompradorCreateDTO {
     @Schema(description = "id do comprador", example = "1")
     private Integer idComprador;
     @Schema(description = "status do usuario", example = "true")
-    private Boolean ativo;
+    private Boolean ativo = true;
 }

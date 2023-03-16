@@ -17,20 +17,24 @@ public class UsuarioService {
 //    private final EmailService emailService;
 
     public <T> UsuarioEntity create(T object) throws RegraDeNegocioException {
-        UsuarioEntity usuarioNovo = new UsuarioEntity();
+        UsuarioEntity usuarioNovo = null;
 
         if(object instanceof CompanhiaCreateDTO){
-            usuarioNovo.setLogin(((CompanhiaCreateDTO) object).getLogin());
-            usuarioNovo.setSenha(((CompanhiaCreateDTO) object).getSenha());
-            usuarioNovo.setNome(((CompanhiaCreateDTO) object).getNome());
-            usuarioNovo.setTipoUsuario(TipoUsuario.COMPANHIA);
+            usuarioNovo = UsuarioEntity.builder()
+                    .login(((CompanhiaCreateDTO) object).getLogin())
+                    .senha(((CompanhiaCreateDTO) object).getSenha())
+                    .nome(((CompanhiaCreateDTO) object).getNome())
+                    .tipoUsuario(TipoUsuario.COMPANHIA)
+                    .build();
         }
 
         if(object instanceof CompradorCreateDTO){
-            usuarioNovo.setLogin(((CompradorCreateDTO) object).getLogin());
-            usuarioNovo.setSenha(((CompradorCreateDTO) object).getSenha());
-            usuarioNovo.setNome(((CompradorCreateDTO) object).getNome());
-            usuarioNovo.setTipoUsuario(TipoUsuario.COMPRADOR);
+            usuarioNovo = UsuarioEntity.builder()
+                    .login(((CompradorCreateDTO) object).getLogin())
+                    .senha(((CompradorCreateDTO) object).getSenha())
+                    .nome(((CompradorCreateDTO) object).getNome())
+                    .tipoUsuario(TipoUsuario.COMPRADOR)
+                    .build();
         }
 
         return usuarioRepository.save(usuarioNovo);

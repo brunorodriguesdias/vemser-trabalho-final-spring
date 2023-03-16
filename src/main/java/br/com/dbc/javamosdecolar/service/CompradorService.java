@@ -33,15 +33,19 @@ public class CompradorService {
     }
 
     public CompradorDTO create(CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
+
+        //criando usuario e salvando no bd
         UsuarioEntity usuarioNovo = usuarioService.create(compradorDTO);
+
+        //editando e adicionando usuario ao comprador
         CompradorEntity comprador = objectMapper.convertValue(compradorDTO, CompradorEntity.class);
         comprador.setIdUsuario(usuarioNovo.getIdUsuario());
+        comprador.setUsuarioEntity(usuarioNovo);
 
-        CompradorDTO compradorCriado = objectMapper.convertValue(compradorRepository.save(comprador),
-                CompradorDTO.class);
-        compradorCriado.setAtivo(usuarioNovo.isAtivo());
+        //convertendo e salvando no bd o novo comprador
+        CompradorDTO compradorCriado = objectMapper.convertValue(compradorRepository.save(comprador),CompradorDTO.class);
+
         return compradorCriado;
-
     }
 
     public CompradorDTO update(Integer idComprador, CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
@@ -50,16 +54,16 @@ public class CompradorService {
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
         // Cria usuario e passa os dados para edição
-        UsuarioEntity usuario = new UsuarioEntity(
-                comprador.getIdUsuario(),
-                compradorDTO.getLogin(),
-                compradorDTO.getSenha(),
-                compradorDTO.getNome(),
-                TipoUsuario.COMPRADOR,
-                true);
+        UsuarioEntity usuarioEntity = UsuarioEntity.builder()
+                .idUsuario(comprador.getIdUsuario())
+                .login(compradorDTO.getLogin())
+                .senha(comprador.getSenha())
+                .nome(comprador.getNome())
+                .tipoUsuario(TipoUsuario.COMPRADOR)
+                .build();
 
-        UsuarioEntity usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuario);
-        comprador.setNome(usuarioEditado.getNome());
+        UsuarioEntity usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuarioEntity);
+        comprador.setUsuarioEntity(usuarioEditado);
 
         return objectMapper.convertValue(comprador, CompradorDTO.class);
 

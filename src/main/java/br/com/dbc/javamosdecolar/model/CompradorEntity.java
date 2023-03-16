@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,12 +16,15 @@ public class CompradorEntity extends UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_comprador")
     @SequenceGenerator(name = "seq_comprador", sequenceName = "seq_comprador", allocationSize = 1)
     private Integer idComprador;
+
+    @Column(name = "ID_USUARIO")
+    private Integer idUsuario;
+
     @Column(name = "cpf")
     private String cpf;
 
-    public CompradorEntity(Integer idUsuario, String login, String senha,
-                           String nome, TipoUsuario tipoUsuario, boolean ativo, String cpf) {
-        super(idUsuario, login, senha, nome, tipoUsuario, ativo);
-        this.cpf = cpf;
-    }
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
+    private UsuarioEntity usuarioEntity;
 }

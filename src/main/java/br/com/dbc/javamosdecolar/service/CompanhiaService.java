@@ -45,37 +45,17 @@ public class CompanhiaService {
             return companhiaCriada;
     }
 
-    public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
-//        try {
-            CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
-                    .orElseThrow(() -> new RegraDeNegocioException("Companhia não existe."));
+    public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
+        CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Companhia não existe."));
 
-            UsuarioEntity usuario = new UsuarioEntity(
-                    companhiaEntity.getIdUsuario(),
-                    companhiaDTO.getLogin(),
-                    companhiaDTO.getSenha(),
-                    companhiaDTO.getNome(),
-                    TipoUsuario.COMPANHIA,
-                    true);
+        companhiaEntity.setLogin(companhiaCreateDTO.getLogin());
+        companhiaEntity.setSenha(companhiaCreateDTO.getSenha());
+        companhiaEntity.setNome(companhiaCreateDTO.getNome());
+        companhiaEntity.setNomeFantasia(companhiaCreateDTO.getNomeFantasia());
+        companhiaEntity.setCnpj(companhiaCreateDTO.getCnpj());
 
-            usuarioService.update(companhiaEntity.getIdUsuario(), usuario);
-
-            CompanhiaEntity companhiaEntityEditada = objectMapper.convertValue(companhiaDTO, CompanhiaEntity.class);
-
-//            if(
-                companhiaRepository.save(companhiaEntityEditada);
-//                ) {
-                companhiaEntityEditada.setIdCompanhia(id);
-                companhiaEntityEditada.setAtivo(companhiaEntity.isAtivo());
-
-                return objectMapper.convertValue(companhiaEntityEditada, CompanhiaDTO.class);
-
-//            } else {
-//                throw new RegraDeNegocioException("Companhia não pode ser editada.");
-//            }
-//        } catch (DatabaseException e) {
-//            throw new RegraDeNegocioException("Aconteceu algum problema durante a listagem.");
-//        }
+        return objectMapper.convertValue(companhiaRepository.save(companhiaEntity), CompanhiaDTO.class);
     }
 
     public void delete(Integer idCompanhia) throws RegraDeNegocioException {
