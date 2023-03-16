@@ -13,7 +13,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "COMPANHIA")
+@Entity
+@Table(name = "COMPANHIA")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
 public class CompanhiaEntity extends UsuarioEntity {
 
@@ -25,7 +26,7 @@ public class CompanhiaEntity extends UsuarioEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")
-    private Set<VendaEntity> vendaEntities;
+    private Set<VendaEntity> venda;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")

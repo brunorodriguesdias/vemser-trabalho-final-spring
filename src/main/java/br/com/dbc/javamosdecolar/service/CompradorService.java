@@ -34,16 +34,14 @@ public class CompradorService {
 
     public CompradorDTO create(CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
 
-        //criando usuario e salvando no bd
-        UsuarioEntity usuarioNovo = usuarioService.create(compradorDTO);
-
         //editando e adicionando usuario ao comprador
         CompradorEntity comprador = objectMapper.convertValue(compradorDTO, CompradorEntity.class);
-        comprador.setIdUsuario(usuarioNovo.getIdUsuario());
+        comprador.setTipoUsuario(TipoUsuario.COMPRADOR);
+        comprador.setSenha(compradorDTO.getSenha());
+        comprador.setAtivo(true);
 
         //salvando no bd o novo comprador
         compradorRepository.save(comprador);
-
         return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 

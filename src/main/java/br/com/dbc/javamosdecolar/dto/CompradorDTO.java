@@ -13,12 +13,6 @@ import javax.persistence.Column;
 @NoArgsConstructor
 public class CompradorDTO extends CompradorCreateDTO {
 
-    @Schema(description = "id do comprador", example = "1")
-    private Integer idUsuario;
-
     @Schema(description = "status do usuario", example = "true")
-    private boolean ativo;
-
-    @Schema(description = "tipo do usuario", example = "COMPRADOR")
-    private TipoUsuario tipo;
+    private Boolean ativo;
 }

@@ -10,7 +10,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "COMPRADOR")
+@Entity
+@Table(name = "COMPRADOR")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
 public class CompradorEntity extends UsuarioEntity {
 
@@ -18,6 +19,6 @@ public class CompradorEntity extends UsuarioEntity {
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "comprador")
-    private Set<VendaEntity> vendaEntities;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comprador")
+    private Set<VendaEntity> venda;
 }

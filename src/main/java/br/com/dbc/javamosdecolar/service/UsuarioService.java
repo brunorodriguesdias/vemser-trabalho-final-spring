@@ -37,7 +37,7 @@ public class UsuarioService {
                     .build();
         }
 
-        return usuarioRepository.save(usuarioNovo);
+        return usuarioNovo;
     }
 
     public UsuarioEntity update(Integer id, UsuarioEntity usuarioEntity) throws RegraDeNegocioException {

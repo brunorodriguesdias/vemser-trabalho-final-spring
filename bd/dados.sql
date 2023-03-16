@@ -4,41 +4,29 @@
 -- [1] - Companhia
 
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'tam123@email.com', 'senhasecreta', 'companhia tam', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'tam123@email.com', 'senhasecreta', 'companhia tam', '0', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'gol123@email.com', 'senhagol', 'companhia gol', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'gol123@email.com', 'senhagol', 'companhia gol', '0', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'azul123@email.com', 'senhaazul', 'companhia azul', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'azul123@email.com', 'senhaazul', 'companhia azul', '0', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'fly123@email.com', 'senhafly', 'companhia fly emirates', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'fly123@email.com', 'senhafly', 'companhia fly emirates', '0', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'american123@email.com', 'senhaamerican', 'companhia american airlines', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'american123@email.com', 'senhaamerican', 'companhia american airlines', '0', 1);
 
 -- [2] - Comprador
 
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'castelovski@email.com', 'umasenha', 'kelly castelo', '2', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'castelovski@email.com', 'umasenha', 'kelly castelo', '1', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'bruno123@email.com', 'esqueciasenha', 'bruno rodrigues', '2', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'bruno123@email.com', 'esqueciasenha', 'bruno rodrigues', '1', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'alasca123@email.com', 'alascalinda', 'alasca rodrigues', '2', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'alasca123@email.com', 'alascalinda', 'alasca rodrigues', '1', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'risadinha@email.com', 'mari123', 'mariana machado', '2', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'risadinha@email.com', 'mari123', 'mariana machado', '1', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'robs@email.com', 'robervaldo123', 'robervaldo da silva', '2', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'robs@email.com', 'robervaldo123', 'robervaldo da silva', '1', 1);
 
--- companhias --
-
-INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('47.026.248/0001-95', 'tam aviao', 1);
-INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('58.407.196/0001-13', 'gol aviao', 2);
-INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('74.959.720/0001-15', 'azul aviao', 3);
-INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('52.958.019/0001-49', 'fly emirates aviao', 4);
-INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('71.160.706/0001-69', 'american airlines aviao', 5);
 
 -- compradores --
 
@@ -52,6 +40,19 @@ INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
 	VALUES ('899.905.780-10', 9);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
 	VALUES ('561.917.420-45', 10);
+
+-- companhias --
+
+INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
+	VALUES ('47.026.248/0001-95', 'tam aviao', 1);
+INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
+	VALUES ('58.407.196/0001-13', 'gol aviao', 2);
+INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
+	VALUES ('74.959.720/0001-15', 'azul aviao', 3);
+INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
+	VALUES ('52.958.019/0001-49', 'fly emirates aviao', 4);
+INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
+	VALUES ('71.160.706/0001-69', 'american airlines aviao', 5);
 
 -- trechos --
 

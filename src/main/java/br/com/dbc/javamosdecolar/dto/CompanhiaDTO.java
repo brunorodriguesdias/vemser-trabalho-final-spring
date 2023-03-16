@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanhiaDTO extends CompanhiaCreateDTO{
-    @Schema(description = "id da companhia", example = "1")
-    private Integer idCompanhia;
+
     @Schema(description = "status do usuario", example = "true")
     private Boolean ativo;
 }

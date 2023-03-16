@@ -32,17 +32,18 @@ public class CompanhiaService {
         return companhiaDTOS;
     }
 
-    public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTODTO) throws RegraDeNegocioException {
+    public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
 
-            UsuarioEntity usuarioCriado = usuarioService.create(companhiaCreateDTODTO);
-            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaCreateDTODTO, CompanhiaEntity.class);
-            companhiaEntity.setIdUsuario(usuarioCriado.getIdUsuario());
+            //editando e adicionando usuario ao comprador
+            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaCreateDTO, CompanhiaEntity.class);
+            companhiaEntity.setTipoUsuario(TipoUsuario.COMPANHIA);
+            companhiaEntity.setSenha(companhiaCreateDTO.getSenha());
+            companhiaEntity.setAtivo(true);
 
-            CompanhiaDTO companhiaCriada = objectMapper.convertValue(companhiaRepository.save(companhiaEntity),
-                    CompanhiaDTO.class);
-            companhiaCriada.setAtivo(usuarioCriado.isAtivo());
+             //salvando no bd o novo comprador
+            companhiaRepository.save(companhiaEntity);
 
-            return companhiaCriada;
+            return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
     public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
