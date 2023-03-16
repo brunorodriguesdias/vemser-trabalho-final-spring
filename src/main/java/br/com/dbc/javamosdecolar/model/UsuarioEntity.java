@@ -14,7 +14,7 @@ import java.util.Set;
 @Entity(name = "USUARIO")
 @Builder
 @Inheritance(strategy = InheritanceType.JOINED)
-public class UsuarioEntity implements Serializable {
+public class UsuarioEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
@@ -31,8 +31,9 @@ public class UsuarioEntity implements Serializable {
     private String nome;
 
     @Column(name = "TIPO")
+    @Enumerated(EnumType.ORDINAL)
     private TipoUsuario tipoUsuario;
 
     @Column(name = "ATIVO", nullable = false)
-    private boolean ativo = true;
+    private boolean ativo;
 }

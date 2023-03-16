@@ -26,9 +26,9 @@ public class CompradorService {
                 .stream()
                 .map(compradorEntity -> objectMapper.convertValue(compradorEntity, CompradorDTO.class))
                 .toList();
-        if (compradorDTOS == null) {
-            throw new RegraDeNegocioException("Sem registros de companhias!");
-        }
+//        if (compradorDTOS == null) {
+//            throw new RegraDeNegocioException("Sem registros de companhias!");
+//        }
         return compradorDTOS;
     }
 
@@ -76,6 +76,7 @@ public class CompradorService {
 
     public CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
         CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
+                .stream().findFirst()
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
         return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);

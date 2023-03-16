@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,32 +27,13 @@ public class PassagemEntity {
     private boolean disponivel;
     @Column(name = "VALOR")
     private BigDecimal valor;
-    @Column(name = "TRECHO")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO", insertable = false, updatable = false)
     private TrechoEntity trecho;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false, updatable = false)
+    private VendaEntity venda;
 
-    public PassagemEntity(String codigo, LocalDateTime dataPartida, LocalDateTime dataChegada,
-                          TrechoEntity trecho, boolean disponivel, BigDecimal valor) {
-        this.codigo = codigo;
-        this.dataPartida = dataPartida;
-        this.dataChegada = dataChegada;
-        this.trecho = trecho;
-        this.disponivel = disponivel;
-        this.valor = valor;
-    }
-
-    public PassagemEntity(LocalDateTime dataPartida, LocalDateTime dataChegada, BigDecimal valor) {
-        this.dataPartida = dataPartida;
-        this.dataChegada = dataChegada;
-        this.valor = valor;
-        this.disponivel = true;
-    }
-
-    public PassagemEntity(String codigo, LocalDateTime dataPartida, LocalDateTime dataChegada,
-                          boolean disponivel, BigDecimal valor) {
-        this.codigo = codigo;
-        this.dataPartida = dataPartida;
-        this.dataChegada = dataChegada;
-        this.disponivel = disponivel;
-        this.valor = valor;
-    }
 }

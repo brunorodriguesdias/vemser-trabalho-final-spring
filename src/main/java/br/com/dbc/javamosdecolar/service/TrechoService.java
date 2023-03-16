@@ -18,17 +18,17 @@ public class TrechoService {
     private final CompanhiaService companhiaService;
     private final ObjectMapper objectMapper;
 
-    public List<TrechoDTO> getAll() throws RegraDeNegocioException {
-        List<TrechoDTO> listaTrechos = trechoRepository.findAll().stream()
-                .map(trecho -> {
-                    TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-                    trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdUsuario());
-                    return trechoDTO;
-                })
-                .toList();
-
-        return listaTrechos;
-    }
+//    public List<TrechoDTO> getAll() throws RegraDeNegocioException {
+//        List<TrechoDTO> listaTrechos = trechoRepository.findAll().stream()
+//                .map(trecho -> {
+//                    TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
+//                    trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdUsuario());
+//                    return trechoDTO;
+//                })
+//                .toList();
+//
+//        return listaTrechos;
+//    }
 
 //    public TrechoDTO create(TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
 //        CompanhiaEntity companhiaEntity = objectMapper
@@ -100,14 +100,14 @@ public class TrechoService {
 //        }
 //    }
 
-    public TrechoDTO getById(Integer idTrecho) throws RegraDeNegocioException {
-
-        TrechoEntity trecho = trechoRepository.findById(idTrecho)
-                .orElseThrow(() -> new RegraDeNegocioException("Aconteceu algum problema durante a listagem."));
-
-        TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-        trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdUsuario());
-
-        return trechoDTO;
-    }
+//    public TrechoDTO getById(Integer idTrecho) throws RegraDeNegocioException {
+//
+//        TrechoEntity trecho = trechoRepository.findById(idTrecho)
+//                .orElseThrow(() -> new RegraDeNegocioException("Aconteceu algum problema durante a listagem."));
+//
+//        TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
+//        trechoDTO.setIdCompanhia(trecho.getCompanhiaEntity().getIdUsuario());
+//
+//        return trechoDTO;
+//    }
 }

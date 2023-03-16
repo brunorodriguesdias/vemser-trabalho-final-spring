@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.dto;
 
+import br.com.dbc.javamosdecolar.model.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -38,4 +41,5 @@ public class CompradorCreateDTO {
     @Size(min=3, max=50, message = "Nome não atende aos requisitos de 3 à 50 caracteres!")
     @Schema(description = "Nome do comprador", example = "Bruno Rodrigues", required = true)
     private String nome;
+
 }

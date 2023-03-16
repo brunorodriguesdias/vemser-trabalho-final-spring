@@ -23,31 +23,31 @@ public class PassagemService {
     private final TrechoService trechoService;
     private final ObjectMapper mapper;
 
-    public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
-        LocalDateTime dataPartida = passagemDTO.getDataPartida();
-        LocalDateTime dataChegada = passagemDTO.getDataChegada();
-
-        final boolean DIA_ANTERIOR = dataChegada.isBefore(dataPartida);
-
-        if (DIA_ANTERIOR) {
-            throw new RegraDeNegocioException("Data inválida!");
-        }
-
-        UUID codigo = UUID.randomUUID();
-
-        TrechoEntity trecho = mapper.convertValue(trechoService.getById(passagemDTO.getIdTrecho()),
-                TrechoEntity.class);
-
-        PassagemEntity passagem = new PassagemEntity(codigo.toString(), dataPartida, dataPartida,
-                trecho, true, passagemDTO.getValor());
-
-        PassagemEntity passagemCriada = passagemRepository.save(passagem);
-
-        PassagemDTO passagemCriadaDTO = mapper.convertValue(passagemCriada, PassagemDTO.class);
-        passagemCriadaDTO.setIdTrecho(trecho.getIdTrecho());
-
-        return passagemCriadaDTO;
-    }
+//    public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
+//        LocalDateTime dataPartida = passagemDTO.getDataPartida();
+//        LocalDateTime dataChegada = passagemDTO.getDataChegada();
+//
+//        final boolean DIA_ANTERIOR = dataChegada.isBefore(dataPartida);
+//
+//        if (DIA_ANTERIOR) {
+//            throw new RegraDeNegocioException("Data inválida!");
+//        }
+//
+//        UUID codigo = UUID.randomUUID();
+//
+//        TrechoEntity trecho = mapper.convertValue(trechoService.getById(passagemDTO.getIdTrecho()),
+//                TrechoEntity.class);
+//
+//        PassagemEntity passagem = new PassagemEntity(codigo.toString(), dataPartida, dataPartida,
+//                trecho, true, passagemDTO.getValor());
+//
+//        PassagemEntity passagemCriada = passagemRepository.save(passagem);
+//
+//        PassagemDTO passagemCriadaDTO = mapper.convertValue(passagemCriada, PassagemDTO.class);
+//        passagemCriadaDTO.setIdTrecho(trecho.getIdTrecho());
+//
+//        return passagemCriadaDTO;
+//    }
 
     public PassagemDTO update(Integer passagemId, PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
         PassagemEntity passagemEncontrada = passagemRepository.findById(passagemId)

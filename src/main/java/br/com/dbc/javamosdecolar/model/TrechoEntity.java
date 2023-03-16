@@ -1,8 +1,10 @@
 package br.com.dbc.javamosdecolar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -14,10 +16,21 @@ public class TrechoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_trecho")
     @SequenceGenerator(name = "seq_trecho", sequenceName = "seq_trecho", allocationSize = 1)
+    @Column(name = "ID_TRECHO")
     private int idTrecho;
+
     @Column(name = "ORIGEM")
     private String origem;
+
     @Column(name = "DESTINO")
     private String destino;
-    private CompanhiaEntity companhiaEntity;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
+    private CompanhiaEntity companhia;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "trecho")
+    private Set<PassagemEntity> passagem;
 }
