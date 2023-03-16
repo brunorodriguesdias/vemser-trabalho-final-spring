@@ -97,4 +97,9 @@ public class CompanhiaService {
 //        }
     }
 
+    public CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
+        CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
+    }
+
 }
