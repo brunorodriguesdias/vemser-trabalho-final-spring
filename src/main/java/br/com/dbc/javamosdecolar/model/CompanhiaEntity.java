@@ -13,23 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "COMPANHIA")
+@PrimaryKeyJoinColumn(name = "ID_USUARIO")
 public final class CompanhiaEntity extends UsuarioEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_companhia")
-    @SequenceGenerator(name = "seq_companhia", sequenceName = "seq_companhia", allocationSize = 1)
-    private Integer idCompanhia;
-    @Column(name = "ID_USUARIO")
-    private Integer idUsuario;
     @Column(name = "CNPJ")
     private String cnpj;
 
     @Column(name = "NOME_FANTASIA")
     private String nomeFantasia;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    private UsuarioEntity usuarioEntity;
 }
 

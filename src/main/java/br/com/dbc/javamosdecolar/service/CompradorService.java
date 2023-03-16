@@ -40,12 +40,11 @@ public class CompradorService {
         //editando e adicionando usuario ao comprador
         CompradorEntity comprador = objectMapper.convertValue(compradorDTO, CompradorEntity.class);
         comprador.setIdUsuario(usuarioNovo.getIdUsuario());
-        comprador.setUsuarioEntity(usuarioNovo);
 
-        //convertendo e salvando no bd o novo comprador
-        CompradorDTO compradorCriado = objectMapper.convertValue(compradorRepository.save(comprador),CompradorDTO.class);
+        //salvando no bd o novo comprador
+        compradorRepository.save(comprador);
 
-        return compradorCriado;
+        return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 
     public CompradorDTO update(Integer idComprador, CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
@@ -63,7 +62,6 @@ public class CompradorService {
                 .build();
 
         UsuarioEntity usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuarioEntity);
-        comprador.setUsuarioEntity(usuarioEditado);
 
         return objectMapper.convertValue(comprador, CompradorDTO.class);
 

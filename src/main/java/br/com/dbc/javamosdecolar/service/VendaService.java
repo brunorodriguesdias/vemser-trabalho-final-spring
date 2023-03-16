@@ -76,16 +76,16 @@ public class VendaService {
         VendaEntity venda = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new RegraDeNegocioException("Venda não encontrada!"));
 
-        //tirar isso quando implementar o springdata
-        CompradorEntity comprador = mapper
-                .convertValue(compradorService.getById(venda.getComprador().getIdComprador()),
-                        CompradorEntity.class);
+//        //tirar isso quando implementar o springdata
+//        CompradorEntity comprador = mapper
+//                .convertValue(compradorService.getById(venda.getComprador().getIdComprador()),
+//                        CompradorEntity.class);
 
         if (venda.getStatus().getTipo() == 2) {
             throw new RegraDeNegocioException("Venda já cancelada!");
         }
 
-        emailService.sendEmail(venda, "DELETAR", comprador);
+//        emailService.sendEmail(venda, "DELETAR", comprador);
 
         vendaRepository.deleteById(idVenda);
         return true;

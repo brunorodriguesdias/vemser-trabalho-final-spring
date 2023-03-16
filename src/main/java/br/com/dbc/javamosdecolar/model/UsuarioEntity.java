@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Getter
@@ -11,9 +12,9 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "USUARIO")
-@Inheritance(strategy = InheritanceType.JOINED)
 @Builder
-public class UsuarioEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class UsuarioEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
@@ -34,12 +35,4 @@ public class UsuarioEntity {
 
     @Column(name = "ATIVO", nullable = false)
     private boolean ativo = true;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usuarioEntity")
-    private CompradorEntity compradorEntity;
-
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "usuarioEntity")
-    private CompanhiaEntity companhiaEntity;
 }
