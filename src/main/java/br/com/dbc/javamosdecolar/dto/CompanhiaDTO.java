@@ -12,4 +12,7 @@ public class CompanhiaDTO extends CompanhiaCreateDTO{
 
     @Schema(description = "status do usuario", example = "true")
     private Boolean ativo;
+
+    @Schema(example = "1")
+    private Integer idUsuario;
 }
