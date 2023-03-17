@@ -80,11 +80,8 @@ public class CompanhiaService {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompanhiaDTO.class);
     }
 
-    public CompanhiaDTO getById(Integer id) throws RegraDeNegocioException {
-        CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
-
-        return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
+    public CompanhiaDTO getById(Integer idCompanhia) throws RegraDeNegocioException {
+        return objectMapper.convertValue(getCompanhia(idCompanhia), CompanhiaDTO.class);
 
     }
 
