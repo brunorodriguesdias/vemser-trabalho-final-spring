@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,20 +28,19 @@ public class VendaService {
 
             UUID codigo = UUID.randomUUID();
 
-            PassagemEntity passagem = objectMapper
-                    .convertValue(passagemService.getById(vendaDTO.getIdPassagem()), PassagemEntity.class);
+            PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
 
-            CompradorEntity compradorEntity = objectMapper.convertValue(compradorService.getById(vendaDTO.getIdComprador()),
-                    CompradorEntity.class);
+            CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
 
-            CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaService.getById(vendaDTO.getIdCompanhia()),
-                    CompanhiaEntity.class);
+            CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vendaDTO.getIdCompanhia());
 
             VendaEntity vendaEntity = objectMapper.convertValue(vendaDTO, VendaEntity.class);
             vendaEntity.setCodigo(String.valueOf(codigo));
             vendaEntity.setCompanhia(companhiaEntity);
             vendaEntity.setComprador(compradorEntity);
             vendaEntity.setIdPassagem(passagem.getIdPassagem());
+            vendaEntity.setStatus(Status.CONCLUIDO);
+            vendaEntity.setData(LocalDateTime.now());
             VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
 
             if(vendaEfetuada.equals(null)) {
@@ -64,7 +64,7 @@ public class VendaService {
         VendaEntity venda = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new RegraDeNegocioException("Venda não encontrada!"));
 
-        if (venda.getStatus().getTipo() == 2) {
+        if (venda.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Venda já cancelada!");
         }
 

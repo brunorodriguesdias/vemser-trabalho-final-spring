@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity(name = "VENDA")
 @SQLDelete(sql = "UPDATE AVIACAO.VENDA v SET v.status = 1 WHERE v.id_venda=?")
-@Where(clause = "disponivel = 2")
+//@Where(clause = "status = 0 OR status = 1")
 public class VendaEntity {
 
     @Id

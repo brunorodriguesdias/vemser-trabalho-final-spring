@@ -44,6 +44,11 @@ public class PassagemService {
         return objectMapper.convertValue(passagemCriada, PassagemDTO.class);
     }
 
+    public PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {
+        return passagemRepository.findById(idPassagem)
+                .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
+    }
+
     private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
         if (dataChegada.isBefore(dataPartida)) {
             throw new RegraDeNegocioException("Data inválida!");
