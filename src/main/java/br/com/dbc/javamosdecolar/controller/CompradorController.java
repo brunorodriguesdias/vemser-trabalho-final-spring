@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.controller;
 import br.com.dbc.javamosdecolar.docs.CompradorDoc;
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,8 @@ public class CompradorController implements CompradorDoc {
     private final CompradorService compradorService;
 
     @GetMapping
-    public ResponseEntity<List<CompradorDTO>> getAll(@RequestParam Integer pagina,
-                                                     @RequestParam Integer tamanho) throws RegraDeNegocioException {
+    public ResponseEntity<PageDTO<CompradorDTO>> getAll(@RequestParam Integer pagina,
+                                                        @RequestParam Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(compradorService.getAll(pagina, tamanho), OK);
     }
 

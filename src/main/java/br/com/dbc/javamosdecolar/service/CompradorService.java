@@ -2,12 +2,16 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +24,19 @@ public class CompradorService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
-    public List<CompradorDTO> getAll() {
-        return compradorRepository.findAll()
-                .stream()
-                .map(compradorEntity -> objectMapper.convertValue(compradorEntity, CompradorDTO.class))
+    public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+        Page<CompradorEntity> compradoresPaginados = compradorRepository.findAll(solcitacaoPagina);
+
+        List<CompradorDTO> compradores = compradoresPaginados.getContent().stream()
+                .map(pessoa -> objectMapper.convertValue(pessoa, CompradorDTO.class))
                 .toList();
+
+        return new PageDTO<>(compradoresPaginados.getTotalElements(),
+                compradoresPaginados.getTotalPages(),
+                pagina,
+                tamanho,
+                compradores);
     }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
