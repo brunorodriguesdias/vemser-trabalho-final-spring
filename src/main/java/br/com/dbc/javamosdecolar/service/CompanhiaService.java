@@ -5,9 +5,10 @@ import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
-import br.com.dbc.javamosdecolar.model.CompradorEntity;
-import br.com.dbc.javamosdecolar.model.TipoUsuario;
+
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.TipoUsuario;
+
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

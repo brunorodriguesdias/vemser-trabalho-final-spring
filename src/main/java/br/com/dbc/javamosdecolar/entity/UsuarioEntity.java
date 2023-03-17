@@ -1,13 +1,10 @@
-package br.com.dbc.javamosdecolar.model;
+package br.com.dbc.javamosdecolar.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Set;
 
 @Getter
 @Setter

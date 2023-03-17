@@ -1,4 +1,4 @@
-package br.com.dbc.javamosdecolar.model;
+package br.com.dbc.javamosdecolar.entity;
 
 import java.util.Arrays;
 

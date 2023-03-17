@@ -1,7 +1,7 @@
 package br.com.dbc.javamosdecolar.repository;
 
-import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
-import br.com.dbc.javamosdecolar.model.CompradorEntity;
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

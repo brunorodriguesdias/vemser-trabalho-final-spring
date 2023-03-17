@@ -3,13 +3,12 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.*;
+import br.com.dbc.javamosdecolar.entity.*;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,6 +40,7 @@ public class VendaService {
             vendaEntity.setCodigo(String.valueOf(codigo));
             vendaEntity.setCompanhia(companhiaEntity);
             vendaEntity.setComprador(compradorEntity);
+            vendaEntity.setIdPassagem(passagem.getIdPassagem());
             VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
 
             if(vendaEfetuada.equals(null)) {
@@ -76,24 +76,30 @@ public class VendaService {
         return true;
     }
 
-    public List<VendaDTO> getHistoricoComprasComprador(Integer idUsuario) throws RegraDeNegocioException {
-
-            CompradorEntity compradorEntity = compradorService.getComprador(idUsuario);
-            return vendaRepository.getAllByComprador(compradorEntity)
-                    .stream()
-                    .map(venda -> {
-                        VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
-                        return vendaDTO;
-                    }).toList();
-    }
+//    public List<VendaDTO> getHistoricoComprasComprador(Integer idUsuario) throws RegraDeNegocioException {
+//
+//            CompradorEntity compradorEntity = compradorService.getComprador(idUsuario);
+//            return vendaRepository.getAllByComprador(compradorEntity)
+//                    .stream()
+//                    .map(venda -> {
+//                        VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
+//                        vendaDTO.setIdCompanhia(venda.getCompanhia().getIdUsuario());
+//                        vendaDTO.setIdPassagem(venda.getPassagem().getIdPassagem());
+//                        vendaDTO.setIdComprador(venda.getComprador().getIdUsuario());
+//                        return vendaDTO;
+//                    }).toList();
+//    }
 
     public List<VendaDTO> getHistoricoVendasCompanhia(Integer idUsuario) throws RegraDeNegocioException {
 
         CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(idUsuario);
-        return vendaRepository.getAllByCompanhia(companhiaEntity)
+        return vendaRepository.findAllByCompanhiaIdUsuarioAndStatusIsTrueOrStatusIsFalse(companhiaEntity)
                 .stream()
                 .map(venda -> {
                     VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
+                    vendaDTO.setIdCompanhia(venda.getCompanhia().getIdUsuario());
+                    vendaDTO.setIdPassagem(venda.getPassagem().getIdPassagem());
+                    vendaDTO.setIdComprador(venda.getComprador().getIdUsuario());
                     return vendaDTO;
                 }).toList();
     }
