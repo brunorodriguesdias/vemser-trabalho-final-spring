@@ -8,8 +8,8 @@
 ## 1. Time 
 
 - [Bruno Rodrigues](https://github.com/brunorodriguesdias) - BackEnd
-- [Kelly Castelo](https://github.com/zam0k) - BackEnd
-- [Mariana Machado](https://github.com/marimaccos) - BackEnd
+- [Gabriel de Jesus](https://github.com/gabrielSdejesus) - BackEnd
+- [Gabriel Meira](https://github.com/Gabriel-Gomes-Meira) - BackEnd
 
 ## 2. Metodologia
 
@@ -46,14 +46,15 @@ vendas da companhia, todos os trechos e também todas as passagens que foram cad
 
 ## 6. Trello
 
-<a href="https://trello.com/b/AxMinlcn/tf-oracle-oop">Clique aqui para ver o Trello do projeto e conhecer e ver um pouco mais sobre como foi a organização das tarefas</a>.
+<a href="https://trello.com/b/SVPpNl8j/spring-data">Clique aqui para ver o Trello do projeto e conhecer e ver um pouco mais sobre como foi a organização das tarefas</a>.
 
 <hr>
 
 ## Contribuidores
-* Time POO e Idealizadores: [Henrique Miranda](https://github.com/miranda-henrique), [Kelly Castelo](https://github.com/zam0k), [Mariana Machado](https://github.com/marimaccos) e [Bruno Rodrigues](https://github.com/brunorodriguesdias).
+* Time POO e Idealizadores: [Henrique Miranda](https://github.com/miranda-henrique), [Kelly Castelo](https://github.com/zam0k), [Mariana Machado](https://github.com/marimaccos).
 * Time Oracle: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Kelly Castelo](https://github.com/zam0k) e [Mariana Machado](https://github.com/marimaccos).
 * Time Spring Web: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Kelly Castelo](https://github.com/zam0k) e [Mariana Machado](https://github.com/marimaccos).
+* Time Spring Data: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Gabriel de Jesus](https://github.com/gabrielSdejesus) e [Gabriel Meira](https://github.com/Gabriel-Gomes-Meira).
 <hr>
 
 <p align="center">Feito com ☕ para o #VemSer 11º edição</p>
