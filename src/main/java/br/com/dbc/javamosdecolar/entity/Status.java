@@ -4,7 +4,10 @@ import java.util.Arrays;
 
 public enum Status {
     CONCLUIDO(1),
-    CANCELADO(2);
+    CANCELADO(2),
+    DISPONIVEL(3),
+    VENDIDA(4);
+
 
     private Integer status;
 

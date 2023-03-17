@@ -28,7 +28,8 @@ public class PassagemEntity {
     private LocalDateTime dataPartida;
     @Column(name = "DATA_CHEGADA")
     private LocalDateTime dataChegada;
-    private boolean disponivel;
+    @Column(name = "STATUS")
+    private Status status;
     @Column(name = "VALOR")
     private BigDecimal valor;
     @JsonIgnore

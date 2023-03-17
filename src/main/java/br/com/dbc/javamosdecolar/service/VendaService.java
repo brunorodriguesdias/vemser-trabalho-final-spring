@@ -47,11 +47,7 @@ public class VendaService {
                 throw new RegraDeNegocioException("Não foi possível concluir a venda.");
             }
 
-            boolean conseguiuEditar = passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
-
-            if(!conseguiuEditar) {
-                throw new RegraDeNegocioException("Não foi possível concluir a venda.");
-            }
+            passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
             VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
             vendaEfetuadaDTO.setIdCompanhia(vendaEfetuada.getCompanhia().getIdUsuario());

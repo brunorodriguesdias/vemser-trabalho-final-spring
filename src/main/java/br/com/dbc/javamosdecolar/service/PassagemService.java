@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemDTO;
+import br.com.dbc.javamosdecolar.entity.Status;
 import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
@@ -181,7 +182,7 @@ public class PassagemService {
     }
 
     public boolean alteraDisponibilidadePassagem (PassagemEntity passagem, VendaEntity vendaEntity) {
-        passagem.setDisponivel(false);
+        passagem.setStatus(Status.VENDIDA);
         passagem.setVenda(vendaEntity);
         passagemRepository.save(passagem);
         return true;
