@@ -11,48 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Tag(name = "Comprador", description = "Endpoints de comprador")
 public interface CompradorDoc {
-    @Operation(summary = "Criar comprador", description = "Cria um novo comprador")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o comprador criado"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @PostMapping
-    ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
-            throws RegraDeNegocioException;
-
-    @Operation(summary = "Editar comprador por id", description = "Edita os dados do comprador pelo id")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna os novos dados do comprador"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @PutMapping("/{idComprador}")
-    ResponseEntity<CompradorDTO> update(@PathVariable("idComprador") Integer idComprador,
-                                        @Valid @RequestBody CompradorCreateDTO comprador)
-            throws RegraDeNegocioException;
-
-    @Operation(summary = "Deletar comprador por id", description = "Deleta o comprador selecionado")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "204", description = "No content"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @DeleteMapping("/{idComprador}")
-    ResponseEntity<Void> delete(@PathVariable("idComprador") Integer idComprador) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar compradores", description = "Lista todos os compradores cadastrados")
     @ApiResponses(
@@ -75,7 +39,52 @@ public interface CompradorDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/{idComprador}")
-    ResponseEntity<CompradorDTO> getById(@PathVariable("idComprador") Integer idComprador)
+    @GetMapping("/logar")
+    ResponseEntity<CompradorDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
+                                                 @Valid @RequestHeader("senha") String senha)
             throws RegraDeNegocioException;
+
+    @Operation(summary = "Criar comprador", description = "Cria um novo comprador")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Retorna o comprador criado"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @PostMapping
+    ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
+            throws RegraDeNegocioException;
+
+    @Operation(summary = "Editar comprador por id", description = "Edita os dados do comprador pelo id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Retorna os novos dados do comprador"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @PutMapping("/alterar")
+    ResponseEntity<CompradorDTO> update(@RequestHeader("login") String login,
+                                        @RequestHeader("senha") String senha,
+                                        @Valid
+                                        @NotBlank(message = "É necessário informar uma senha!")
+                                        @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!") @RequestHeader String novaSenha)
+            throws RegraDeNegocioException;
+
+    @Operation(summary = "Deletar comprador por id", description = "Deleta o comprador selecionado")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "No content"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @DeleteMapping("/deletar")
+    ResponseEntity<Void> delete(@RequestHeader("login") String login,
+                                @RequestHeader("senha") String senha,
+                                @RequestHeader("cpf") String cpf) throws RegraDeNegocioException;
 }

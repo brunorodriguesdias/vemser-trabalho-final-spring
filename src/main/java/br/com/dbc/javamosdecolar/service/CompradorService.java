@@ -28,12 +28,16 @@ public class CompradorService {
         return compradorDTOS;
     }
 
-    public CompradorDTO create(CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
+    public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
+        //validando login se já está registrado
+        usuarioService.existsLogin(compradorCreateDTO.getLogin());
+        //validando se cpf já está registrado
+        validCpf(compradorCreateDTO.getCpf());
 
         //editando e adicionando usuario ao comprador
-        CompradorEntity comprador = objectMapper.convertValue(compradorDTO, CompradorEntity.class);
+        CompradorEntity comprador = objectMapper.convertValue(compradorCreateDTO, CompradorEntity.class);
         comprador.setTipoUsuario(TipoUsuario.COMPRADOR);
-        comprador.setSenha(compradorDTO.getSenha());
+        comprador.setSenha(compradorCreateDTO.getSenha());
         comprador.setAtivo(true);
 
         //salvando no bd o novo comprador
@@ -41,15 +45,12 @@ public class CompradorService {
         return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 
-    public CompradorDTO update(Integer idComprador, CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
+    public CompradorDTO update(String login, String senha, String novaSenha) throws RegraDeNegocioException {
         //Retorna o comprador
-        CompradorEntity compradorEntity = getComprador(idComprador);
+        CompradorEntity compradorEntity = getLoginSenha(login,senha);
 
         //alterando entidade
-        compradorEntity.setLogin(compradorCreateDTO.getLogin());
-        compradorEntity.setSenha(compradorCreateDTO.getSenha());
-        compradorEntity.setNome(compradorCreateDTO.getNome());
-        compradorEntity.setCpf(compradorCreateDTO.getCpf());
+        compradorEntity.setSenha(novaSenha);
 
         //salvando no bd
         compradorRepository.save(compradorEntity);
@@ -58,12 +59,21 @@ public class CompradorService {
 
     }
 
-    public void delete(Integer idComprador) throws RegraDeNegocioException {
-        //procurando comprador pelo ID
-        getById(idComprador);
-
+    public void delete(String login, String senha, String cpf) throws RegraDeNegocioException {
+        //recuperando comprador
+        CompradorEntity comprador = getLoginSenha(login,senha);
+        System.out.println(comprador.getCpf().trim());
         //deletando comprador do bd
-        usuarioService.deleteById(idComprador);
+        if(comprador.getCpf().trim().equals(cpf.trim())) {
+            usuarioService.deleteById(getLoginSenha(login, senha).getIdUsuario());
+        } else {
+            throw new RegraDeNegocioException("CPF Inválido!");
+        }
+
+    }
+
+    public CompradorDTO getLoginSenhaReturn(String login, String senha) throws RegraDeNegocioException {
+        return objectMapper.convertValue(getLoginSenha(login,senha), CompradorDTO.class);
     }
 
     public CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
@@ -73,8 +83,24 @@ public class CompradorService {
         return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);
     }
 
+    public void validCpf(String cpf) throws RegraDeNegocioException {
+        System.out.println(compradorRepository.existsCompradorEntityByCpfIsContaining(cpf) + "ASUHHUSAUHASHUSAHUSAUHSAHUSA");
+        if (compradorRepository.existsCompradorEntityByCpfIsContaining(cpf)) {
+            throw new RegraDeNegocioException("Este CPF já está cadastrado!");
+        }
+    }
+
     CompradorEntity getComprador(Integer id) throws RegraDeNegocioException {
         return compradorRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrada"));
+    }
+
+    private CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
+        CompradorEntity comprador = compradorRepository.findByLoginAndSenha(login,senha);
+
+        if(comprador == null){
+            throw new RegraDeNegocioException("Login e Senha inválidos!");
+        }
+        return comprador;
     }
 }

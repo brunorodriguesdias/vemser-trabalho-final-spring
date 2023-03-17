@@ -1,10 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-import br.com.dbc.javamosdecolar.model.TipoUsuario;
-import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +13,11 @@ public class UsuarioService {
 
     public void deleteById(Integer idUsuario) {
         usuarioRepository.deleteById(idUsuario);
+    }
+
+    public void existsLogin(String login) throws RegraDeNegocioException {
+        if(usuarioRepository.existsByLogin(login)){
+            throw new RegraDeNegocioException("Este login já está cadastrado!");
+        }
     }
 }
