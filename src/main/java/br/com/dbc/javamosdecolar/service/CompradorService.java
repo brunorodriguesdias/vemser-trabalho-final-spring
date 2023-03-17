@@ -48,7 +48,7 @@ public class CompradorService {
         //Retorna o comprador
         CompradorEntity compradorEntity = getLoginSenha(login,senha);
 
-        if(compradorEntity.getSenha().equals(senha.trim())){
+        if(compradorEntity.getSenha().equals(novaSenha.trim())){
             throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
         }
 
