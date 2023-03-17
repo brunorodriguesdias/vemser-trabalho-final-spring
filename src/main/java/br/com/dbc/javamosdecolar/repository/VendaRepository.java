@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.repository;
 
+import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.model.CompradorEntity;
 import br.com.dbc.javamosdecolar.model.VendaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ import java.util.List;
 public interface VendaRepository extends JpaRepository<VendaEntity, Integer> {
     List<VendaEntity> getAllByComprador(CompradorEntity compradorEntity);
 
+    List<VendaEntity> getAllByCompanhia(CompanhiaEntity companhiaEntity);
 }

@@ -5,7 +5,6 @@ import br.com.dbc.javamosdecolar.dto.PassagemDTO;
 import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.PassagemEntity;
-import br.com.dbc.javamosdecolar.model.TrechoEntity;
 import br.com.dbc.javamosdecolar.model.VendaEntity;
 import br.com.dbc.javamosdecolar.repository.PassagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,14 +14,13 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PassagemService {
     private final PassagemRepository passagemRepository;
     private final TrechoService trechoService;
-    private final ObjectMapper mapper;
+    private final ObjectMapper objectMapper;
 
 //    public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
 //        LocalDateTime dataPartida = passagemDTO.getDataPartida();
@@ -58,7 +56,7 @@ public class PassagemService {
             throw new RegraDeNegocioException("Edição indisponivel para uma passagem já comprada.");
         }
 
-        PassagemEntity passagem = mapper.convertValue(passagemDTO, PassagemEntity.class);
+        PassagemEntity passagem = objectMapper.convertValue(passagemDTO, PassagemEntity.class);
 
         final boolean DIA_ANTERIOR = passagem.getDataChegada().isBefore(passagem.getDataPartida());
 
@@ -89,9 +87,7 @@ public class PassagemService {
     public PassagemDTO getById(Integer id) throws RegraDeNegocioException {
         PassagemEntity passagem = passagemRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
-        PassagemDTO passagemDTO = mapper.convertValue(passagem, PassagemDTO.class);
-        passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
-        return passagemDTO;
+        return objectMapper.convertValue(passagem, PassagemDTO.class);
     }
 
 //    public List<PassagemDTO> getByData(String dataChegada, String dataPartida) throws RegraDeNegocioException {

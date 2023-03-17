@@ -2,6 +2,8 @@ package br.com.dbc.javamosdecolar.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -12,6 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "PASSAGEM")
+@SQLDelete(sql = "UPDATE AVIACAO.passagem p SET p.disponivel = 0 WHERE p.id_passagem=?")
+@Where(clause = "disponivel = 1")
 public class PassagemEntity {
 
     @Id
