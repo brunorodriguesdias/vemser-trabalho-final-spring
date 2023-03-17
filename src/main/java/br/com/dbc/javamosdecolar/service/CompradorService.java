@@ -5,7 +5,6 @@ import br.com.dbc.javamosdecolar.dto.CompradorDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.CompradorEntity;
 import br.com.dbc.javamosdecolar.model.TipoUsuario;
-import br.com.dbc.javamosdecolar.model.UsuarioEntity;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -42,38 +41,40 @@ public class CompradorService {
         return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 
-    public CompradorDTO update(Integer idComprador, CompradorCreateDTO compradorDTO) throws RegraDeNegocioException {
-        // Retorna o comprador existente
-        CompradorEntity comprador = compradorRepository.findById(idComprador)
-                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
+    public CompradorDTO update(Integer idComprador, CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
+        //Retorna o comprador
+        CompradorEntity compradorEntity = getComprador(idComprador);
 
-        // Cria usuario e passa os dados para edição
-        UsuarioEntity usuarioEntity = UsuarioEntity.builder()
-                .idUsuario(comprador.getIdUsuario())
-                .login(compradorDTO.getLogin())
-                .senha(comprador.getSenha())
-                .nome(comprador.getNome())
-                .tipoUsuario(TipoUsuario.COMPRADOR)
-                .build();
+        //alterando entidade
+        compradorEntity.setLogin(compradorCreateDTO.getLogin());
+        compradorEntity.setSenha(compradorCreateDTO.getSenha());
+        compradorEntity.setNome(compradorCreateDTO.getNome());
+        compradorEntity.setCpf(compradorCreateDTO.getCpf());
 
-        UsuarioEntity usuarioEditado = usuarioService.update(comprador.getIdUsuario(), usuarioEntity);
+        //salvando no bd
+        compradorRepository.save(compradorEntity);
 
-        return objectMapper.convertValue(comprador, CompradorDTO.class);
+        return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
 
     }
 
     public void delete(Integer idComprador) throws RegraDeNegocioException {
-        CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
-                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
+        //procurando comprador pelo ID
+        getById(idComprador);
 
-        usuarioService.deleteById(compradorEncontrado.getIdUsuario());
+        //deletando comprador do bd
+        usuarioService.deleteById(idComprador);
     }
 
     public CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
         CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
-                .stream().findFirst()
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
         return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);
+    }
+
+    CompradorEntity getComprador(Integer id) throws RegraDeNegocioException {
+        return compradorRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrada"));
     }
 }

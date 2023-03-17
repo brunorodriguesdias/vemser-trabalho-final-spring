@@ -25,9 +25,6 @@ public class CompanhiaService {
                 .stream()
                 .map(companhiaEntity -> objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class))
                 .toList();
-        if (companhiaDTOS == null) {
-            throw new RegraDeNegocioException("Sem registros de companhias!");
-        }
         return companhiaDTOS;
     }
 
@@ -46,6 +43,7 @@ public class CompanhiaService {
     }
 
     public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
+        //Retorna o companhia
         CompanhiaEntity companhiaEntity = getCompanhia(id);
 
         //alterando entidade
@@ -65,7 +63,7 @@ public class CompanhiaService {
         //procurando companhia pelo ID
         getById(idCompanhia);
 
-        //delentado companhia do bd
+        //deletando companhia do bd
         usuarioService.deleteById(idCompanhia);
     }
 
@@ -77,7 +75,7 @@ public class CompanhiaService {
 
     }
 
-    protected CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
+    CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
         return companhiaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
     }

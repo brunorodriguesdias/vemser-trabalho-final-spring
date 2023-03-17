@@ -27,11 +27,11 @@ public class CompanhiaEntity extends UsuarioEntity {
     private String nomeFantasia;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE, mappedBy = "companhia")
     private Set<VendaEntity> venda;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.MERGE, mappedBy = "companhia")
     private Set<TrechoEntity> trechos;
 }
 
