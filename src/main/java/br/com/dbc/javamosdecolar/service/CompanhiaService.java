@@ -91,18 +91,18 @@ public class CompanhiaService {
 
     }
 
-    void validCnpj(String cnpj) throws RegraDeNegocioException {
+    protected void validCnpj(String cnpj) throws RegraDeNegocioException {
         if (companhiaRepository.existsCompanhiaEntityByCnpjIsContaining(cnpj)) {
             throw new RegraDeNegocioException("Este CNPJ já está cadastrado!");
         }
     }
 
-    CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
+    protected CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
         return companhiaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
     }
 
-    CompanhiaEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
+    protected CompanhiaEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
         CompanhiaEntity companhia = companhiaRepository.findByLoginAndSenha(login,senha);
 
         if(companhia == null){

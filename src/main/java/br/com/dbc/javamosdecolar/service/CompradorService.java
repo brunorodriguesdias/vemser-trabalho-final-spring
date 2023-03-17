@@ -80,25 +80,25 @@ public class CompradorService {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompradorDTO.class);
     }
 
-    CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
+    protected CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
         CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
         return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);
     }
 
-    void validCpf(String cpf) throws RegraDeNegocioException {
+    protected void validCpf(String cpf) throws RegraDeNegocioException {
         if (compradorRepository.existsCompradorEntityByCpfIsContaining(cpf)) {
             throw new RegraDeNegocioException("Este CPF já está cadastrado!");
         }
     }
 
-    CompradorEntity getComprador(Integer id) throws RegraDeNegocioException {
+    protected CompradorEntity getComprador(Integer id) throws RegraDeNegocioException {
         return compradorRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrada"));
     }
 
-    CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
+    protected CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
         CompradorEntity comprador = compradorRepository.findByLoginAndSenha(login,senha);
 
         if(comprador == null){
