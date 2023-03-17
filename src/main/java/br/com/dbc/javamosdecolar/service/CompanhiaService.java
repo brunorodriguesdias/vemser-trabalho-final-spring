@@ -2,8 +2,11 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
+import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.CompradorDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.model.CompradorEntity;
 import br.com.dbc.javamosdecolar.model.TipoUsuario;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +32,10 @@ public class CompanhiaService {
     }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
+        //validando se o login já está registrado
+        usuarioService.existsLogin(companhiaCreateDTO.getLogin());
+        //validando se o cpnj já está registrado
+        validCnpj(companhiaCreateDTO.getCnpj());
 
         //editando e adicionando usuario ao comprador
         CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaCreateDTO, CompanhiaEntity.class);
@@ -42,16 +49,17 @@ public class CompanhiaService {
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
-    public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
+    public CompanhiaDTO update(String login, String senha, CompanhiaUpdateDTO companhiaUpdateDTO) throws RegraDeNegocioException {
         //Retorna o companhia
-        CompanhiaEntity companhiaEntity = getCompanhia(id);
+        CompanhiaEntity companhiaEntity = getLoginSenha(login, senha);
+
+        if(companhiaUpdateDTO.getSenha().equals(senha.trim())){
+            throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
+        }
 
         //alterando entidade
-        companhiaEntity.setLogin(companhiaCreateDTO.getLogin());
-        companhiaEntity.setSenha(companhiaCreateDTO.getSenha());
-        companhiaEntity.setNome(companhiaCreateDTO.getNome());
-        companhiaEntity.setNomeFantasia(companhiaCreateDTO.getNomeFantasia());
-        companhiaEntity.setCnpj(companhiaCreateDTO.getCnpj());
+        companhiaEntity.setSenha(companhiaUpdateDTO.getSenha());
+        companhiaEntity.setNomeFantasia(companhiaUpdateDTO.getNomeFantasia());
 
         //salvando no bd
         companhiaRepository.save(companhiaEntity);
@@ -59,12 +67,20 @@ public class CompanhiaService {
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
-    public void delete(Integer idCompanhia) throws RegraDeNegocioException {
+    public void delete(String login, String senha, String cnpj) throws RegraDeNegocioException {
         //procurando companhia pelo ID
-        getById(idCompanhia);
+        CompanhiaEntity companhia = getLoginSenha(login, senha);
 
         //deletando companhia do bd
-        usuarioService.deleteById(idCompanhia);
+        if(companhia.getCnpj().trim().equals(cnpj.trim())){
+            usuarioService.deleteById(companhia.getIdUsuario());
+        } else {
+            throw new RegraDeNegocioException("CNPJ Inválido!");
+        }
+    }
+
+    public CompanhiaDTO getLoginSenhaReturn(String login, String senha) throws RegraDeNegocioException {
+        return objectMapper.convertValue(getLoginSenha(login,senha), CompanhiaDTO.class);
     }
 
     public CompanhiaDTO getById(Integer id) throws RegraDeNegocioException {
@@ -75,8 +91,23 @@ public class CompanhiaService {
 
     }
 
+    void validCnpj(String cnpj) throws RegraDeNegocioException {
+        if (companhiaRepository.existsCompanhiaEntityByCnpjIsContaining(cnpj)) {
+            throw new RegraDeNegocioException("Este CNPJ já está cadastrado!");
+        }
+    }
+
     CompanhiaEntity getCompanhia(Integer id) throws RegraDeNegocioException {
         return companhiaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
+    }
+
+    CompanhiaEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
+        CompanhiaEntity companhia = companhiaRepository.findByLoginAndSenha(login,senha);
+
+        if(companhia == null){
+            throw new RegraDeNegocioException("Login e Senha inválidos!");
+        }
+        return companhia;
     }
 }

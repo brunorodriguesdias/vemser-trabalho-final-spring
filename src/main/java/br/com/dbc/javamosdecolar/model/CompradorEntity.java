@@ -2,6 +2,8 @@ package br.com.dbc.javamosdecolar.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,12 +15,14 @@ import java.util.Set;
 @Entity
 @Table(name = "COMPRADOR")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
+@SQLDelete(sql = "UPDATE AVIACAO.usuario c SET c.ativo = 0 WHERE c.id_usuario=?")
+@Where(clause = "ativo = 1")
 public class CompradorEntity extends UsuarioEntity {
 
     @Column(name = "cpf")
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "comprador")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comprador")
     private Set<VendaEntity> venda;
 }

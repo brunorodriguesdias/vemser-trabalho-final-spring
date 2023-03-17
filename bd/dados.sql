@@ -31,28 +31,28 @@ INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
 -- compradores --
 
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('028.058.910-74', 6);
+	VALUES ('02805891074', 6);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('627.784.770-80', 7);
+	VALUES ('62778477080', 7);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('607.405.580-72', 8);
+	VALUES ('60740558072', 8);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('899.905.780-10', 9);
+	VALUES ('89990578010', 9);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('561.917.420-45', 10);
+	VALUES ('56191742045', 10);
 
 -- companhias --
 
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('47.026.248/0001-95', 'tam aviao', 1);
+	VALUES ('47026248/000195', 'tam aviao', 1);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('58.407.196/0001-13', 'gol aviao', 2);
+	VALUES ('58407196/000113', 'gol aviao', 2);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('74.959.720/0001-15', 'azul aviao', 3);
+	VALUES ('74959720/000115', 'azul aviao', 3);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('52.958.019/0001-49', 'fly emirates aviao', 4);
+	VALUES ('52958019/000149', 'fly emirates aviao', 4);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('71.160.706/0001-69', 'american airlines aviao', 5);
+	VALUES ('71160706/000169', 'american airlines aviao', 5);
 
 -- trechos --
 

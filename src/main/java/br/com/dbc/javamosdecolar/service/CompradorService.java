@@ -29,7 +29,7 @@ public class CompradorService {
     }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
-        //validando login se já está registrado
+        //validando se o login se já está registrado
         usuarioService.existsLogin(compradorCreateDTO.getLogin());
         //validando se cpf já está registrado
         validCpf(compradorCreateDTO.getCpf());
@@ -49,6 +49,10 @@ public class CompradorService {
         //Retorna o comprador
         CompradorEntity compradorEntity = getLoginSenha(login,senha);
 
+        if(compradorEntity.getSenha().equals(senha.trim())){
+            throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
+        }
+
         //alterando entidade
         compradorEntity.setSenha(novaSenha);
 
@@ -62,10 +66,10 @@ public class CompradorService {
     public void delete(String login, String senha, String cpf) throws RegraDeNegocioException {
         //recuperando comprador
         CompradorEntity comprador = getLoginSenha(login,senha);
-        System.out.println(comprador.getCpf().trim());
+
         //deletando comprador do bd
         if(comprador.getCpf().trim().equals(cpf.trim())) {
-            usuarioService.deleteById(getLoginSenha(login, senha).getIdUsuario());
+            usuarioService.deleteById(comprador.getIdUsuario());
         } else {
             throw new RegraDeNegocioException("CPF Inválido!");
         }
@@ -76,15 +80,14 @@ public class CompradorService {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompradorDTO.class);
     }
 
-    public CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
+    CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
         CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
 
         return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);
     }
 
-    public void validCpf(String cpf) throws RegraDeNegocioException {
-        System.out.println(compradorRepository.existsCompradorEntityByCpfIsContaining(cpf) + "ASUHHUSAUHASHUSAHUSAUHSAHUSA");
+    void validCpf(String cpf) throws RegraDeNegocioException {
         if (compradorRepository.existsCompradorEntityByCpfIsContaining(cpf)) {
             throw new RegraDeNegocioException("Este CPF já está cadastrado!");
         }
@@ -95,7 +98,7 @@ public class CompradorService {
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrada"));
     }
 
-    private CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
+    CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
         CompradorEntity comprador = compradorRepository.findByLoginAndSenha(login,senha);
 
         if(comprador == null){
