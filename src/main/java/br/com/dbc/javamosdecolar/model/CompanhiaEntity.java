@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,7 +15,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "COMPANHIA")
+@Entity
+@Table(name = "COMPANHIA")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
 public class CompanhiaEntity extends UsuarioEntity {
 
@@ -24,11 +27,11 @@ public class CompanhiaEntity extends UsuarioEntity {
     private String nomeFantasia;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")
-    private Set<VendaEntity> vendaEntities;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    private Set<VendaEntity> venda;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")
-    private Set<TrechoEntity> trecho;
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    private Set<TrechoEntity> trechos;
 }
 

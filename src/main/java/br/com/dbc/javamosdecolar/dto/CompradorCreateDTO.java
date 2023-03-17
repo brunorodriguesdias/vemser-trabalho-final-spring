@@ -18,12 +18,12 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CompradorCreateDTO {
 
     @NotBlank(message = "É necessário informar um CPF!")
-    @CPF(message = "CPF inválido!")
-    @Schema(description = "CPF do comprador", example = "123.456.789.10", required = true)
+    @Schema(description = "CPF do comprador", example = "12345678910", required = true)
+//    @CPF(message = "Informe um CPF válido!")
+    @Size(min = 11, max = 11)
     private String cpf;
 
     @NotBlank(message = "É necessário informar um Login!")
