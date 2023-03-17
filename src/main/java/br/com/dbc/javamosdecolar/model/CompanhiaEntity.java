@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -25,7 +27,7 @@ public class CompanhiaEntity extends UsuarioEntity {
     private String nomeFantasia;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
     private Set<VendaEntity> venda;
 
     @JsonIgnore

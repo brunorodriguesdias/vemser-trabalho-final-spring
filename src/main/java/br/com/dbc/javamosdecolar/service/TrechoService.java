@@ -60,7 +60,7 @@ public class TrechoService {
                     .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
 
 
-            companhiaService.getCompanhia(trechoDTO.getIdCompanhia());
+            //companhiaService.getCompanhia(trechoDTO.getIdCompanhia());
 
             if(trechoRepository.findAllByOrigemIsAndDestinoIsAndIdCompanhiaIs(trechoDTO.getOrigem().toUpperCase(),
                     trechoDTO.getDestino().toUpperCase(), trechoDTO.getIdCompanhia()).isPresent()) {
