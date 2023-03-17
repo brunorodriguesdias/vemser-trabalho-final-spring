@@ -30,7 +30,7 @@ public interface CompradorDoc {
     @GetMapping
     ResponseEntity<List<CompradorDTO>> getAll() throws RegraDeNegocioException;
 
-    @Operation(summary = "Buscar comprador por id", description = "Mostra os dados do comprador pelo id")
+    @Operation(summary = "Logar na conta comprador", description = "Mostra os dados do comprador")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Retorna o comprador solicitado"),
@@ -57,7 +57,7 @@ public interface CompradorDoc {
     ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
             throws RegraDeNegocioException;
 
-    @Operation(summary = "Editar comprador por id", description = "Edita os dados do comprador pelo id")
+    @Operation(summary = "Editar comprador", description = "Edita os dados do comprador")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Retorna os novos dados do comprador"),
@@ -74,7 +74,7 @@ public interface CompradorDoc {
                                         @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!") @RequestHeader String novaSenha)
             throws RegraDeNegocioException;
 
-    @Operation(summary = "Deletar comprador por id", description = "Deleta o comprador selecionado")
+    @Operation(summary = "Deletar comprador", description = "Deleta o comprador selecionado")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "No content"),
