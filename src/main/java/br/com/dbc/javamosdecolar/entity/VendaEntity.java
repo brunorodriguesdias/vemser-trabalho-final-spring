@@ -1,4 +1,4 @@
-package br.com.dbc.javamosdecolar.model;
+package br.com.dbc.javamosdecolar.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -18,13 +18,15 @@ public class VendaEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_venda")
     @SequenceGenerator(name = "seq_venda", sequenceName = "seq_venda", allocationSize = 1)
     @Column(name = "ID_VENDA")
-    private int idVenda;
+    private Integer idVenda;
     @Column(name = "CODIGO")
     private String codigo;
     @Column(name = "STATUS")
     private Status status;
     @Column(name = "DATA")
     private LocalDateTime data;
+    @Column(name = "ID_PASSAGEM")
+    private Integer idPassagem;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPRADOR", referencedColumnName = "ID_USUARIO")
@@ -34,7 +36,8 @@ public class VendaEntity {
     @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO")
     private CompanhiaEntity companhia;
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "venda")
-    private Set<PassagemEntity> passagem;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "venda")
+    @JoinColumn(name = "ID_PASSAGEM", referencedColumnName = "ID_PASSAGEM", insertable = false, updatable = false)
+    private PassagemEntity passagem;
 
 }

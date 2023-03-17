@@ -1,6 +1,6 @@
 package br.com.dbc.javamosdecolar.dto;
 
-import br.com.dbc.javamosdecolar.model.Status;
+import br.com.dbc.javamosdecolar.entity.Status;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
