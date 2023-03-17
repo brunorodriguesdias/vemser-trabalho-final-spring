@@ -76,31 +76,28 @@ public class VendaService {
         return true;
     }
 
-//    public List<VendaDTO> getHistoricoComprasComprador(Integer idUsuario) throws RegraDeNegocioException {
-//
-//            CompradorEntity compradorEntity = compradorService.getComprador(idUsuario);
-//            return vendaRepository.getAllByComprador(compradorEntity)
-//                    .stream()
-//                    .map(venda -> {
-//                        VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
-//                        vendaDTO.setIdCompanhia(venda.getCompanhia().getIdUsuario());
-//                        vendaDTO.setIdPassagem(venda.getPassagem().getIdPassagem());
-//                        vendaDTO.setIdComprador(venda.getComprador().getIdUsuario());
-//                        return vendaDTO;
-//                    }).toList();
-//    }
+    public List<VendaDTO> getHistoricoComprasComprador(Integer idComprador) throws RegraDeNegocioException {
 
-    public List<VendaDTO> getHistoricoVendasCompanhia(Integer idUsuario) throws RegraDeNegocioException {
+            CompradorEntity compradorEntity = compradorService.getComprador(idComprador);
+            List<VendaDTO> vendaDTOList = vendaRepository.findAllByIdComprador(idComprador)
+                    .stream()
+                    .map(venda -> {
+                        VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
+                        return vendaDTO;
+                    }).toList();
+            return vendaDTOList;
+    }
 
-        CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(idUsuario);
-        return vendaRepository.findAllByCompanhiaIdUsuarioAndStatusIsTrueOrStatusIsFalse(companhiaEntity)
+    public List<VendaDTO> getHistoricoVendasCompanhia(Integer idCompanhia) throws RegraDeNegocioException {
+
+        CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(idCompanhia);
+
+        List<VendaDTO> vendaDTOList =  vendaRepository.findAllByIdCompanhia(idCompanhia)
                 .stream()
                 .map(venda -> {
                     VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
-                    vendaDTO.setIdCompanhia(venda.getCompanhia().getIdUsuario());
-                    vendaDTO.setIdPassagem(venda.getPassagem().getIdPassagem());
-                    vendaDTO.setIdComprador(venda.getComprador().getIdUsuario());
                     return vendaDTO;
                 }).toList();
+        return vendaDTOList;
     }
 }

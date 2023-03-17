@@ -34,12 +34,12 @@ public class VendaController {
 //        return ResponseEntity.noContent().build();
 //    }
 //
-//    @GetMapping("/{idComprador}/comprador")
-//    public ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
-//            throws RegraDeNegocioException {
-//        return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id), OK);
-//    }
-//
+    @GetMapping("/{idComprador}/comprador")
+    public ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
+            throws RegraDeNegocioException {
+        return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id), OK);
+    }
+
     @GetMapping("/{idCompanhia}/companhia")
     public ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
             throws RegraDeNegocioException {

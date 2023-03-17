@@ -14,16 +14,13 @@ import javax.validation.constraints.NotNull;
 public class VendaCreateDTO {
     @Schema(description = "id do comprador", example = "3", required = true)
     @NotNull(message = "O campo idComprador não pode estar nulo!")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer idComprador;
 
     @Schema(description = "id da companhia que oferta a passagem", example = "6", required = true)
     @NotNull(message = "O campo idCompanhia não pode estar nulo!")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer idCompanhia;
 
     @Schema(description = "id da passagem a ser comprada", example = "2", required = true)
     @NotNull(message = "O campo idPassagem não pode estar nulo!")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer idPassagem;
 }

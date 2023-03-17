@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface VendaRepository extends JpaRepository<VendaEntity, Integer> {
-    List<VendaEntity> findAllByComprador(CompradorEntity compradorEntity);
+    List<VendaEntity> findAllByIdComprador(Integer idComprador);
 
-    List<VendaEntity> findAllByCompanhiaIdUsuarioAndStatusIsTrueOrStatusIsFalse(CompanhiaEntity companhiaEntity);
+    List<VendaEntity> findAllByIdCompanhia(Integer idCompanhia);
 }

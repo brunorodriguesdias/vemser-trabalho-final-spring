@@ -25,8 +25,12 @@ public class VendaEntity {
     private Status status;
     @Column(name = "DATA")
     private LocalDateTime data;
-    @Column(name = "ID_PASSAGEM")
+    @Column(name = "ID_PASSAGEM", insertable = false, updatable = false)
     private Integer idPassagem;
+    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
+    private Integer idCompanhia;
+    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
+    private Integer idComprador;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPRADOR", referencedColumnName = "ID_USUARIO")
@@ -37,7 +41,7 @@ public class VendaEntity {
     private CompanhiaEntity companhia;
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "venda")
-    @JoinColumn(name = "ID_PASSAGEM", referencedColumnName = "ID_PASSAGEM", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_PASSAGEM", referencedColumnName = "ID_PASSAGEM")
     private PassagemEntity passagem;
 
 }
