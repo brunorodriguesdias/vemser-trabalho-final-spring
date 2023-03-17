@@ -46,8 +46,7 @@ public class CompanhiaService {
     }
 
     public CompanhiaDTO update(Integer id, CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
-        CompanhiaEntity companhiaEntity = companhiaRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Companhia não existe."));
+        CompanhiaEntity companhiaEntity = getCompanhia(id);
 
         //alterando entidade
         companhiaEntity.setLogin(companhiaCreateDTO.getLogin());
