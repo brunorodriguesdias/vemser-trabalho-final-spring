@@ -2,9 +2,9 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -20,12 +20,11 @@ public class CompradorService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
-    public List<CompradorDTO> getAll() throws RegraDeNegocioException {
-        List<CompradorDTO> compradorDTOS = compradorRepository.findAll()
+    public List<CompradorDTO> getAll() {
+        return compradorRepository.findAll()
                 .stream()
                 .map(compradorEntity -> objectMapper.convertValue(compradorEntity, CompradorDTO.class))
                 .toList();
-        return compradorDTOS;
     }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
@@ -88,7 +87,7 @@ public class CompradorService {
     }
 
     protected void validCpf(String cpf) throws RegraDeNegocioException {
-        if (compradorRepository.existsCompradorEntityByCpfIsContaining(cpf)) {
+        if (Boolean.TRUE.equals(compradorRepository.existsCompradorEntityByCpfIsContaining(cpf))) {
             throw new RegraDeNegocioException("Este CPF já está cadastrado!");
         }
     }

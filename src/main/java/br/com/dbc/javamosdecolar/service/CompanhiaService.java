@@ -3,12 +3,9 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
-import br.com.dbc.javamosdecolar.dto.CompradorDTO;
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
-
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
-
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +21,11 @@ public class CompanhiaService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
-    public List<CompanhiaDTO> getAll() throws RegraDeNegocioException {
-        List<CompanhiaDTO> companhiaDTOS = companhiaRepository.findAll()
+    public List<CompanhiaDTO> getAll() {
+        return companhiaRepository.findAll()
                 .stream()
                 .map(companhiaEntity -> objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class))
                 .toList();
-        return companhiaDTOS;
     }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
