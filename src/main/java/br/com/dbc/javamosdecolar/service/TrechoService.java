@@ -47,19 +47,13 @@ public class TrechoService {
         }
         TrechoEntity trecho = objectMapper.convertValue(trechoDTO, TrechoEntity.class);
 
-        TrechoDTO trechoNovo = objectMapper
+        return objectMapper
                 .convertValue(trechoRepository.save(trecho), TrechoDTO.class);
-//        trechoNovo.setIdCompanhia(companhiaEntity.getIdUsuario());
-
-        return trechoNovo;
     }
 
     public TrechoDTO update(Integer idTrecho, TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
             trechoRepository.findById(idTrecho)
                     .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
-
-
-            //companhiaService.getCompanhia(trechoDTO.getIdCompanhia());
 
             if(trechoRepository.findAllByOrigemIsAndDestinoIsAndIdCompanhiaIs(trechoDTO.getOrigem().toUpperCase(),
                     trechoDTO.getDestino().toUpperCase(), trechoDTO.getIdCompanhia()).isPresent()) {
@@ -70,9 +64,8 @@ public class TrechoService {
             trechoEditado.setIdTrecho(idTrecho);
 
             trechoRepository.save(trechoEditado);
-            TrechoDTO trechoEditadoDTO = objectMapper.convertValue(trechoEditado, TrechoDTO.class);
 
-            return trechoEditadoDTO;
+            return objectMapper.convertValue(trechoEditado, TrechoDTO.class);;
     }
 
     public void delete(Integer idTrecho) throws RegraDeNegocioException {
@@ -91,13 +84,9 @@ public class TrechoService {
     }
 
     public TrechoDTO getById(Integer idTrecho) throws RegraDeNegocioException {
-
         TrechoEntity trecho = trechoRepository.findById(idTrecho)
                 .orElseThrow(() -> new RegraDeNegocioException("Aconteceu algum problema durante a listagem."));
 
-        TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-//        trechoDTO.setIdCompanhia(trecho.getCompanhia().getIdUsuario());
-
-        return trechoDTO;
+        return objectMapper.convertValue(trecho, TrechoDTO.class);
     }
 }
