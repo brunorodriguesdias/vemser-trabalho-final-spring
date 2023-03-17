@@ -2,6 +2,8 @@ package br.com.dbc.javamosdecolar.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,6 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "VENDA")
+@SQLDelete(sql = "UPDATE AVIACAO.VENDA v SET v.status = 1 WHERE v.id_venda=?")
+@Where(clause = "disponivel = 2")
 public class VendaEntity {
 
     @Id
@@ -22,6 +26,7 @@ public class VendaEntity {
     @Column(name = "CODIGO")
     private String codigo;
     @Column(name = "STATUS")
+    @Enumerated(EnumType.ORDINAL)
     private Status status;
     @Column(name = "DATA")
     private LocalDateTime data;

@@ -28,12 +28,11 @@ public class VendaController {
         return new ResponseEntity<>(vendaService.create(vendaDTO), CREATED);
     }
 //
-//    @DeleteMapping("/{idVenda}/cancelar")
-//    public ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException {
-//        vendaService.delete(idVenda);
-//        return ResponseEntity.noContent().build();
-//    }
-//
+    @DeleteMapping("/{idVenda}/cancelar")
+    public ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException {
+        vendaService.delete(idVenda);
+        return ResponseEntity.noContent().build();
+    }
     @GetMapping("/{idComprador}/comprador")
     public ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
             throws RegraDeNegocioException {
