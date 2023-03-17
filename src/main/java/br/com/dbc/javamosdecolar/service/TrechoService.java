@@ -17,7 +17,6 @@ import java.util.List;
 public class TrechoService {
 
     private final TrechoRepository trechoRepository;
-    private final CompanhiaService companhiaService;
     private final ObjectMapper objectMapper;
 
     public List<TrechoDTO> getAll() throws RegraDeNegocioException {
@@ -32,13 +31,6 @@ public class TrechoService {
     }
 
     public TrechoDTO create(TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
-        CompanhiaEntity companhiaEntity = objectMapper
-                .convertValue(companhiaService.getById(trechoDTO.getIdCompanhia()),
-                        CompanhiaEntity.class);
-
-        if (!companhiaEntity.getAtivo()) {
-            throw new RegraDeNegocioException("Companhia indisponível.");
-        }
 
         // Checa se a companhia já cadastrou esse trecho
         if (trechoRepository.findAllByOrigemIsAndDestinoIs(trechoDTO.getOrigem().toUpperCase(),

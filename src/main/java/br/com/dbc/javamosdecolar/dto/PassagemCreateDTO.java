@@ -31,4 +31,8 @@ public class PassagemCreateDTO {
     @Schema(description = "ID do trecho", example = "5", required = true)
     @NotNull(message = "O campo idTrecho não pode estar nulo!")
     private Integer idTrecho;
+
+    @Schema(description = "id da companhia que oferece o trecho", example = "6", required = true)
+    @NotNull(message = "Informe o ID da companhia!")
+    private Integer idCompanhia;
 }

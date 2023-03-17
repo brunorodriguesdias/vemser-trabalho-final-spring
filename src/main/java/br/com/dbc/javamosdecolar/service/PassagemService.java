@@ -29,6 +29,14 @@ public class PassagemService {
     public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
 
         UUID codigo = UUID.randomUUID();
+        CompanhiaEntity companhiaEntity = objectMapper
+                .convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
+                        CompanhiaEntity.class);
+
+        if (!companhiaEntity.getAtivo()) {
+            throw new RegraDeNegocioException("Companhia indisponível.");
+        }
+
         validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
 
         trechoService.getById(passagemDTO.getIdTrecho());
@@ -53,6 +61,13 @@ public class PassagemService {
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
         validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
 
+        CompanhiaEntity companhiaEntity = objectMapper
+                .convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
+                        CompanhiaEntity.class);
+
+        if (!companhiaEntity.getAtivo()) {
+            throw new RegraDeNegocioException("Companhia indisponível.");
+        }
 
 //        if (!passagemEncontrada.getStatus().equals(Status.CANCELADO)) {
 //            throw new RegraDeNegocioException("Edição indisponivel para uma passagem já comprada.");

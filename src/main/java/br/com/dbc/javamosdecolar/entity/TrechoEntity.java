@@ -26,6 +26,6 @@ public class TrechoEntity {
     private String destino;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "trecho")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trecho")
     private Set<PassagemEntity> passagem;
 }
