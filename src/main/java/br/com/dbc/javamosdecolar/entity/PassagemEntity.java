@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "PASSAGEM")
-@SQLDelete(sql = "UPDATE AVIACAO.passagem p SET p.status = 0 WHERE p.id_passagem=?")
-@Where(clause = "status = 3")
+@SQLDelete(sql = "UPDATE AVIACAO.passagem p SET p.status = 3 WHERE p.id_passagem=?")
+@Where(clause = "status = 2")
 public class PassagemEntity {
 
     @Id

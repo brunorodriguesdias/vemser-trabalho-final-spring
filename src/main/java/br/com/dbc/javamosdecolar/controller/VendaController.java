@@ -19,30 +19,30 @@ import static org.springframework.http.HttpStatus.*;
 @RestController
 @RequestMapping("/venda")
 @RequiredArgsConstructor
-public class VendaController {
+public class VendaController implements VendaDoc{
 
     private final VendaService vendaService;
-//
+    @Override
     @PostMapping
     public ResponseEntity<VendaDTO> create(@RequestBody @Valid VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.create(vendaDTO), CREATED);
     }
-//
+    @Override
     @DeleteMapping("/{idVenda}/cancelar")
     public ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException {
         vendaService.delete(idVenda);
         return ResponseEntity.noContent().build();
     }
+    @Override
     @GetMapping("/{idComprador}/comprador")
     public ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id), OK);
     }
-
+    @Override
     @GetMapping("/{idCompanhia}/companhia")
     public ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id), OK);
     }
-
 }

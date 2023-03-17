@@ -65,17 +65,4 @@ public interface VendaDoc {
     @GetMapping("/{idCompanhia}/companhia")
     ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
             throws RegraDeNegocioException;
-
-    @Operation(summary = "Pegar venda por código", description = "Pega uma venda pelo código")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a lista de companhias cadastradas"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping()
-    ResponseEntity<VendaDTO> getByCodigo(@RequestParam(name = "codigo") String uuid)
-            throws RegraDeNegocioException;
 }
