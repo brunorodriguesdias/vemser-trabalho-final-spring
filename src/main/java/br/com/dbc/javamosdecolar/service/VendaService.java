@@ -29,6 +29,9 @@ public class VendaService {
             UUID codigo = UUID.randomUUID();
 
             PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
+            if (passagem.getStatus() != Status.DISPONIVEL) {
+                throw new RegraDeNegocioException("Passagem indisponível!");
+            }
 
             CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
 
@@ -38,7 +41,7 @@ public class VendaService {
             vendaEntity.setCodigo(String.valueOf(codigo));
             vendaEntity.setCompanhia(companhiaEntity);
             vendaEntity.setComprador(compradorEntity);
-            vendaEntity.setIdPassagem(passagem.getIdPassagem());
+            vendaEntity.setPassagem(passagem);
             vendaEntity.setStatus(Status.CONCLUIDO);
             vendaEntity.setData(LocalDateTime.now());
             VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
@@ -50,9 +53,9 @@ public class VendaService {
             passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
             VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
-            vendaEfetuadaDTO.setIdCompanhia(vendaEfetuada.getCompanhia().getIdUsuario());
-            vendaEfetuadaDTO.setIdPassagem(passagem.getIdPassagem());
-            vendaEfetuadaDTO.setIdComprador(vendaEfetuada.getComprador().getIdUsuario());
+//            vendaEfetuadaDTO.setIdCompanhia(vendaEfetuada.getCompanhia().getIdUsuario());
+//            vendaEfetuadaDTO.setIdPassagem(passagem.getIdPassagem());
+//            vendaEfetuadaDTO.setIdComprador(vendaEfetuada.getComprador().getIdUsuario());
 
 //            emailService.sendEmail(vendaEfetuada, "CRIAR", comprador);
 

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,12 +14,12 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class TrechoCreateDTO {
     @Schema(description = "código do aeroporto de origem", example = "BEL", required = true)
-    @NotNull(message = "Informe a origem!")
+    @NotBlank(message = "Informe a origem!")
     @Size(min = 3, max = 3, message = "Campo origem deve ser no formato XXX!")
     private String origem;
 
     @Schema(description = "código do aeroporto de destino", example = "FOR", required = true)
-    @NotNull(message = "Informe o destino!")
+    @NotBlank(message = "Informe o destino!")
     @Size(min = 3, max = 3, message = "Campo destino deve ser no formato XXX!")
     private String destino;
 }

@@ -44,7 +44,7 @@ public class PassagemEntity {
     private CompanhiaEntity companhia;
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false)
     private VendaEntity venda;
 
     @JsonIgnore
