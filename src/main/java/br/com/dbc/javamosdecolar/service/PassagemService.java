@@ -29,13 +29,8 @@ public class PassagemService {
     public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
 
         UUID codigo = UUID.randomUUID();
-        CompanhiaEntity companhiaEntity = objectMapper
-                .convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
+        objectMapper.convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
                         CompanhiaEntity.class);
-
-        if (!companhiaEntity.getAtivo()) {
-            throw new RegraDeNegocioException("Companhia indisponível.");
-        }
 
         validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
 

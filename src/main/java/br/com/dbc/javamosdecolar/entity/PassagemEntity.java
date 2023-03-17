@@ -35,6 +35,9 @@ public class PassagemEntity {
     private BigDecimal valor;
     @Column(name = "ID_TRECHO")
     private Integer idTrecho;
+
+    @Column(name = "ID_COMPANHIA")
+    private Integer idCompanhia;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
