@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -7,8 +8,12 @@ import br.com.dbc.javamosdecolar.entity.*;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -98,5 +103,20 @@ public class VendaService {
                     return vendaDTO;
                 }).toList();
         return vendaDTOList;
+    }
+
+    public PageDTO<VendaDTO> getVendasBetween(LocalDate inicio, LocalDate fim, Integer pagina, Integer tamanho) {
+        Pageable solicitacaoPagina = PageRequest.of(pagina, tamanho);
+        Page<VendaEntity> vendasBetween = vendaRepository.findAllByDataBetween(solicitacaoPagina, inicio, fim);
+
+        List<VendaDTO> paginaDeVendasDTO = vendasBetween.getContent().stream()
+                .map(pessoas -> objectMapper.convertValue(pessoas, VendaDTO.class))
+                .toList();
+
+        return new PageDTO<>(vendasBetween.getTotalElements(),
+                vendasBetween.getTotalPages(),
+                pagina,
+                tamanho,
+                paginaDeVendasDTO);
     }
 }
