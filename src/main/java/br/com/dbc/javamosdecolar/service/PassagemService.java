@@ -6,6 +6,7 @@ import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.model.PassagemEntity;
 import br.com.dbc.javamosdecolar.model.TrechoEntity;
+import br.com.dbc.javamosdecolar.model.VendaEntity;
 import br.com.dbc.javamosdecolar.repository.PassagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -181,5 +182,12 @@ public class PassagemService {
         } catch (DateTimeParseException e) {
             throw new RegraDeNegocioException("Data inserida no formato incorreto!");
         }
+    }
+
+    public boolean alteraDisponibilidadePassagem (PassagemEntity passagem, VendaEntity vendaEntity) {
+        passagem.setDisponivel(false);
+        passagem.setVenda(vendaEntity);
+        passagemRepository.save(passagem);
+        return true;
     }
 }

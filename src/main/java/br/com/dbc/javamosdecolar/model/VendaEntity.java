@@ -27,11 +27,11 @@ public class VendaEntity {
     private LocalDateTime data;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPRADOR", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_COMPRADOR", referencedColumnName = "ID_USUARIO")
     private CompradorEntity comprador;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO")
     private CompanhiaEntity companhia;
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "venda")

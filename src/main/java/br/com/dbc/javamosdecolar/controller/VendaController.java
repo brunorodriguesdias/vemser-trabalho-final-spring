@@ -46,9 +46,4 @@
 //        return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id), OK);
 //    }
 //
-//    @GetMapping()
-//    public ResponseEntity<VendaDTO> getByCodigo(@RequestParam(name = "codigo") String uuid)
-//            throws RegraDeNegocioException {
-//        return new ResponseEntity<>(vendaService.getByCodigo(uuid), OK);
-//    }
 //}
