@@ -29,7 +29,7 @@ public class VendaEntity {
     private Integer idPassagem;
     @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
     private Integer idCompanhia;
-    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
+    @Column(name = "ID_COMPRADOR", insertable = false, updatable = false)
     private Integer idComprador;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
