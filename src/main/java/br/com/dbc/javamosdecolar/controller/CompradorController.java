@@ -27,8 +27,9 @@ public class CompradorController implements CompradorDoc {
     private final CompradorService compradorService;
 
     @GetMapping
-    public ResponseEntity<List<CompradorDTO>> getAll() throws RegraDeNegocioException {
-        return new ResponseEntity<>(compradorService.getAll(), OK);
+    public ResponseEntity<List<CompradorDTO>> getAll(@RequestParam Integer pagina,
+                                                     @RequestParam Integer tamanho) throws RegraDeNegocioException {
+        return new ResponseEntity<>(compradorService.getAll(pagina, tamanho), OK);
     }
 
     @GetMapping("/logar")
