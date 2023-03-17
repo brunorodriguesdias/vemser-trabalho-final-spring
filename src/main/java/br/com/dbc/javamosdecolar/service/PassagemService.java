@@ -29,8 +29,7 @@ public class PassagemService {
     public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
 
         UUID codigo = UUID.randomUUID();
-        objectMapper.convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
-                        CompanhiaEntity.class);
+        companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
 
         validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
 
@@ -55,24 +54,15 @@ public class PassagemService {
         PassagemEntity passagemEncontrada = passagemRepository.findById(passagemId)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
         validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
+        companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
 
-        CompanhiaEntity companhiaEntity = objectMapper
-                .convertValue(companhiaService.getById(passagemDTO.getIdCompanhia()),
-                        CompanhiaEntity.class);
+        passagemEncontrada.setIdTrecho(passagemDTO.getIdTrecho());
+        passagemEncontrada.setIdCompanhia(passagemDTO.getIdCompanhia());
+        passagemEncontrada.setValor(passagemDTO.getValor());
+        passagemEncontrada.setDataChegada(passagemDTO.getDataChegada());
+        passagemEncontrada.setDataPartida(passagemDTO.getDataPartida());
 
-        if (!companhiaEntity.getAtivo()) {
-            throw new RegraDeNegocioException("Companhia indisponível.");
-        }
-
-//        if (!passagemEncontrada.getStatus().equals(Status.CANCELADO)) {
-//            throw new RegraDeNegocioException("Edição indisponivel para uma passagem já comprada.");
-//        }
-
-        PassagemEntity passagem = objectMapper.convertValue(passagemDTO, PassagemEntity.class);
-        passagem.setStatus(passagemEncontrada.getStatus());
-
-
-        return objectMapper.convertValue(passagemRepository.save(passagem), PassagemDTO.class);
+        return objectMapper.convertValue(passagemRepository.save(passagemEncontrada), PassagemDTO.class);
     }
 
     public void delete(Integer passagemId){
