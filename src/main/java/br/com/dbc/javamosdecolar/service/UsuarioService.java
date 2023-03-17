@@ -15,39 +15,6 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public <T> UsuarioEntity create(T object) throws RegraDeNegocioException {
-        UsuarioEntity usuarioNovo = null;
-
-        if(object instanceof CompanhiaCreateDTO){
-            usuarioNovo = UsuarioEntity.builder()
-                    .login(((CompanhiaCreateDTO) object).getLogin())
-                    .senha(((CompanhiaCreateDTO) object).getSenha())
-                    .nome(((CompanhiaCreateDTO) object).getNome())
-                    .tipoUsuario(TipoUsuario.COMPANHIA)
-                    .build();
-        }
-
-        if(object instanceof CompradorCreateDTO){
-            usuarioNovo = UsuarioEntity.builder()
-                    .login(((CompradorCreateDTO) object).getLogin())
-                    .senha(((CompradorCreateDTO) object).getSenha())
-                    .nome(((CompradorCreateDTO) object).getNome())
-                    .tipoUsuario(TipoUsuario.COMPRADOR)
-                    .build();
-        }
-
-        return usuarioNovo;
-    }
-
-    public UsuarioEntity update(Integer id, UsuarioEntity usuarioEntity) throws RegraDeNegocioException {
-            usuarioRepository.findById(id)
-                    .orElseThrow(() -> new RegraDeNegocioException("Usuário não encontrado!"));
-            usuarioRepository.save(usuarioEntity);
-            usuarioEntity.setIdUsuario(id);
-            return usuarioEntity;
-
-    }
-
     public void deleteById(Integer idUsuario) throws RegraDeNegocioException {
         usuarioRepository.deleteById(idUsuario);
     }
