@@ -24,6 +24,8 @@ public class TrechoEntity {
 
     @Column(name = "DESTINO")
     private String destino;
+    @Column(name = "id_companhia" )
+    private Integer idCompanhia;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

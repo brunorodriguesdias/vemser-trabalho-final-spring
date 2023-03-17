@@ -29,7 +29,7 @@ public class CompanhiaEntity extends UsuarioEntity {
     private Set<VendaEntity> venda;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "companhia")
-    private Set<TrechoEntity> trecho;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companhia")
+    private Set<TrechoEntity> trechos;
 }
 
