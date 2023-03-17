@@ -55,7 +55,7 @@ public interface PassagemDoc {
             }
     )
     @DeleteMapping("/{idPassagem}")
-    ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id);
+    ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar ultimas passagens", description = "Lista as ultimas passagens cadastradas")
     @ApiResponses(

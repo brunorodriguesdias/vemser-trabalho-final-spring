@@ -38,7 +38,7 @@ public class PassagemController implements PassagemDoc {
     }
 
     @DeleteMapping("/{idPassagem}")
-    public ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id) throws RegraDeNegocioException {
         this.passagemService.delete(id);
         return ResponseEntity.noContent().build();
     }

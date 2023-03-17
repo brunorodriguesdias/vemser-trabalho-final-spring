@@ -70,7 +70,13 @@ public class PassagemService {
         return objectMapper.convertValue(passagemRepository.save(passagemEncontrada), PassagemDTO.class);
     }
 
-    public void delete(Integer passagemId){
+    public void delete(Integer passagemId) throws RegraDeNegocioException {
+        PassagemEntity passagem = getPassagem(passagemId);
+
+        if (passagem.getStatus() == Status.CANCELADO) {
+            throw new RegraDeNegocioException("Passagem já cancelada!");
+        }
+
         passagemRepository.deleteById(passagemId);
     }
 
