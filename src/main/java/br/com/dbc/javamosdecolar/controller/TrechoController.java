@@ -54,9 +54,9 @@ public class TrechoController implements TrechoDoc {
         return new ResponseEntity<>(trechoService.getById(idTrecho), OK);
     }
 
-    @GetMapping("/{idCompanhia}/companhia")
-    public ResponseEntity<List<TrechoDTO>> getByCompanhia(@PathVariable("idCompanhia") Integer idCompanhia)
-            throws RegraDeNegocioException {
-        return new ResponseEntity<>(trechoService.getByCompanhia(idCompanhia), OK);
-    }
+//    @GetMapping("/{idCompanhia}/companhia")
+//    public ResponseEntity<List<TrechoDTO>> getByCompanhia(@PathVariable("idCompanhia") Integer idCompanhia)
+//            throws RegraDeNegocioException {
+//        return new ResponseEntity<>(trechoService.getByCompanhia(idCompanhia), OK);
+//    }
 }

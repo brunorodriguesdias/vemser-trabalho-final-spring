@@ -55,7 +55,7 @@ public interface PassagemDoc {
             }
     )
     @DeleteMapping("/{idPassagem}")
-    ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id) throws DatabaseException;
+    ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id);
 
     @Operation(summary = "Listar ultimas passagens", description = "Lista as ultimas passagens cadastradas")
     @ApiResponses(
@@ -67,21 +67,20 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/new")
-    ResponseEntity<List<PassagemDTO>> getUltimasPassagens() throws RegraDeNegocioException;
+    ResponseEntity<List<PassagemDTO>> getUltimasPassagens();
 
-    @Operation(summary = "Buscar passagem por data", description = "Lista as passagens por data")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens solicitada"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping("/data")
-    ResponseEntity<List<PassagemDTO>> getByData(@RequestParam(value = "dataPartida", required = false) String dataPartida,
-                                                @RequestParam(value = "dataChegada", required = false) String dataChegada)
-            throws RegraDeNegocioException;
+//    @Operation(summary = "Buscar passagem por data", description = "Lista as passagens por data")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens solicitada"),
+//                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+//            }
+//    )
+//    @GetMapping("/data")
+//    ResponseEntity<List<PassagemDTO>> getByData(@RequestParam(value = "dataPartida", required = false) String dataPartida,
+//                                                @RequestParam(value = "dataChegada", required = false) String dataChegada);
 
     @Operation(summary = "Buscar passagens por id da companhia", description = "Lista as passagens id da companhia")
     @ApiResponses(
@@ -93,7 +92,7 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/companhia")
-    ResponseEntity<List<PassagemDTO>> getByCompanhia(@RequestParam("nome") String nome) throws RegraDeNegocioException;
+    ResponseEntity<List<PassagemDTO>> getByCompanhia(@RequestParam("idCompanhia") Integer idCompanhia) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar passagem por valor", description = "Lista as passagens até o limite de valor selecionado")
     @ApiResponses(
@@ -105,7 +104,7 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/valor")
-    ResponseEntity<List<PassagemDTO>> getByValorMaximo(@RequestParam("max") BigDecimal valor) throws RegraDeNegocioException;
+    ResponseEntity<List<PassagemDTO>> getByValorMaximo(@RequestParam("max") BigDecimal valor);
 
     @Operation(summary = "Buscar passagem por id", description = "Mostra os dados da passagem pelo id")
     @ApiResponses(

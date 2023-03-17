@@ -21,8 +21,4 @@ public class TrechoCreateDTO {
     @NotNull(message = "Informe o destino!")
     @Size(min = 3, max = 3, message = "Campo destino deve ser no formato XXX!")
     private String destino;
-
-    @Schema(description = "id da companhia que oferece o trecho", example = "6", required = true)
-    @NotNull(message = "Informe o ID da companhia!")
-    private Integer idCompanhia;
 }

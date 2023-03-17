@@ -24,13 +24,6 @@ public class TrechoEntity {
 
     @Column(name = "DESTINO")
     private String destino;
-    @Column(name = "id_companhia" )
-    private Integer idCompanhia;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
-    private CompanhiaEntity companhia;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "trecho")

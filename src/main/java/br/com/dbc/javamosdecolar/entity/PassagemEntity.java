@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "PASSAGEM")
-@SQLDelete(sql = "UPDATE AVIACAO.passagem p SET p.disponivel = 0 WHERE p.id_passagem=?")
-@Where(clause = "disponivel = 1")
+@SQLDelete(sql = "UPDATE AVIACAO.passagem p SET p.status = 0 WHERE p.id_passagem=?")
+@Where(clause = "status = 3")
 public class PassagemEntity {
 
     @Id
@@ -28,17 +28,25 @@ public class PassagemEntity {
     private LocalDateTime dataPartida;
     @Column(name = "DATA_CHEGADA")
     private LocalDateTime dataChegada;
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "STATUS")
     private Status status;
     @Column(name = "VALOR")
     private BigDecimal valor;
+    @Column(name = "ID_TRECHO")
+    private Integer idTrecho;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO", insertable = false, updatable = false)
-    private TrechoEntity trecho;
+    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
+    private CompanhiaEntity companhia;
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false, updatable = false)
     private VendaEntity venda;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO", insertable = false, updatable = false)
+    private TrechoEntity trecho;
 
 }

@@ -41,8 +41,8 @@ public class TrechoService {
         }
 
         // Checa se a companhia já cadastrou esse trecho
-        if (trechoRepository.findAllByOrigemIsAndDestinoIsAndIdCompanhiaIs(trechoDTO.getOrigem().toUpperCase(),
-                trechoDTO.getDestino().toUpperCase(), trechoDTO.getIdCompanhia()).isPresent()) {
+        if (trechoRepository.findAllByOrigemIsAndDestinoIs(trechoDTO.getOrigem().toUpperCase(),
+                trechoDTO.getDestino().toUpperCase()).isPresent()) {
             throw new RegraDeNegocioException("Trecho já existe!");
         }
         TrechoEntity trecho = objectMapper.convertValue(trechoDTO, TrechoEntity.class);
@@ -55,8 +55,8 @@ public class TrechoService {
             trechoRepository.findById(idTrecho)
                     .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
 
-            if(trechoRepository.findAllByOrigemIsAndDestinoIsAndIdCompanhiaIs(trechoDTO.getOrigem().toUpperCase(),
-                    trechoDTO.getDestino().toUpperCase(), trechoDTO.getIdCompanhia()).isPresent()) {
+            if(trechoRepository.findAllByOrigemIsAndDestinoIs(trechoDTO.getOrigem().toUpperCase(),
+                    trechoDTO.getDestino().toUpperCase()).isPresent()) {
                 throw new RegraDeNegocioException("Trecho já existe!");
             }
 
@@ -65,7 +65,7 @@ public class TrechoService {
 
             trechoRepository.save(trechoEditado);
 
-            return objectMapper.convertValue(trechoEditado, TrechoDTO.class);;
+            return objectMapper.convertValue(trechoEditado, TrechoDTO.class);
     }
 
     public void delete(Integer idTrecho) throws RegraDeNegocioException {
@@ -74,14 +74,14 @@ public class TrechoService {
         trechoRepository.deleteById(idTrecho);
     }
 
-    public List<TrechoDTO> getByCompanhia(Integer idCompanhia) throws RegraDeNegocioException {
-        // Checa se companhia existe
-        CompanhiaEntity companhia = companhiaService.getCompanhia(idCompanhia);
-
-        return trechoRepository.findAllByCompanhia(companhia).stream()
-                .map(trecho -> objectMapper.convertValue(trecho, TrechoDTO.class))
-                .toList();
-    }
+//    public List<TrechoDTO> getByCompanhia(Integer idCompanhia) throws RegraDeNegocioException {
+//        // Checa se companhia existe
+//        CompanhiaEntity companhia = companhiaService.getCompanhia(idCompanhia);
+//
+//        return trechoRepository.findAllByCompanhia(companhia).stream()
+//                .map(trecho -> objectMapper.convertValue(trecho, TrechoDTO.class))
+//                .toList();
+//    }
 
     public TrechoDTO getById(Integer idTrecho) throws RegraDeNegocioException {
         TrechoEntity trecho = trechoRepository.findById(idTrecho)

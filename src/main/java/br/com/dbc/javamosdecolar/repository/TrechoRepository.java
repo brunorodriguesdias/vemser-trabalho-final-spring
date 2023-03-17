@@ -11,10 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface TrechoRepository extends JpaRepository<TrechoEntity, Integer> {
-    Optional<TrechoEntity> findAllByOrigemIsAndDestinoIsAndIdCompanhiaIs(
+    Optional<TrechoEntity> findAllByOrigemIsAndDestinoIs(
                                                         String origem,
-                                                        String destino,
-                                                        Integer idCompanhia);
-    List<TrechoEntity> findAllByCompanhia(CompanhiaEntity companhia);
+                                                        String destino);
 
 }
