@@ -80,10 +80,7 @@ public class CompradorService {
     }
 
     protected CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
-        CompradorEntity compradorEncontrado = compradorRepository.findById(idComprador)
-                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
-
-        return objectMapper.convertValue(compradorEncontrado, CompradorDTO.class);
+        return objectMapper.convertValue(getComprador(idComprador), CompradorDTO.class);
     }
 
     protected void validCpf(String cpf) throws RegraDeNegocioException {
