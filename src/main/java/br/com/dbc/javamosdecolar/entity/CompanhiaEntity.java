@@ -16,6 +16,8 @@ import java.util.Set;
 @Entity
 @Table(name = "COMPANHIA")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
+@SQLDelete(sql = "UPDATE AVIACAO.usuario c SET c.ativo = 0 WHERE c.id_usuario=?")
+@Where(clause = "ativo = 1")
 public class CompanhiaEntity extends UsuarioEntity {
 
     @Column(name = "CNPJ")
@@ -25,11 +27,11 @@ public class CompanhiaEntity extends UsuarioEntity {
     private String nomeFantasia;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companhia")
     private Set<VendaEntity> venda;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "companhia")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companhia")
     private Set<TrechoEntity> trechos;
 }
 

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompradorDTO extends CompradorCreateDTO {
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(description = "status do usuario", example = "true")
     private Boolean ativo;
 

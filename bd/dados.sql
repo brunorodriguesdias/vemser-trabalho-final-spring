@@ -31,15 +31,15 @@ INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
 -- compradores --
 
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('028.058.910-74', 6);
+	VALUES ('02805891074', 6);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('627.784.770-80', 7);
+	VALUES ('62778477080', 7);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('607.405.580-72', 8);
+	VALUES ('60740558072', 8);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('899.905.780-10', 9);
+	VALUES ('89990578010', 9);
 INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
-	VALUES ('561.917.420-45', 10);
+	VALUES ('56191742045', 10);
 
 -- companhias --
 

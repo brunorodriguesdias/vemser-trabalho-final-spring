@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanhiaDTO extends CompanhiaCreateDTO{
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(description = "status do usuario", example = "true")
     private Boolean ativo;
 
