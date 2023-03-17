@@ -15,7 +15,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public void deleteById(Integer idUsuario) throws RegraDeNegocioException {
+    public void deleteById(Integer idUsuario) {
         usuarioRepository.deleteById(idUsuario);
     }
 }
