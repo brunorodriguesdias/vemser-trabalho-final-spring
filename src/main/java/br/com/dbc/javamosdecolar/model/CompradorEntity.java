@@ -19,6 +19,6 @@ public class CompradorEntity extends UsuarioEntity {
     private String cpf;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "comprador")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "comprador")
     private Set<VendaEntity> venda;
 }
