@@ -105,7 +105,7 @@ public class VendaService {
         return vendaDTOList;
     }
 
-    public PageDTO<VendaDTO> getVendasBetween(LocalDate inicio, LocalDate fim, Integer pagina, Integer tamanho) {
+    public PageDTO<VendaDTO> getVendasBetween(LocalDateTime inicio, LocalDateTime fim, Integer pagina, Integer tamanho) {
         Pageable solicitacaoPagina = PageRequest.of(pagina, tamanho);
         Page<VendaEntity> vendasBetween = vendaRepository.findAllByDataBetween(solicitacaoPagina, inicio, fim);
 

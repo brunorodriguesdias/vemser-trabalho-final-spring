@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -43,8 +45,8 @@ public class VendaController implements VendaDoc{
         return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id), OK);
     }
     @GetMapping("/vendas-between")
-    public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam LocalDate inicioConsulta,
-                                                           @RequestParam LocalDate fimConsulta,
+    public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
+                                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
                                                            @RequestParam Integer paginaSolicitada,
                                                            @RequestParam Integer tamanhoPagina) {
         return new ResponseEntity<>(vendaService.getVendasBetween(inicioConsulta,

@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface VendaRepository extends JpaRepository<VendaEntity, Integer> {
     List<VendaEntity> findAllByIdComprador(Integer idComprador);
 
-    Page<VendaEntity> findAllByDataBetween(Pageable pageable, LocalDate inicio, LocalDate fim);
+    Page<VendaEntity> findAllByDataBetween(Pageable pageable, LocalDateTime inicio, LocalDateTime fim);
 
     List<VendaEntity> findAllByIdCompanhia(Integer idCompanhia);
 }
