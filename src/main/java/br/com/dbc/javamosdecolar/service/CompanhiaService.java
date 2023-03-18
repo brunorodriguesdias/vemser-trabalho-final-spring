@@ -3,12 +3,16 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +25,19 @@ public class CompanhiaService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
 
-    public List<CompanhiaDTO> getAll() {
-        return companhiaRepository.findAll()
-                .stream()
+    public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
+        Pageable solcitacaoPagina = PageRequest.of(pagina, pagina);
+        Page<CompanhiaEntity> listaPaginada = companhiaRepository.findAll(solcitacaoPagina);
+
+        List<CompanhiaDTO> listaCompanhiaDTO = listaPaginada
                 .map(companhiaEntity -> objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class))
                 .toList();
+
+        return new PageDTO<>(listaPaginada.getTotalElements(),
+        listaPaginada.getTotalPages(),
+        pagina,
+        tamanho,
+        listaCompanhiaDTO);
     }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {

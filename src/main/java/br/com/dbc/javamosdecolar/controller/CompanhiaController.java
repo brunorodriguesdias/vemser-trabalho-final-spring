@@ -4,9 +4,11 @@ import br.com.dbc.javamosdecolar.docs.CompanhiaDoc;
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +27,9 @@ public class CompanhiaController implements CompanhiaDoc{
     private final CompanhiaService companhiaService;
 
     @GetMapping
-    public ResponseEntity<List<CompanhiaDTO>> getAll() throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.getAll(), OK);
+    public ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam Integer pagina,
+                                                        @RequestParam Integer tamanho) throws RegraDeNegocioException {
+        return new ResponseEntity<>(companhiaService.getAll(pagina, tamanho), OK);
     }
 
     @GetMapping("/logar")

@@ -3,11 +3,13 @@ package br.com.dbc.javamosdecolar.docs;
 import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,8 @@ public interface CompanhiaDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<CompanhiaDTO>> getAll() throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam Integer pagina,
+                                                 @RequestParam Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar companhia", description = "Mostra os dados da companhia")
     @ApiResponses(
