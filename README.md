@@ -14,27 +14,23 @@
 ## 2. Metodologia
 
 Como abordagem para codificação desse projeto, resolvemos montar um diagrama de classes, 
-que utilizamos como guia para entendermos as necessidades básicas do sistema. A ideia foi
-desenvolver um MVP que suprisse todos os requisitos listados pela TechLead Mayra. Também elaboramos uma espécie 
-de fluxograma de telas para entendermos melhor como implementar
-a classe Main. Este processo de desenvolvimento do diagrama de classes e do fluxograma foi
-realizado em dailies de 30 minutos, uma hora após a conclusão do estágio.
-
-Ao todo foram necessarias três dailies para ajustarmos todas as expectativas e entermos melhor
-as necessidades do negócio. Após isso, decidimos que a codificação seria feita através de mob e pair programming,
-desta forma o grupo todo poderia pensar na aplicação da lógica do sistema, assim como facilitaria o debate de ideias e adição de
-métodos antes não pensados para o projeto.
+que utilizamos como guia para entendermos as necessidades básicas do sistema. Nossa proposta neste módulo de Spring Data
+foi diminuir a complexidade do código, priorizando funções e métodos úteis nos pensando em um uso real do sistema,
+buscando assim deixar o sistema mais "clean".
+A idealização e codificação do projeto foi realizada quase que em sua totalidade com os 3 integrantes do grupo na mesma call,
+assim discutindo e debatendo nossos pontos de vista sobre prioridades, métodos que deveriam ser mantidos ou excluídos, mudanças de relações,
+alterações no banco de dados e principalmente nos auxiliando com problemas e erros que apareceram ao longo do precesso.
 
 ## 3. Sobre o Projeto
 
 O Javamos Decolar trata-se de uma plataforma de venda de passagens de avião, onde podemos ter dois tipos de usuários: Comprador
-e Companhia. Como comprador, temos a liberdade de comprar passagens, pesquisar passagens, filtra-las por data de chegada ou data
-de partida, filtra-las por maior valor e também por companhia. Também há opção de consultar o histórico de passagens compradas,
-consultar as ultimas passagens cadastradas pelas companhias do sistema e também de cancelar uma compra feita.
+e Companhia. Como comprador, temos a liberdade de comprar passagens, pesquisar passagens, filtra-las por até um determinado valor, filtra-las por companhia e filtrar as ultimas passagens cadastradas. Também há opção de consultar o histórico de passagens compradas,
+temos um relatório paginado de compras e também de cancelar uma compra feita.
 
 Como companhia, temos a opção de cadastrar passagens para que os compradores que acessam a plataforma possam consumir, assim como 
 temos acesso a todo um menu com operações de edição e remoção de passagens e trechos. Há também a opção de consultar o histórico de
 vendas da companhia, todos os trechos e também todas as passagens que foram cadastradas pela mesma.
+Podemos também fazer uma consulta paginada sobre vendas entre um intervalo de tempo.
 
 ## 4. Fluxograma de Classes
 
@@ -42,7 +38,7 @@ vendas da companhia, todos os trechos e também todas as passagens que foram cad
 
 ## 5. Diagrama ER
 
-<a href="https://lucid.app/lucidchart/2e81f5bd-cd54-4b25-8416-47a994d87fcc/edit?viewport_loc=52%2C-75%2C2318%2C1276%2C0_0&invitationId=inv_a6736357-686c-486b-8e63-1957c80c061b">Clique aqui para acessar o diagrama ER no LucidChart</a>.
+<a href="https://lucid.app/lucidchart/60377d8f-f8a3-489b-acf6-178a563184d2/edit?invitationId=inv_b81244ef-ab9b-42c0-8e0e-46784502d709&page=0_0#">Clique aqui para acessar o diagrama ER no LucidChart</a>.
 
 ## 6. Trello
 
