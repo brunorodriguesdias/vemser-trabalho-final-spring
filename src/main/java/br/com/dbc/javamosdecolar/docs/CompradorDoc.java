@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.docs;
 
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -28,7 +29,8 @@ public interface CompradorDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<CompradorDTO>> getAll() throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<CompradorDTO>> getAll(@RequestParam Integer pagina,
+                                                 @RequestParam Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Logar na conta comprador", description = "Mostra os dados do comprador")
     @ApiResponses(
