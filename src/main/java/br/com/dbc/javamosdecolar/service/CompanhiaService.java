@@ -23,7 +23,7 @@ public class CompanhiaService {
     private final ObjectMapper objectMapper;
 
     public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
-        Pageable solcitacaoPagina = PageRequest.of(pagina, pagina);
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
         Page<CompanhiaEntity> listaPaginada = companhiaRepository.findAll(solcitacaoPagina);
 
         List<CompanhiaDTO> listaCompanhiaDTO = listaPaginada
