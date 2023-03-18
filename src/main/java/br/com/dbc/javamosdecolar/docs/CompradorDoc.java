@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.docs;
 
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,6 +16,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @Tag(name = "Comprador", description = "Endpoints de comprador")
 public interface CompradorDoc {
@@ -45,6 +48,20 @@ public interface CompradorDoc {
     ResponseEntity<CompradorDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
                                                  @Valid @RequestHeader("senha") String senha)
             throws RegraDeNegocioException;
+
+    @Operation(summary = "Relatório paginado", description = "Exibe relatório do comprador e suas compras.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Retorna o relatório na quantidade solicitada"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/retornar-compras")
+    ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
+                                                                              @RequestParam Integer tamanho);
+
 
     @Operation(summary = "Criar comprador", description = "Cria um novo comprador")
     @ApiResponses(

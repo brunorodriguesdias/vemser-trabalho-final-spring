@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
@@ -37,6 +38,19 @@ public class CompradorService {
                 pagina,
                 tamanho,
                 compradores);
+    }
+
+    public PageDTO<CompradorRelatorioDTO> compradorRelatorio(Integer pagina, Integer tamanho){
+        Pageable page = PageRequest.of(pagina, tamanho);
+        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorRelatorio(page);
+
+        List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
+
+        return new PageDTO<>(pageRelatorios.getTotalElements(),
+                pageRelatorios.getTotalPages(),
+                pagina,
+                tamanho,
+                relatorios);
     }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
@@ -89,10 +103,6 @@ public class CompradorService {
 
     public CompradorDTO getLoginSenhaReturn(String login, String senha) throws RegraDeNegocioException {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompradorDTO.class);
-    }
-
-    protected CompradorDTO getById(Integer idComprador) throws RegraDeNegocioException {
-        return objectMapper.convertValue(getComprador(idComprador), CompradorDTO.class);
     }
 
     protected void validCpf(String cpf) throws RegraDeNegocioException {

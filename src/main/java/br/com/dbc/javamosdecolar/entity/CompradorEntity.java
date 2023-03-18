@@ -15,7 +15,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Entity(name = "COMPRADOR")
 @Table(name = "COMPRADOR")
 @PrimaryKeyJoinColumn(name = "ID_USUARIO")
 @SQLDelete(sql = "UPDATE AVIACAO.usuario c SET c.ativo = 0 WHERE c.id_usuario=?")

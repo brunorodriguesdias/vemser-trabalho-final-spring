@@ -3,10 +3,12 @@ package br.com.dbc.javamosdecolar.controller;
 import br.com.dbc.javamosdecolar.docs.CompradorDoc;
 import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +31,7 @@ public class CompradorController implements CompradorDoc {
 
     @GetMapping
     public ResponseEntity<PageDTO<CompradorDTO>> getAll(@RequestParam Integer pagina,
-                                                        @RequestParam Integer tamanho) throws RegraDeNegocioException {
+                                                        @RequestParam Integer tamanho) {
         return new ResponseEntity<>(compradorService.getAll(pagina, tamanho), OK);
     }
 
@@ -37,6 +39,12 @@ public class CompradorController implements CompradorDoc {
     public ResponseEntity<CompradorDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
                                                 @Valid @RequestHeader("senha") String senha) throws RegraDeNegocioException {
         return new ResponseEntity<>(compradorService.getLoginSenhaReturn(login, senha), OK);
+    }
+
+    @GetMapping("/retornar-compras")
+    public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
+                                                                              @RequestParam Integer tamanho){
+        return new ResponseEntity<>(compradorService.compradorRelatorio(pagina, tamanho), OK);
     }
 
     @PostMapping

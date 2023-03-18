@@ -35,7 +35,8 @@ public class PassagemEntity {
     private BigDecimal valor;
     @Column(name = "ID_TRECHO")
     private Integer idTrecho;
-
+    @Column(name = "ID_VENDA", insertable = false, updatable = false)
+    private Integer idVenda;
     @Column(name = "ID_COMPANHIA")
     private Integer idCompanhia;
     @JsonIgnore
@@ -46,7 +47,6 @@ public class PassagemEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false)
     private VendaEntity venda;
-
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO", insertable = false, updatable = false)
