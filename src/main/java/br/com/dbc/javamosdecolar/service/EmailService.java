@@ -1,10 +1,12 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.VendaEntity;
-import freemarker.template.*;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;

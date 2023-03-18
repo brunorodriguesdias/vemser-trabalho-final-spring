@@ -3,8 +3,8 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.VendaDTO;
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.entity.*;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -62,7 +61,7 @@ public class VendaService {
 //            vendaEfetuadaDTO.setIdPassagem(passagem.getIdPassagem());
 //            vendaEfetuadaDTO.setIdComprador(vendaEfetuada.getComprador().getIdUsuario());
 
-//            emailService.sendEmail(vendaEfetuada, "CRIAR", comprador);
+//            emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
 
             return vendaEfetuadaDTO;
     }

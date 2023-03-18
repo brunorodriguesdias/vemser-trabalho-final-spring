@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
-
-import static org.springframework.http.HttpStatus.OK;
 
 @Tag(name = "Comprador", description = "Endpoints de comprador")
 public interface CompradorDoc {

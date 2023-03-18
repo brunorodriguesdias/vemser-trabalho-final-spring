@@ -2,8 +2,10 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemDTO;
-import br.com.dbc.javamosdecolar.entity.*;
-import br.com.dbc.javamosdecolar.exception.DatabaseException;
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.PassagemEntity;
+import br.com.dbc.javamosdecolar.entity.Status;
+import br.com.dbc.javamosdecolar.entity.VendaEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.PassagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
 

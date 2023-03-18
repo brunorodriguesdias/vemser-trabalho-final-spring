@@ -2,7 +2,6 @@ package br.com.dbc.javamosdecolar.docs;
 
 import br.com.dbc.javamosdecolar.dto.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemDTO;
-import br.com.dbc.javamosdecolar.exception.DatabaseException;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
