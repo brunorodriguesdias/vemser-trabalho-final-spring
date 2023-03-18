@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.docs;
 
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -7,10 +8,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Venda", description = "Endpoints de venda")
@@ -65,4 +68,19 @@ public interface VendaDoc {
     @GetMapping("/{idCompanhia}/companhia")
     ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
             throws RegraDeNegocioException;
+
+    @Operation(summary = "Vendas realizadas entre as datas informadas", description = "Lista as vendas dentro do intervalo de tempo informado")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Retorna a lista de vendas encontradas"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/vendas-between")
+    public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
+                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
+                                                              @RequestParam Integer paginaSolicitada,
+                                                              @RequestParam Integer tamanhoPagina);
 }

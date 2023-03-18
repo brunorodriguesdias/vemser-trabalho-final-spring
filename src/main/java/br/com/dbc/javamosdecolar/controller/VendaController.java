@@ -44,6 +44,7 @@ public class VendaController implements VendaDoc{
             throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id), OK);
     }
+    @Override
     @GetMapping("/vendas-between")
     public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
                                                            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
