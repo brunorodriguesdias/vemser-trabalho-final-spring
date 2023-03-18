@@ -1,9 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
+import br.com.dbc.javamosdecolar.dto.*;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -38,6 +35,19 @@ public class CompanhiaService {
         pagina,
         tamanho,
         listaCompanhiaDTO);
+    }
+
+    public PageDTO<CompanhiaRelatorioDTO> companhiaRelatorio(Integer pagina, Integer tamanho){
+        Pageable page = PageRequest.of(pagina, tamanho);
+        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page);
+
+        List<CompanhiaRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
+
+        return new PageDTO<>(pageRelatorios.getTotalElements(),
+                pageRelatorios.getTotalPages(),
+                pagina,
+                tamanho,
+                relatorios);
     }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {

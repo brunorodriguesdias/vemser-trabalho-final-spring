@@ -1,9 +1,6 @@
 package br.com.dbc.javamosdecolar.docs;
 
-import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
+import br.com.dbc.javamosdecolar.dto.*;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,6 +26,19 @@ public interface CompanhiaDoc {
     @GetMapping
     ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam Integer pagina,
                                                  @RequestParam Integer tamanho) throws RegraDeNegocioException;
+
+    @Operation(summary = "Listar companhias com passagens", description = "Listar companhias com passagens vendidas/disponíveis/canceladas")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens cadastradas"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/retornar-passagens")
+    ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
+                                                                                @RequestParam Integer tamanho);
 
     @Operation(summary = "Buscar companhia", description = "Mostra os dados da companhia")
     @ApiResponses(

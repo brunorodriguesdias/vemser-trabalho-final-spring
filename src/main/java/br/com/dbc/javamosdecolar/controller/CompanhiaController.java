@@ -1,10 +1,7 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.CompanhiaDoc;
-import br.com.dbc.javamosdecolar.dto.CompanhiaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaDTO;
-import br.com.dbc.javamosdecolar.dto.CompanhiaUpdateDTO;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
+import br.com.dbc.javamosdecolar.dto.*;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +26,13 @@ public class CompanhiaController implements CompanhiaDoc{
                                                         @RequestParam Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(companhiaService.getAll(pagina, tamanho), OK);
     }
+
+    @GetMapping("/retornar-passagens")
+    public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
+                                                                              @RequestParam Integer tamanho){
+        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
+    }
+
 
     @GetMapping("/logar")
     public ResponseEntity<CompanhiaDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
