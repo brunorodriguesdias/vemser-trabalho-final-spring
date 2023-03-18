@@ -41,7 +41,7 @@ public class EmailService {
             mimeMessageHelper.setSubject("Javamos Decolar");
             mimeMessageHelper.setText(template, true);
 
-//            emailSender.send(mimeMessageHelper.getMimeMessage()); <TODO> descomentar
+            emailSender.send(mimeMessageHelper.getMimeMessage());
 
         } catch (MessagingException e) {
             e.printStackTrace();

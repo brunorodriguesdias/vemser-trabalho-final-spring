@@ -57,11 +57,8 @@ public class VendaService {
             passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
             VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
-//            vendaEfetuadaDTO.setIdCompanhia(vendaEfetuada.getCompanhia().getIdUsuario());
-//            vendaEfetuadaDTO.setIdPassagem(passagem.getIdPassagem());
-//            vendaEfetuadaDTO.setIdComprador(vendaEfetuada.getComprador().getIdUsuario());
 
-//            emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
+            emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
 
             return vendaEfetuadaDTO;
     }
@@ -76,6 +73,8 @@ public class VendaService {
         }
 
         vendaRepository.deleteById(idVenda);
+        emailService.sendEmail(venda, "DELETAR",
+                compradorService.getComprador(venda.getIdComprador()));
         return true;
     }
 

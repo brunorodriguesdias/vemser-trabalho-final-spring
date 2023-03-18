@@ -15,7 +15,6 @@ public class CompanhiaDTO extends CompanhiaCreateDTO{
     @Schema(description = "status do usuario", example = "true")
     private Boolean ativo;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(example = "1")
     private Integer idUsuario;
 }

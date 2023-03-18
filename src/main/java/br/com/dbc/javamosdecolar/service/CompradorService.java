@@ -6,6 +6,7 @@ import br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.TipoUsuario;
+import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +25,7 @@ public class CompradorService {
     private final CompradorRepository compradorRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
+    private final EmailService emailService;
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -67,6 +69,7 @@ public class CompradorService {
 
         //salvando no bd o novo comprador
         compradorRepository.save(comprador);
+        emailService.sendEmail(comprador);
         return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 
