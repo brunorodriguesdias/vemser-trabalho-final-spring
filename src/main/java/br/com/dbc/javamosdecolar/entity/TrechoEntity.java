@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "TRECHO")
+@SQLDelete(sql = "UPDATE AVIACAO.trecho t SET t.status = 1 WHERE t.id_trecho=?")
 public class TrechoEntity {
 
     @Id
@@ -24,6 +26,10 @@ public class TrechoEntity {
 
     @Column(name = "ORIGEM")
     private String origem;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "STATUS")
+    private Status status;
 
     @Column(name = "DESTINO")
     private String destino;

@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoDTO;
+import br.com.dbc.javamosdecolar.entity.Status;
 import br.com.dbc.javamosdecolar.entity.TrechoEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.TrechoRepository;
@@ -9,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -37,13 +39,15 @@ public class TrechoService {
             throw new RegraDeNegocioException("Trecho já existe!");
         }
         TrechoEntity trecho = objectMapper.convertValue(trechoDTO, TrechoEntity.class);
+        trecho.setStatus(Status.DISPONIVEL);
 
         return objectMapper
                 .convertValue(trechoRepository.save(trecho), TrechoDTO.class);
     }
 
     public TrechoDTO update(Integer idTrecho, TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
-            trechoRepository.findById(idTrecho)
+
+            TrechoEntity trecho = trechoRepository.findById(idTrecho)
                     .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
 
             if(trechoRepository.findAllByOrigemIsAndDestinoIs(trechoDTO.getOrigem().toUpperCase(),
@@ -51,28 +55,32 @@ public class TrechoService {
                 throw new RegraDeNegocioException("Trecho já existe!");
             }
 
-            TrechoEntity trechoEditado = objectMapper.convertValue(trechoDTO, TrechoEntity.class);
-            trechoEditado.setIdTrecho(idTrecho);
+            trecho.setDestino(trechoDTO.getDestino());
+            trecho.setOrigem(trechoDTO.getDestino());
 
-            trechoRepository.save(trechoEditado);
-
-            return objectMapper.convertValue(trechoEditado, TrechoDTO.class);
+            return objectMapper.convertValue(trechoRepository.save(trecho), TrechoDTO.class);
     }
 
     public void delete(Integer idTrecho) throws RegraDeNegocioException {
-        trechoRepository.findById(idTrecho)
+        TrechoEntity trecho = trechoRepository.findById(idTrecho)
                 .orElseThrow(() -> new RegraDeNegocioException("Trecho não encontrado!"));
+
+        if (trecho.getStatus() == Status.CANCELADO) {
+            throw new RegraDeNegocioException("Trecho já indisponível!");
+        }
+
+        // Indisponibilizando cada passagem desse trecho que estava como disponível
+        trecho.getPassagem().forEach(passagem ->
+            {
+                if (passagem.getStatus() == Status.DISPONIVEL) {
+                    passagem.setStatus(Status.CANCELADO);
+                }
+            }
+        );
+
+        trechoRepository.save(trecho);
         trechoRepository.deleteById(idTrecho);
     }
-
-//    public List<TrechoDTO> getByCompanhia(Integer idCompanhia) throws RegraDeNegocioException {
-//        // Checa se companhia existe
-//        CompanhiaEntity companhia = companhiaService.getCompanhia(idCompanhia);
-//
-//        return trechoRepository.findAllByCompanhia(companhia).stream()
-//                .map(trecho -> objectMapper.convertValue(trecho, TrechoDTO.class))
-//                .toList();
-//    }
 
     public TrechoDTO getById(Integer idTrecho) throws RegraDeNegocioException {
         TrechoEntity trecho = trechoRepository.findById(idTrecho)

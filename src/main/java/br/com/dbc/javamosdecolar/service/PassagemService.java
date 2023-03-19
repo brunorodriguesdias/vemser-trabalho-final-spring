@@ -85,26 +85,6 @@ public class PassagemService {
         return objectMapper.convertValue(passagem, PassagemDTO.class);
     }
 
-//    public List<PassagemDTO> getByData(String dataChegada, String dataPartida) throws RegraDeNegocioException {
-//            return passagemRepository.getByDataPartida(parseStringEmLocalDateTime(dataPartida))
-//                    .stream()
-//                    .map(passagem -> {
-//                        PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-//                        passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
-//                        return passagemDTO;
-//                    }).toList();
-//
-//            dataChegada = dataChegada.replace("-", "/");
-//
-//            return passagemRepository.getByDataChegada(parseStringEmLocalDateTime(dataChegada))
-//                    .stream()
-//                    .map(passagem -> {
-//                        PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-//                        passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
-//                        return passagemDTO;
-//                    }).toList();
-//    }
-
     public List<PassagemDTO> getByValorMaximo(BigDecimal valorMaximo){
         return passagemRepository.findAllByValorIsLessThanEqual(valorMaximo).stream()
                 .map(passagem -> {

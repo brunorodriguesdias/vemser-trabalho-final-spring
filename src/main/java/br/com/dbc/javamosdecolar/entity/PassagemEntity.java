@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
@@ -60,8 +61,9 @@ public class PassagemEntity {
     private VendaEntity venda;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO",
+            insertable = false, updatable = false)
     private TrechoEntity trecho;
 
 }
