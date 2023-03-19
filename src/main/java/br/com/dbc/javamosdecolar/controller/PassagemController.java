@@ -48,15 +48,7 @@ public class PassagemController implements PassagemDoc {
         return new ResponseEntity<>(this.passagemService.getUltimasPassagens(), OK);
     }
 
-//    @GetMapping("/data")
-//    public ResponseEntity<List<PassagemDTO>> getByData(
-//            @RequestParam(value = "dataPartida", required = false) String dataPartida,
-//            @RequestParam(value = "dataChegada", required = false) String dataChegada)
-//            throws RegraDeNegocioException {
-//        return new ResponseEntity<>(this.passagemService.getByData(dataChegada, dataPartida), OK);
-//    }
-
-    @GetMapping("/companhia/{idCompanhia}")
+    @GetMapping("/companhia")
     public ResponseEntity<List<PassagemDTO>> getByCompanhia(
             @RequestParam("idCompanhia") Integer idCompanhia) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.getByCompanhia(idCompanhia), OK);

@@ -68,19 +68,6 @@ public interface PassagemDoc {
     @GetMapping("/new")
     ResponseEntity<List<PassagemDTO>> getUltimasPassagens();
 
-//    @Operation(summary = "Buscar passagem por data", description = "Lista as passagens por data")
-//    @ApiResponses(
-//            value = {
-//                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens solicitada"),
-//                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-//            }
-//    )
-//    @GetMapping("/data")
-//    ResponseEntity<List<PassagemDTO>> getByData(@RequestParam(value = "dataPartida", required = false) String dataPartida,
-//                                                @RequestParam(value = "dataChegada", required = false) String dataChegada);
-
     @Operation(summary = "Buscar passagens por id da companhia", description = "Lista as passagens id da companhia")
     @ApiResponses(
             value = {
