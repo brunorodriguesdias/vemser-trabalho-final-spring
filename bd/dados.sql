@@ -2,7 +2,12 @@
 
 -- usuarios --
 -- [1] - Companhia
-
+--DELETE VENDA;
+--DELETE PASSAGEM;
+--DELETE TRECHO;
+--DELETE COMPANHIA;
+--DELETE COMPRADOR;
+--DELETE USUARIO;
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
 	VALUES (AVIACAO.seq_usuario.nextval, 'tam123@email.com', 'senhasecreta', 'companhia tam', '0', 1);
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
@@ -44,35 +49,35 @@ INSERT INTO AVIACAO.COMPRADOR (cpf, id_usuario)
 -- companhias --
 
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('47.026.248/0001-95', 'TAM', 1);
+	VALUES ('47.026.248/0001-95', 'tam aviao', 1);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('58.407.196/0001-13', 'GOL', 2);
+	VALUES ('58.407.196/0001-13', 'gol aviao', 2);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('74.959.720/0001-15', 'AZUL', 3);
+	VALUES ('74.959.720/0001-15', 'azul aviao', 3);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('52.958.019/0001-49', 'FLY EMIRATES', 4);
+	VALUES ('52.958.019/0001-49', 'fly emirates aviao', 4);
 INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
-	VALUES ('71.160.706/0001-69', 'AMERICAN FLY', 5);
+	VALUES ('71.160.706/0001-69', 'american airlines aviao', 5);
 
 -- trechos --
 
-INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino)
-	VALUES (AVIACAO.seq_trecho.nextval, 'BEL', 'CWB');
-INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino)
-	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'RJ');
-INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino)
-	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'POA');
-INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino)
-	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'FLO');
-INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino)
-	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'RJ');
+INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
+	VALUES (AVIACAO.seq_trecho.nextval, 'BEL', 'CWB', 0);
+INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
+	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'RJ', 0);
+INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
+	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'POA', 0);
+INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
+	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'FLO', 0);
+INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
+	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'RJ', 0);
 
 -- passagens --
 -- [0] - false
 -- [1] - true
 
 INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, data_partida, data_chegada, status, valor, id_companhia, id_trecho)
-	VALUES (AVIACAO.seq_passagem.nextval, 'd1a1b20c-a2be-4995-983b-bc386dcee06a',
+	VALUES (AVIACAO.seq_passagem.nextval, 'd111110c-a2be-4995-983b-bc386dcee06a',
 		TO_TIMESTAMP('17-02-2023 16:18','dd-MM-yyyyHH24:MI'),
         TO_TIMESTAMP('18-02-2023 16:18','dd-MM-yyyyHH24:MI'), '3', 200.9, 1, 1);
 
@@ -92,7 +97,7 @@ INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, data_partida, data_chegada, s
 	    TO_TIMESTAMP('18-02-2023 16:18','dd-MM-yyyyHH24:MI'), '3', 364.2, 4, 4);
 
 INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, data_partida, data_chegada, status, valor, id_companhia, id_trecho)
-	VALUES (AVIACAO.seq_passagem.nextval, 'd440f0fd-6c7d-4b66-9a34-6193abe3ee1d',
+	VALUES (AVIACAO.seq_passagem.nextval, 'd440f1fd-6c7d-4b66-9a34-6193abe3ee1d',
 	    TO_TIMESTAMP('17-02-2023 16:18','dd-MM-yyyyHH24:MI'),
 	    TO_TIMESTAMP('18-02-2023 16:18','dd-MM-yyyyHH24:MI'), '3', 861.8, 5, 5);
 	   
@@ -113,11 +118,12 @@ INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, 
 INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
 	VALUES (AVIACAO.seq_venda.nextval, '0' , TIMESTAMP '2023-03-16 14:30:00', 5, 10, 5, 'e0470f31-f930-488c-b6e9-4f15236fabb7');
 
-UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 1 WHERE ID_PASSAGEM = 1;
-UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 2 WHERE ID_PASSAGEM = 2;
-UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 3 WHERE ID_PASSAGEM = 3;
-UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 4 WHERE ID_PASSAGEM = 4;
-UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 5 WHERE ID_PASSAGEM = 5;
+UPDATE PASSAGEM SET ID_VENDA = 1 WHERE ID_PASSAGEM = 1;
+UPDATE PASSAGEM SET ID_VENDA = 2 WHERE ID_PASSAGEM = 2;
+UPDATE PASSAGEM SET ID_VENDA = 3 WHERE ID_PASSAGEM = 3;
+UPDATE PASSAGEM SET ID_VENDA = 4 WHERE ID_PASSAGEM = 4;
+UPDATE PASSAGEM SET ID_VENDA = 5 WHERE ID_PASSAGEM = 5;
+
 
 
 
