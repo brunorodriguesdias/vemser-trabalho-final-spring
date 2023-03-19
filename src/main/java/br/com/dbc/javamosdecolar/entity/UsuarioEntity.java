@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Builder
 @Inheritance(strategy = InheritanceType.JOINED)
 @SQLDelete(sql = "UPDATE AVIACAO.usuario c SET c.ativo = 0 WHERE c.id_usuario=?")
-@Where(clause = "ativo = 1")
 @Entity(name = "USUARIO")
 public class UsuarioEntity {
 
