@@ -62,15 +62,15 @@ INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
 -- trechos --
 
 INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
-	VALUES (AVIACAO.seq_trecho.nextval, 'BEL', 'CWB', 0);
+	VALUES (AVIACAO.seq_trecho.nextval, 'BEL', 'CWB', 2);
 INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
-	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'RJ', 0);
+	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'RJ', 2);
 INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
-	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'POA', 0);
+	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'POA', 2);
 INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
-	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'FLO', 0);
+	VALUES (AVIACAO.seq_trecho.nextval, 'POA', 'FLO', 2);
 INSERT INTO AVIACAO.TRECHO (id_trecho, origem, destino, STATUS)
-	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'RJ', 0);
+	VALUES (AVIACAO.seq_trecho.nextval, 'SP', 'RJ', 2);
 
 -- passagens --
 -- [0] - false
