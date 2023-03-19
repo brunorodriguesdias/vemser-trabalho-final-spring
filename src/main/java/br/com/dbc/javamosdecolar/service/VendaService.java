@@ -32,14 +32,18 @@ public class VendaService {
 
             UUID codigo = UUID.randomUUID();
 
+            CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
+
+            CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vendaDTO.getIdCompanhia());
+
             PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
             if (passagem.getStatus() != Status.DISPONIVEL) {
                 throw new RegraDeNegocioException("Passagem indisponível!");
             }
+            if (passagem.getCompanhia() != companhiaEntity) {
+                throw new RegraDeNegocioException("Passagem não pertence à essa companhia!");
+            }
 
-            CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
-
-            CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vendaDTO.getIdCompanhia());
 
             VendaEntity vendaEntity = objectMapper.convertValue(vendaDTO, VendaEntity.class);
             vendaEntity.setCodigo(String.valueOf(codigo));
@@ -49,11 +53,6 @@ public class VendaService {
             vendaEntity.setStatus(Status.CONCLUIDO);
             vendaEntity.setData(LocalDateTime.now());
             VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
-
-            if(vendaEfetuada.equals(null)) {
-                throw new RegraDeNegocioException("Não foi possível concluir a venda.");
-            }
-
             passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
             VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
