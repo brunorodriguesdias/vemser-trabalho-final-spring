@@ -30,7 +30,7 @@ public class PassagemService {
         UUID codigo = UUID.randomUUID();
         companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
 
-        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
+        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataChegada());
 
         trechoService.getById(passagemDTO.getIdTrecho());
 
@@ -57,7 +57,7 @@ public class PassagemService {
     public PassagemDTO update(Integer passagemId, PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
         PassagemEntity passagemEncontrada = passagemRepository.findById(passagemId)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
-        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataPartida());
+        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataChegada());
         companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
 
         passagemEncontrada.setIdTrecho(passagemDTO.getIdTrecho());
