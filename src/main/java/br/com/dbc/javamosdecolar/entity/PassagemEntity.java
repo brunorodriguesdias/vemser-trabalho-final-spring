@@ -41,10 +41,20 @@ public class PassagemEntity {
     @Column(name = "VALOR")
     private BigDecimal valor;
 
-    @Column(name = "ID_TRECHO")
-    private Integer idTrecho;
+    @Column(name = "NUMERO_ASSENTO")
+    private String numeroAssento;
 
-    @Column(name = "ID_VENDA", insertable = false, updatable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "TIPO_ASSENTO")
+    private TipoAssento tipoAssento;
+
+    @Column(name = "ORIGEM")
+    private String origem;
+
+    @Column(name = "DESTINO")
+    private String destino;
+
+    @Column(name = "ID_VENDA")
     private Integer idVenda;
 
     @Column(name = "ID_COMPANHIA")
@@ -61,9 +71,9 @@ public class PassagemEntity {
     private VendaEntity venda;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "ID_TRECHO", referencedColumnName = "ID_TRECHO",
-            insertable = false, updatable = false)
-    private TrechoEntity trecho;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_AVIAO", referencedColumnName = "ID_AVIAO",
+            insertable = false)
+    private AviaoEntity aviao;
 
 }
