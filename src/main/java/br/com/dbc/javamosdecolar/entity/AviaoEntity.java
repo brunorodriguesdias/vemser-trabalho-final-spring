@@ -29,23 +29,8 @@ public class AviaoEntity {
     @Column(name = "CODIGO_AVIAO")
     private Integer codigoAviao;
 
-    @Column(name = "ORIGEM_AEROPORTO")
-    private String origemAeroporto;
-
-    @Column(name = "DESTINO_AEROPORTO")
-    private String destinoAeroporto;
-
-    @Column(name = "ASSENTOS_DISPONIVEIS")
-    private Integer assentosDisponiveis;
-
     @Column(name = "CAPACIDADE")
     private Integer capacidade;
-
-    @Column(name = "WIFI")
-    private Boolean wifi;
-
-    @Column(name = "SISTEMA_DE_ENTRETERIMENTO")
-    private Boolean sistemaDeEntreterimento;
 
     @Column(name = "ULTIMA_MANUTENCAO")
     private LocalDate ultimaManutencao;

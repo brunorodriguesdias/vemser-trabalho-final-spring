@@ -1,11 +1,16 @@
 package br.com.dbc.javamosdecolar.dto.in;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class VooCreateDTO {
     @NotBlank
     @Size(min = 3, max = 30)
@@ -26,7 +31,7 @@ public class VooCreateDTO {
     private LocalDateTime dataChegada;
 
     @NotBlank
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 3)
     @Schema(description = "Quantidade de assentos disponiveis", example = "35")
     private Integer assentosDisponiveis;
 
