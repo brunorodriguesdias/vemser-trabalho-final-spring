@@ -1,8 +1,8 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.TrechoCreateDTO;
-import br.com.dbc.javamosdecolar.dto.out.PageDTO;
-import br.com.dbc.javamosdecolar.dto.out.TrechoDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.TrechoDTO;
 import br.com.dbc.javamosdecolar.entity.TrechoEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;

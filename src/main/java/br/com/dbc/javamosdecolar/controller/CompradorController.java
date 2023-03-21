@@ -2,9 +2,9 @@ package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.CompradorDoc;
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
-import br.com.dbc.javamosdecolar.dto.out.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.out.CompradorRelatorioDTO;
-import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
 import lombok.AllArgsConstructor;

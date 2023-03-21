@@ -1,8 +1,8 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VendaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.out.PageDTO;
-import br.com.dbc.javamosdecolar.dto.out.VendaDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.VendaDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;

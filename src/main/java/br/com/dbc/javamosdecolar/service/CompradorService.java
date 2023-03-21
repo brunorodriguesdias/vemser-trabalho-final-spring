@@ -1,9 +1,9 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
-import br.com.dbc.javamosdecolar.dto.out.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.out.CompradorRelatorioDTO;
-import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;

@@ -2,8 +2,8 @@ package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.PassagemDoc;
 import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
-import br.com.dbc.javamosdecolar.dto.out.PageDTO;
-import br.com.dbc.javamosdecolar.dto.out.PassagemDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PassagemDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.PassagemService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package br.com.dbc.javamosdecolar.repository;
 
-import br.com.dbc.javamosdecolar.dto.out.CompanhiaRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
