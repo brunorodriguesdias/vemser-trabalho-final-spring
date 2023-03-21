@@ -1,10 +1,10 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.dto.PageDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoDTO;
-import br.com.dbc.javamosdecolar.entity.Status;
+import br.com.dbc.javamosdecolar.dto.in.TrechoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.out.TrechoDTO;
 import br.com.dbc.javamosdecolar.entity.TrechoEntity;
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.TrechoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;

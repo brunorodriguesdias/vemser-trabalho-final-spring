@@ -1,4 +1,4 @@
-package br.com.dbc.javamosdecolar.entity;
+package br.com.dbc.javamosdecolar.entity.enums;
 
 import java.util.Arrays;
 

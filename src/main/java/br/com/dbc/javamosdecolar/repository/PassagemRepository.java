@@ -2,7 +2,7 @@ package br.com.dbc.javamosdecolar.repository;
 
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
-import br.com.dbc.javamosdecolar.entity.Status;
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

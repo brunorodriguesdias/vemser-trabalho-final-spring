@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.entity;
 
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

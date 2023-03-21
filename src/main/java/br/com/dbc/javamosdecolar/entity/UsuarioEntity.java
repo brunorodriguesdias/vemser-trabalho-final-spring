@@ -1,8 +1,8 @@
 package br.com.dbc.javamosdecolar.entity;
 
+import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 

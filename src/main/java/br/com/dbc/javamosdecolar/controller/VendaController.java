@@ -1,9 +1,9 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.VendaDoc;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
-import br.com.dbc.javamosdecolar.dto.VendaCreateDTO;
-import br.com.dbc.javamosdecolar.dto.VendaDTO;
+import br.com.dbc.javamosdecolar.dto.in.VendaCreateDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.out.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.VendaService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package br.com.dbc.javamosdecolar.dto;
+package br.com.dbc.javamosdecolar.dto.in;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

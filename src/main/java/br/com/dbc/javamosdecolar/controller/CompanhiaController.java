@@ -1,7 +1,11 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.CompanhiaDoc;
-import br.com.dbc.javamosdecolar.dto.*;
+import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
+import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompanhiaDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompanhiaRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +33,7 @@ public class CompanhiaController implements CompanhiaDoc{
 
     @GetMapping("/retornar-passagens")
     public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-                                                                              @RequestParam Integer tamanho){
+                                                                                @RequestParam Integer tamanho){
         return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
     }
 

@@ -1,9 +1,9 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.TrechoDoc;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoDTO;
+import br.com.dbc.javamosdecolar.dto.in.TrechoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.out.TrechoDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.TrechoService;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,10 @@
 package br.com.dbc.javamosdecolar.docs;
 
-import br.com.dbc.javamosdecolar.dto.*;
+import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
+import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompanhiaDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompanhiaRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,7 +42,7 @@ public interface CompanhiaDoc {
     )
     @GetMapping("/retornar-passagens")
     ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-                                                                                @RequestParam Integer tamanho);
+                                                                        @RequestParam Integer tamanho);
 
     @Operation(summary = "Buscar companhia", description = "Mostra os dados da companhia")
     @ApiResponses(

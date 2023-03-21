@@ -1,11 +1,11 @@
 package br.com.dbc.javamosdecolar.entity;
 
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;

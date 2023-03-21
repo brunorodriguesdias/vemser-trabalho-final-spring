@@ -1,8 +1,8 @@
 package br.com.dbc.javamosdecolar.docs;
 
-import br.com.dbc.javamosdecolar.dto.PageDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
-import br.com.dbc.javamosdecolar.dto.TrechoDTO;
+import br.com.dbc.javamosdecolar.dto.in.TrechoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
+import br.com.dbc.javamosdecolar.dto.out.TrechoDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

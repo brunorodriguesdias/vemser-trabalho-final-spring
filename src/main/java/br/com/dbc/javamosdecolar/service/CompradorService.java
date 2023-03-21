@@ -1,12 +1,11 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.dto.CompradorCreateDTO;
-import br.com.dbc.javamosdecolar.dto.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO;
-import br.com.dbc.javamosdecolar.dto.PageDTO;
+import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.out.CompradorRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.out.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
-import br.com.dbc.javamosdecolar.entity.TipoUsuario;
-import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
+import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
