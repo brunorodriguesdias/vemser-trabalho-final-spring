@@ -22,6 +22,6 @@ public class VendaDTO extends VendaCreateDTO {
     @Schema(description = "disponibilidade de compra da passagem", example = "true")
     private Status status;
 
-    @Schema(description = "data de realização da venda", example = "true")
+    @Schema(description = "data de realização da venda", example = "2023-10-10T16:11:26.2")
     private LocalDateTime data;
 }
