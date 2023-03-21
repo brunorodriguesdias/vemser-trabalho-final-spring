@@ -75,5 +75,4 @@ public class PassagemEntity {
     @JoinColumn(name = "ID_AVIAO", referencedColumnName = "ID_AVIAO",
             insertable = false)
     private AviaoEntity aviao;
-
 }

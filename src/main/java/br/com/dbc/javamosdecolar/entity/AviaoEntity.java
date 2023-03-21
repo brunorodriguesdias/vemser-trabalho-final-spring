@@ -57,5 +57,5 @@ public class AviaoEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "aviao")
-    private Set<PassagemEntity> passagens;
+    private Set<VooEntity> voos;
 }
