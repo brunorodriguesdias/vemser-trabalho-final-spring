@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoDTO;
 import br.com.dbc.javamosdecolar.entity.Status;
@@ -8,9 +9,11 @@ import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.TrechoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -20,16 +23,20 @@ public class TrechoService {
     private final TrechoRepository trechoRepository;
     private final ObjectMapper objectMapper;
 
-    public List<TrechoDTO> getAll() throws RegraDeNegocioException {
-        List<TrechoDTO> listaTrechos = trechoRepository.findAll().stream()
-                .map(trecho -> {
-                    TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
-                    return trechoDTO;
-                })
-                .toList();
+    public PageDTO<TrechoDTO> getAll(Integer pagina, Integer tamanho)  {
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+        Page<TrechoEntity> listaPaginada = trechoRepository.findAll(solcitacaoPagina);
+        List<TrechoDTO> listaDeTrechosDisponiveis = listaPaginada.map(trecho -> {
+            TrechoDTO trechoDTO = objectMapper.convertValue(trecho, TrechoDTO.class);
+            return trechoDTO;
+        }).toList();
 
-        return listaTrechos;
-    }
+        return new PageDTO<>(listaPaginada.getTotalElements(),
+            listaPaginada.getTotalPages(),
+            pagina,
+            tamanho,
+            listaDeTrechosDisponiveis);
+        }
 
     public TrechoDTO create(TrechoCreateDTO trechoDTO) throws RegraDeNegocioException {
 

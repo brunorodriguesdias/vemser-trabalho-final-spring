@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.docs;
 
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Tag(name = "Trecho", description = "Endpoints de trecho")
 public interface TrechoDoc {
@@ -63,7 +63,7 @@ public interface TrechoDoc {
             }
     )
     @GetMapping
-    ResponseEntity<List<TrechoDTO>> getAll() throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<TrechoDTO>> getAll(@RequestParam Integer pagina, @RequestParam Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Retorna um trecho específico", description = "Retorna um trecho a partir de seu id")
     @ApiResponses(

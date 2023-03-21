@@ -3,6 +3,8 @@ package br.com.dbc.javamosdecolar.repository;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,5 @@ import java.util.List;
 public interface PassagemRepository extends JpaRepository<PassagemEntity, Integer> {
     List<PassagemEntity> findAllByValorIsLessThanEqual(BigDecimal valor);
     List<PassagemEntity> findAllByCompanhia(CompanhiaEntity companhia);
-    List<PassagemEntity> findAllByStatusIs(Status status);
+    Page<PassagemEntity> findAllByStatusIs(Status status, Pageable solcitacaoPagina);
 }

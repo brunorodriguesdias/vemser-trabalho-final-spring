@@ -34,7 +34,7 @@ public interface CompradorRepository extends JpaRepository<CompradorEntity, Inte
     Page<CompradorRelatorioDTO> compradorRelatorio(Pageable pageable);
 
     Boolean existsCompradorEntityByCpfIsContaining(String cpf);
-    @Query("SELECT c FROM COMPRADOR c WHERE c.login = ?1 AND c.senha = ?2 AND c.ativo = true")
 
+    @Query("SELECT c FROM COMPRADOR c WHERE c.login = ?1 AND c.senha = ?2 AND c.ativo = true")
     CompradorEntity findByLoginAndSenha(String login, String senha);
 }

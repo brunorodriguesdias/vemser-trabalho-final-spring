@@ -38,6 +38,5 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
     Boolean existsCompanhiaEntityByCnpjIsContaining(String cpf);
 
     @Query("SELECT c FROM COMPANHIA c WHERE c.login = ?1 AND c.senha = ?2 AND c.ativo = true")
-
     CompanhiaEntity findByLoginAndSenha(String login, String senha);
 }

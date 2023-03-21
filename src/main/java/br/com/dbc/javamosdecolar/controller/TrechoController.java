@@ -1,9 +1,10 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.TrechoDoc;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.TrechoCreateDTO;
-import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.dto.TrechoDTO;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.TrechoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @Validated
 @RestController
@@ -44,8 +44,9 @@ public class TrechoController implements TrechoDoc {
     }
 
     @GetMapping
-    public ResponseEntity<List<TrechoDTO>> getAll() throws RegraDeNegocioException {
-        return new ResponseEntity<>(trechoService.getAll(), OK);
+    public ResponseEntity<PageDTO<TrechoDTO>> getAll(@RequestParam Integer pagina,
+                                                     @RequestParam Integer tamanho) {
+        return new ResponseEntity<>(trechoService.getAll(pagina, tamanho), OK);
     }
 
     @GetMapping("/{idTrecho}")

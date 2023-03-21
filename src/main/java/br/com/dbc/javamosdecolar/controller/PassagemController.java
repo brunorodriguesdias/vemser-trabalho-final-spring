@@ -1,6 +1,7 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.PassagemDoc;
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -44,8 +45,9 @@ public class PassagemController implements PassagemDoc {
     }
 
     @GetMapping("/new")
-    public ResponseEntity<List<PassagemDTO>> getUltimasPassagens() {
-        return new ResponseEntity<>(this.passagemService.getUltimasPassagens(), OK);
+    public ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina,
+                                                                    @RequestParam Integer tamanho) {
+        return new ResponseEntity<>(this.passagemService.getUltimasPassagens(pagina, tamanho), OK);
     }
 
     @GetMapping("/companhia")

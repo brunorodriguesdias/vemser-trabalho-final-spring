@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.docs;
 
+import br.com.dbc.javamosdecolar.dto.PageDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.PassagemDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -66,7 +67,7 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/new")
-    ResponseEntity<List<PassagemDTO>> getUltimasPassagens();
+    ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina, @RequestParam Integer tamanho);
 
     @Operation(summary = "Buscar passagens por id da companhia", description = "Lista as passagens id da companhia")
     @ApiResponses(
