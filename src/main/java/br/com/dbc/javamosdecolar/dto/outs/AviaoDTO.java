@@ -13,4 +13,8 @@ import lombok.NoArgsConstructor;
 public class AviaoDTO extends AviaoCreateDTO {
     @Schema(description = "ID do avião", example = "1")
     private Integer idAviao;
+
+    @Schema(description = "Status do avião", example = "true")
+    private boolean ativo;
+
 }

@@ -38,7 +38,7 @@ public class AviaoController implements AviaoDoc {
     @PutMapping("/{idAviao}")
     public ResponseEntity<AviaoDTO> update(@PathVariable("idAviao") Integer idAviao,
                                            @Valid @RequestBody AviaoCreateDTO aviao) throws RegraDeNegocioException{
-        return new ResponseEntity<>(aviaoService.create(aviao), OK);
+        return new ResponseEntity<>(aviaoService.update(idAviao, aviao), OK);
     }
 
     @DeleteMapping("/deletar/{idAviao}")
