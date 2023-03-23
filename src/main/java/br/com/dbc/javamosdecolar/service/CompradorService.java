@@ -2,7 +2,6 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
@@ -41,18 +40,18 @@ public class CompradorService {
                 compradores);
     }
 
-    public PageDTO<CompradorRelatorioDTO> compradorRelatorio(Integer pagina, Integer tamanho){
-        Pageable page = PageRequest.of(pagina, tamanho);
-        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorRelatorio(page);
-
-        List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
-
-        return new PageDTO<>(pageRelatorios.getTotalElements(),
-                pageRelatorios.getTotalPages(),
-                pagina,
-                tamanho,
-                relatorios);
-    }
+//    public PageDTO<CompradorRelatorioDTO> compradorRelatorio(Integer pagina, Integer tamanho){
+//        Pageable page = PageRequest.of(pagina, tamanho);
+//        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorRelatorio(page);
+//
+//        List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
+//
+//        return new PageDTO<>(pageRelatorios.getTotalElements(),
+//                pageRelatorios.getTotalPages(),
+//                pagina,
+//                tamanho,
+//                relatorios);
+//    }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
         //validando se o login se já está registrado

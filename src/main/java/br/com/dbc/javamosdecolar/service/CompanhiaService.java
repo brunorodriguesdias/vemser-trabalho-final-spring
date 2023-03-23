@@ -3,7 +3,6 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
@@ -42,18 +41,18 @@ public class CompanhiaService {
         listaCompanhiaDTO);
     }
 
-    public PageDTO<CompanhiaRelatorioDTO> companhiaRelatorio(Integer pagina, Integer tamanho){
-        Pageable page = PageRequest.of(pagina, tamanho);
-        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page);
-
-        List<CompanhiaRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
-
-        return new PageDTO<>(pageRelatorios.getTotalElements(),
-                pageRelatorios.getTotalPages(),
-                pagina,
-                tamanho,
-                relatorios);
-    }
+//    public PageDTO<CompanhiaRelatorioDTO> companhiaRelatorio(Integer pagina, Integer tamanho){
+//        Pageable page = PageRequest.of(pagina, tamanho);
+//        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page);
+//
+//        List<CompanhiaRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
+//
+//        return new PageDTO<>(pageRelatorios.getTotalElements(),
+//                pageRelatorios.getTotalPages(),
+//                pagina,
+//                tamanho,
+//                relatorios);
+//    }
 
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
         //validando se o login já está registrado

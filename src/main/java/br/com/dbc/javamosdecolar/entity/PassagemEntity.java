@@ -11,7 +11,6 @@ import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,12 +28,6 @@ public class PassagemEntity {
     @Column(name = "CODIGO")
     private String codigo;
 
-    @Column(name = "DATA_PARTIDA")
-    private LocalDateTime dataPartida;
-
-    @Column(name = "DATA_CHEGADA")
-    private LocalDateTime dataChegada;
-
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "STATUS")
     private Status status;
@@ -48,12 +41,6 @@ public class PassagemEntity {
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "TIPO_ASSENTO")
     private TipoAssento tipoAssento;
-
-    @Column(name = "ORIGEM")
-    private String origem;
-
-    @Column(name = "DESTINO")
-    private String destino;
 
     @Column(name = "ID_VENDA")
     private Integer idVenda;

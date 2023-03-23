@@ -25,56 +25,56 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PassagemService {
     private final PassagemRepository passagemRepository;
-    private final TrechoService trechoService;
     private final ObjectMapper objectMapper;
     private final CompanhiaService companhiaService;
 
-    public PassagemDTO create(PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
+    public PassagemDTO create(PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
 
         UUID codigo = UUID.randomUUID();
-        companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
+        companhiaService.getCompanhia(passagemCreateDTO.getIdCompanhia());
 
-        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataChegada());
+        //Validando voo
+//        vooService.getVoo(passagemCreateDTO.getIdVoo());
+//        vooService.validAssento(passagemCreateDTO.getIdVoo(), passagemCreateDTO.getNumeroAssento());
 
-        trechoService.getById(passagemDTO.getIdTrecho());
-
-        PassagemEntity passagem = objectMapper.convertValue(passagemDTO, PassagemEntity.class);
+        PassagemEntity passagem = objectMapper.convertValue(passagemCreateDTO, PassagemEntity.class);
         passagem.setCodigo(codigo.toString());
-
         passagem.setStatus(Status.DISPONIVEL);
+
         PassagemEntity passagemCriada = passagemRepository.save(passagem);
 
         return objectMapper.convertValue(passagemCriada, PassagemDTO.class);
     }
 
-    public PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {
-        return passagemRepository.findById(idPassagem)
-                .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
-    }
-
-    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
-        if (dataChegada.isBefore(dataPartida)) {
-            throw new RegraDeNegocioException("Data inválida!");
-        }
-    }
-
-    public PassagemDTO update(Integer passagemId, PassagemCreateDTO passagemDTO) throws RegraDeNegocioException {
+    public PassagemDTO update(Integer passagemId, PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
         PassagemEntity passagemEncontrada = passagemRepository.findById(passagemId)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
-        validarDatas(passagemDTO.getDataPartida(), passagemDTO.getDataChegada());
-        companhiaService.getCompanhia(passagemDTO.getIdCompanhia());
 
-        passagemEncontrada.setIdTrecho(passagemDTO.getIdTrecho());
-        passagemEncontrada.setIdCompanhia(passagemDTO.getIdCompanhia());
-        passagemEncontrada.setValor(passagemDTO.getValor());
-        passagemEncontrada.setDataChegada(passagemDTO.getDataChegada());
-        passagemEncontrada.setDataPartida(passagemDTO.getDataPartida());
+        //Validando voo
+//        vooService.getVoo(passagemCreateDTO.getIdVoo());
+//        vooService.validAssento(passagemCreateDTO.getIdVoo(), passagemCreateDTO.getNumeroAssento());
+
+
+        if(passagemEncontrada.getStatus() == Status.CANCELADO){
+            throw new RegraDeNegocioException("Passagem cancelada, não é possível editar!");
+        }
+
+        companhiaService.getCompanhia(passagemCreateDTO.getIdCompanhia());
+
+        passagemEncontrada.setValor(passagemCreateDTO.getValor());
+        passagemEncontrada.setNumeroAssento(passagemCreateDTO.getNumeroAssento());
+        passagemEncontrada.setTipoAssento(passagemCreateDTO.getTipoAssento());
+        passagemEncontrada.setIdCompanhia(passagemCreateDTO.getIdCompanhia());
+        passagemEncontrada.setIdVoo(passagemCreateDTO.getIdVoo());
+
 
         return objectMapper.convertValue(passagemRepository.save(passagemEncontrada), PassagemDTO.class);
     }
 
     public void delete(Integer passagemId) throws RegraDeNegocioException {
         PassagemEntity passagem = getPassagem(passagemId);
+
+        //PRECISO SABER VIVER
 
         if (passagem.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Passagem já cancelada!");
@@ -84,16 +84,17 @@ public class PassagemService {
     }
 
     public PassagemDTO getById(Integer id) throws RegraDeNegocioException {
-        PassagemEntity passagem = passagemRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
-        return objectMapper.convertValue(passagem, PassagemDTO.class);
+        PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!")), PassagemDTO.class);
+        passagemDTO.setNomeCompanhia(companhiaService.getCompanhia(passagemDTO.getIdCompanhia()).getNome());
+        return passagemDTO;
     }
 
     public List<PassagemDTO> getByValorMaximo(BigDecimal valorMaximo){
         return passagemRepository.findAllByValorIsLessThanEqual(valorMaximo).stream()
                 .map(passagem -> {
                     PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-                    passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
+                    passagemDTO.setNomeCompanhia(passagem.getCompanhia().getNome());
                     return passagemDTO;
                 }).toList();
     }
@@ -104,7 +105,7 @@ public class PassagemService {
                 .findAllByCompanhia(companhiaEntity).stream()
                 .map(passagem -> {
                     PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-                    passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
+                    passagemDTO.setNomeCompanhia(passagem.getCompanhia().getNome());
                     return passagemDTO;
                 }).toList();
     }
@@ -114,7 +115,7 @@ public class PassagemService {
         Page<PassagemEntity> listaPaginada = passagemRepository.findAllByStatusIs(Status.DISPONIVEL, solcitacaoPagina);
         List<PassagemDTO> listaDePassagensDisponiveis = listaPaginada.map(passagem -> {
             PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-            passagemDTO.setIdTrecho(passagem.getTrecho().getIdTrecho());
+            passagemDTO.setNomeCompanhia(passagem.getCompanhia().getNome());
             return passagemDTO;
         }).toList();
 
@@ -123,9 +124,21 @@ public class PassagemService {
                 pagina,
                 tamanho,
                 listaDePassagensDisponiveis);
-        }
+    }
 
-    public boolean alteraDisponibilidadePassagem (PassagemEntity passagem, VendaEntity vendaEntity) {
+    //PASSAR VALIDAR DATAS PARA VOO
+    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
+        if (dataChegada.isBefore(dataPartida)) {
+            throw new RegraDeNegocioException("Data inválida!");
+        }
+    }
+
+    protected PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {
+        return passagemRepository.findById(idPassagem)
+                .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
+    }
+
+    protected boolean alteraDisponibilidadePassagem (PassagemEntity passagem, VendaEntity vendaEntity) {
         passagem.setStatus(Status.VENDIDA);
         passagem.setVenda(vendaEntity);
         passagemRepository.save(passagem);

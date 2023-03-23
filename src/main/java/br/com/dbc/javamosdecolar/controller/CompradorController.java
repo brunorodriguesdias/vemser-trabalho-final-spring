@@ -3,7 +3,6 @@ package br.com.dbc.javamosdecolar.controller;
 import br.com.dbc.javamosdecolar.docs.CompradorDoc;
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
@@ -39,11 +38,11 @@ public class CompradorController implements CompradorDoc {
         return new ResponseEntity<>(compradorService.getLoginSenhaReturn(login, senha), OK);
     }
 
-    @GetMapping("/retornar-compras")
-    public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
-                                                                              @RequestParam Integer tamanho){
-        return new ResponseEntity<>(compradorService.compradorRelatorio(pagina, tamanho), OK);
-    }
+//    @GetMapping("/retornar-compras")
+//    public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
+//                                                                              @RequestParam Integer tamanho){
+//        return new ResponseEntity<>(compradorService.compradorRelatorio(pagina, tamanho), OK);
+//    }
 
     @PostMapping
     public ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)

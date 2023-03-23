@@ -37,7 +37,7 @@ public class AviaoEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_AVIAO", insertable = false, updatable = false)
+    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
     private CompanhiaEntity companhia;
 
     @JsonIgnore

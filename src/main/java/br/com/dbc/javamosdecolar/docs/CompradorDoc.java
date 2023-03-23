@@ -2,7 +2,6 @@ package br.com.dbc.javamosdecolar.docs;
 
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,18 +45,18 @@ public interface CompradorDoc {
                                                  @Valid @RequestHeader("senha") String senha)
             throws RegraDeNegocioException;
 
-    @Operation(summary = "Relatório paginado", description = "Exibe relatório do comprador e suas compras.")
-    @ApiResponses(
-            value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna o relatório na quantidade solicitada"),
-                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-            }
-    )
-    @GetMapping("/retornar-compras")
-    ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
-                                                                              @RequestParam Integer tamanho);
+//    @Operation(summary = "Relatório paginado", description = "Exibe relatório do comprador e suas compras.")
+//    @ApiResponses(
+//            value = {
+//                    @ApiResponse(responseCode = "200", description = "Retorna o relatório na quantidade solicitada"),
+//                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+//            }
+//    )
+//    @GetMapping("/retornar-compras")
+//    ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
+//                                                                              @RequestParam Integer tamanho);
 
 
     @Operation(summary = "Criar comprador", description = "Cria um novo comprador")

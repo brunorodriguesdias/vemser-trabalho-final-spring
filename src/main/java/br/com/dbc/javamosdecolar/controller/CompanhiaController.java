@@ -4,7 +4,6 @@ import br.com.dbc.javamosdecolar.docs.CompanhiaDoc;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
@@ -31,11 +30,11 @@ public class CompanhiaController implements CompanhiaDoc{
         return new ResponseEntity<>(companhiaService.getAll(pagina, tamanho), OK);
     }
 
-    @GetMapping("/retornar-passagens")
-    public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-                                                                                @RequestParam Integer tamanho){
-        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
-    }
+//    @GetMapping("/retornar-passagens")
+//    public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
+//                                                                                @RequestParam Integer tamanho){
+//        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
+//    }
 
 
     @GetMapping("/logar")

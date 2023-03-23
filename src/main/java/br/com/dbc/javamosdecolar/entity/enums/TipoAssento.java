@@ -2,8 +2,8 @@ package br.com.dbc.javamosdecolar.entity.enums;
 
 public enum TipoAssento {
 
-    CLÁSSICO,
+    CLASSICO,
     EXECUTIVO,
-    ECONÔMICO;
+    ECONOMICO;
 }
 

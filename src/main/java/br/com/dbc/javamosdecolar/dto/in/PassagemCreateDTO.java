@@ -1,38 +1,37 @@
 package br.com.dbc.javamosdecolar.dto.in;
 
+import br.com.dbc.javamosdecolar.entity.enums.TipoAssento;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PassagemCreateDTO {
-    @Schema(description = "Data de partida", example = "03/03/2024", required = true)
-    @NotNull(message = "O campo dataPartida não pode estar nulo!")
-    @FutureOrPresent(message = "O campo dataPartida deve ser atual ou futuro!")
-    private LocalDateTime dataPartida;
-
-    @Schema(description = "Data de chegada", example = "04/03/2024", required = true)
-    @NotNull(message = "O campo dataChegada não pode estar nulo!")
-    @FutureOrPresent(message = "O campo dataChegada deve ser atual ou futuro!")
-    private LocalDateTime dataChegada;
 
     @Schema(description = "Valor da passagem", example = "800", required = true)
     @NotNull(message = "O campo valor não pode estar nulo!")
     private BigDecimal valor;
 
-    @Schema(description = "ID do trecho", example = "5", required = true)
-    @NotNull(message = "O campo idTrecho não pode estar nulo!")
-    private Integer idTrecho;
+    @Schema(description = "Valor da passagem", example = "800", required = true)
+    @NotBlank(message = "O campo valor não pode estar nulo!")
+    private String numeroAssento;
+
+    @Schema(description = "Tipo do assento", example = "Executivo", required = true)
+    @NotNull(message = "O campo não pode estar nulo!")
+    private TipoAssento tipoAssento;
 
     @Schema(description = "id da companhia que oferece o trecho", example = "6", required = true)
     @NotNull(message = "Informe o ID da companhia!")
     private Integer idCompanhia;
+
+    @Schema(description = "id do voo", example = "1", required = true)
+    @NotNull(message = "Informe o id do voo!")
+    private Integer idVoo;
 }
