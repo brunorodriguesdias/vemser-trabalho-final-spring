@@ -55,6 +55,7 @@ CREATE TABLE AVIACAO.AVIAO(
 	capacidade NUMBER NOT NULL,
 	ultima_manutencao DATE NOT NULL,
 	id_companhia NUMBER,
+	ativo NUMBER(1) NOT NULL,
 	PRIMARY KEY (id_aviao),
 	CONSTRAINT FK_AVIAO_COMPANHIA FOREIGN KEY (id_companhia) REFERENCES COMPANHIA(id_usuario)
 );
@@ -66,6 +67,7 @@ CREATE TABLE AVIACAO.VOO(
 	data_partida TIMESTAMP NOT NULL,
 	data_chegada TIMESTAMP NOT NULL,
 	assentos_disponiveis NUMBER(3) NOT NULL,
+	status NUMBER(1) NOT NULL,
 	id_aviao NUMBER,
 	PRIMARY KEY (id_voo),
 	CONSTRAINT FK_VOO_ID_AVIAO FOREIGN KEY (id_aviao) REFERENCES AVIAO(id_aviao)

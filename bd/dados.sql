@@ -60,89 +60,89 @@ INSERT INTO AVIACAO.COMPANHIA (cnpj, nome_fantasia, id_usuario)
 
 -- aviao --
 
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PT-ZXE', 330, TO_TIMESTAMP('17-02-2023','dd-MM-yyyy'), 1);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PP-GHJ', 620, TO_TIMESTAMP('20-03-2023','dd-MM-yyyy'), 2);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PP-ASD', 490, TO_TIMESTAMP('01-03-2023','dd-MM-yyyy'), 3);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PT-UTY', 670, TO_TIMESTAMP('10-03-2023','dd-MM-yyyy'), 4);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PT-POI', 800, TO_TIMESTAMP('05-02-2023','dd-MM-yyyy'), 5);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PT-ZXE', 330, TO_TIMESTAMP('17-02-2023','dd-MM-yyyy'), 1, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PP-GHJ', 620, TO_TIMESTAMP('20-03-2023','dd-MM-yyyy'), 2, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PP-ASD', 490, TO_TIMESTAMP('01-03-2023','dd-MM-yyyy'), 3, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PT-UTY', 670, TO_TIMESTAMP('10-03-2023','dd-MM-yyyy'), 4, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PT-POI', 800, TO_TIMESTAMP('05-02-2023','dd-MM-yyyy'), 5, 1);
 
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PP-YJK', 872, TO_TIMESTAMP('01-02-2023','dd-MM-yyyy'), 1);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PP-LKJ', 543, TO_TIMESTAMP('08-02-2023','dd-MM-yyyy'), 2);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PT-OLÇ', 906, TO_TIMESTAMP('21-03-2023','dd-MM-yyyy'), 3);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PR-WEE', 175, TO_TIMESTAMP('23-03-2023','dd-MM-yyyy'), 4);
-INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
-	VALUES (AVIACAO.seq_aviao.nextval, 'PR-TTT', 689, TO_TIMESTAMP('19-03-2023','dd-MM-yyyy'), 5);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PP-YJK', 872, TO_TIMESTAMP('01-02-2023','dd-MM-yyyy'), 1, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PP-LKJ', 543, TO_TIMESTAMP('08-02-2023','dd-MM-yyyy'), 2, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PT-OLÇ', 906, TO_TIMESTAMP('21-03-2023','dd-MM-yyyy'), 3, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PR-WEE', 175, TO_TIMESTAMP('23-03-2023','dd-MM-yyyy'), 4, 1);
+INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+	VALUES (AVIACAO.seq_aviao.nextval, 'PR-TTT', 689, TO_TIMESTAMP('19-03-2023','dd-MM-yyyy'), 5, 1);
 
---INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
---	VALUES (AVIACAO.seq_aviao.nextval, 'PU-YTY', 247, TO_TIMESTAMP('24-02-2023','dd-MM-yyyy'), 1);
---INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
---	VALUES (AVIACAO.seq_aviao.nextval, 'PU-MBH', 318, TO_TIMESTAMP('13-02-2023','dd-MM-yyyy'), 2);
---INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia)
---	VALUES (AVIACAO.seq_aviao.nextval, 'PU-CGK', 764, TO_TIMESTAMP('10-02-2023','dd-MM-yyyy'), 3);
---INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
---	VALUES (AVIACAO.seq_aviao.nextval, 'PP-VKL', 529, TO_TIMESTAMP('21-02-2023','dd-MM-yyyy'), 4);
---INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia)
---	VALUES (AVIACAO.seq_aviao.nextval, 'PT-PÇL', 431, TO_TIMESTAMP('01-03-2023','dd-MM-yyyy'), 5);
+--INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+--	VALUES (AVIACAO.seq_aviao.nextval, 'PU-YTY', 247, TO_TIMESTAMP('24-02-2023','dd-MM-yyyy'), 1, 1);
+--INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+--	VALUES (AVIACAO.seq_aviao.nextval, 'PU-MBH', 318, TO_TIMESTAMP('13-02-2023','dd-MM-yyyy'), 2, 1);
+--INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao,capacidade, ultima_manutencao, id_companhia, ativo)
+--	VALUES (AVIACAO.seq_aviao.nextval, 'PU-CGK', 764, TO_TIMESTAMP('10-02-2023','dd-MM-yyyy'), 3, 1);
+--INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+--	VALUES (AVIACAO.seq_aviao.nextval, 'PP-VKL', 529, TO_TIMESTAMP('21-02-2023','dd-MM-yyyy'), 4, 1);
+--INSERT INTO AVIACAO.AVIAO(id_aviao, codigo_aviao, capacidade, ultima_manutencao, id_companhia, ativo)
+--	VALUES (AVIACAO.seq_aviao.nextval, 'PT-PÇL', 431, TO_TIMESTAMP('01-03-2023','dd-MM-yyyy'), 5, 1);
 
 
 -- voo --
 
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Porto Alegre', 'Salvador',
-		TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 1);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+		TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 1, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'São Paulo', 'Rio de Janeiro',
-        TO_TIMESTAMP('18-03-2023 08:30','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('18-03-2023 10:00','dd-MM-yyyyHH24:MI'), 150, 2);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+        TO_TIMESTAMP('18-03-2023 08:30','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('18-03-2023 10:00','dd-MM-yyyyHH24:MI'), 150, 2, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Curitiba', 'Florianópolis',
-        TO_TIMESTAMP('19-03-2023 13:15','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('19-03-2023 14:30','dd-MM-yyyyHH24:MI'), 100, 3);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+        TO_TIMESTAMP('19-03-2023 13:15','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('19-03-2023 14:30','dd-MM-yyyyHH24:MI'), 100, 3, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Belo Horizonte', 'Brasília',
-        TO_TIMESTAMP('20-03-2023 16:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('20-03-2023 17:30','dd-MM-yyyyHH24:MI'), 175, 4);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+        TO_TIMESTAMP('20-03-2023 16:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('20-03-2023 17:30','dd-MM-yyyyHH24:MI'), 175, 4, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Rio de Janeiro', 'Curitiba',
-		TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 5);
+		TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 5, 2);
   
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
-	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 6);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 6, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
-	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 7);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 7, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
-	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 8);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 8, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
-	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 9);
-INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 9, 2);
+INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
-	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 10);
+	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 10, 2);
 
---INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+--INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 --	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
---	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 11);
---INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+--	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 11, 2);
+--INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 --	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
---	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 12);
---INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+--	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 12, 2);
+--INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 --	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
---	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 13);
---INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+--	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 13, 2);
+--INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 --	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
---	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 14);
---INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao)
+--	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 14, 2);
+--INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, assentos_disponiveis, id_aviao, status)
 --	VALUES (AVIACAO.seq_voo.nextval, 'Manaus', 'Florianópolis',
---	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 15);
+--	TO_TIMESTAMP('17-03-2023 12:00','dd-MM-yyyyHH24:MI'), TO_TIMESTAMP('17-03-2023 20:00','dd-MM-yyyyHH24:MI'), 200, 15, 2);
 
 
 --/ PASSAGENS /--
@@ -194,8 +194,8 @@ INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, 
 INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
 	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 5, 10, 5, 'e0470f31-f930-488c-b6e9-4f15236fabb7');
 
-UPDATE PASSAGEM SET ID_VENDA = 1, STATUS = 3 WHERE ID_PASSAGEM = 1;
-UPDATE PASSAGEM SET ID_VENDA = 2, STATUS = 3 WHERE ID_PASSAGEM = 2;
-UPDATE PASSAGEM SET ID_VENDA = 3, STATUS = 3 WHERE ID_PASSAGEM = 3;
-UPDATE PASSAGEM SET ID_VENDA = 4, STATUS = 3 WHERE ID_PASSAGEM = 4;
-UPDATE PASSAGEM SET ID_VENDA = 5, STATUS = 3 WHERE ID_PASSAGEM = 5;
+UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 1, STATUS = 3 WHERE ID_PASSAGEM = 1;
+UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 2, STATUS = 3 WHERE ID_PASSAGEM = 2;
+UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 3, STATUS = 3 WHERE ID_PASSAGEM = 3;
+UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 4, STATUS = 3 WHERE ID_PASSAGEM = 4;
+UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 5, STATUS = 3 WHERE ID_PASSAGEM = 5;
