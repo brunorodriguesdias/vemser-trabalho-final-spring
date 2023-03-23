@@ -48,6 +48,7 @@ public class AviaoService {
         companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
 
         AviaoEntity aviao = objectMapper.convertValue(aviaoCreateDTO, AviaoEntity.class);
+        aviao.setAtivo(true);
 
         AviaoEntity aviaoCriada = aviaoRepository.save(aviao);
 

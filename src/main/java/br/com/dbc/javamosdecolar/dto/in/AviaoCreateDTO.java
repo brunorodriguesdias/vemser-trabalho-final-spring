@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AviaoCreateDTO {
-    @NotBlank
+    @NotNull
     @Schema(description = "ID da companhia", example = "5")
     private Integer idCompanhia;
 
@@ -20,12 +19,14 @@ public class AviaoCreateDTO {
     @Schema(description = "Código do avião", example = "PP-XTY")
     private String codigoAviao;
 
-    @NotBlank
-    @Size(min = 1, max = 3)
+    @NotNull
+    @Min(1)
+    @Max(853)
     @Schema(description = "Capacidade do avião", example = "175")
     private Integer capacidade;
 
-    @NotBlank
+    @NotNull
+    @PastOrPresent
     @Schema(description = "Data da ultima manutenção", example = "2018-01-07")
     private LocalDate ultimaManutencao;
 }
