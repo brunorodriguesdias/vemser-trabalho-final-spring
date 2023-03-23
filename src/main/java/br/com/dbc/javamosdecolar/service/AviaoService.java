@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AviaoDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AviaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,10 @@ public class AviaoService {
 
     public AviaoDTO create(AviaoCreateDTO aviaoCreateDTO) throws RegraDeNegocioException {
 
+        if(aviaoRepository.findByCodigoAviao(aviaoCreateDTO.getCodigoAviao()).isPresent()) {
+            throw new RegraDeNegocioException("Já existe avião com esse código!");
+        }
+
         companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
 
         AviaoEntity aviao = objectMapper.convertValue(aviaoCreateDTO, AviaoEntity.class);
@@ -29,31 +34,37 @@ public class AviaoService {
     }
 
     public AviaoDTO update(Integer aviaoId, AviaoCreateDTO aviaoCreateDTO) throws RegraDeNegocioException {
-        AviaoEntity aviaoEncontrada = aviaoRepository.findById(aviaoId)
+        AviaoEntity aviaoEncontrado = aviaoRepository.findById(aviaoId)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
+
+        if (aviaoEncontrado.getStatus() == Status.CANCELADO) {
+            throw new RegraDeNegocioException("Avião cancelado, impossível edita-lo!");
+        }
 
         companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
 
-        /// update
+        aviaoEncontrado.setCapacidade(aviaoCreateDTO.getCapacidade());
+        aviaoEncontrado.setIdCompanhia(aviaoCreateDTO.getIdCompanhia());
+        aviaoEncontrado.setUltimaManutencao(aviaoCreateDTO.getUltimaManutencao());
 
-        return objectMapper.convertValue(aviaoRepository.save(aviaoEncontrada), AviaoDTO.class);
+        return objectMapper.convertValue(aviaoRepository.save(aviaoEncontrado), AviaoDTO.class);
     }
 
     public void delete(Integer aviaoId) throws RegraDeNegocioException {
         AviaoEntity aviao = getAviao(aviaoId);
 
-        aviaoRepository.deleteById(aviaoId);
+        aviaoRepository.delete(aviao);
     }
 
     public AviaoDTO getById(Integer id) throws RegraDeNegocioException {
-        AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.findById(id)
+        return objectMapper.convertValue(aviaoRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!")), AviaoDTO.class);
-        return aviaoDTO;
     }
 
     protected AviaoEntity getAviao(Integer idAviao) throws RegraDeNegocioException {
         return aviaoRepository.findById(idAviao)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
     }
+
 
 }

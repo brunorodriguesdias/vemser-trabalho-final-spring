@@ -30,7 +30,7 @@ public class AviaoEntity {
     private Integer idCompanhia;
 
     @Column(name = "CODIGO_AVIAO")
-    private Integer codigoAviao;
+    private String codigoAviao;
 
     @Column(name = "CAPACIDADE")
     private Integer capacidade;

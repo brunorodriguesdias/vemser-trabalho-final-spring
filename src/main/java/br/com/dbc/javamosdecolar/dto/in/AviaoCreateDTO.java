@@ -18,7 +18,7 @@ public class AviaoCreateDTO {
 
     @NotBlank
     @Schema(description = "Código do avião", example = "")
-    private Integer codigoAviao;
+    private String codigoAviao;
 
     @NotBlank
     @Size(min = 1, max = 3)
