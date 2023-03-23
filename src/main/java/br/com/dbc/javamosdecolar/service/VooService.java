@@ -36,7 +36,7 @@ public class VooService {
         vooRepository.save(vooEntity);
 
         Set<PassagemEntity> listaPassagens = new HashSet<>();
-        
+
 
         while (vooEntity.getAssentosDisponiveis() > 0) {
 
