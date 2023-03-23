@@ -17,7 +17,7 @@ public class AviaoCreateDTO {
     private Integer idCompanhia;
 
     @NotBlank
-    @Schema(description = "Código do avião", example = "")
+    @Schema(description = "Código do avião", example = "PP-XTY")
     private String codigoAviao;
 
     @NotBlank

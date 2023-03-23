@@ -41,7 +41,7 @@ public class AviaoService {
 
     public AviaoDTO create(AviaoCreateDTO aviaoCreateDTO) throws RegraDeNegocioException {
 
-        if(aviaoRepository.findByCodigoAviao(aviaoCreateDTO.getCodigoAviao()).isPresent()) {
+        if(aviaoRepository.existsByCodigoAviao(aviaoCreateDTO.getCodigoAviao())) {
             throw new RegraDeNegocioException("Já existe avião com esse código!");
         }
 
