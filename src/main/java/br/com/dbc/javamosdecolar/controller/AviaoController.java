@@ -1,0 +1,49 @@
+package br.com.dbc.javamosdecolar.controller;
+
+import br.com.dbc.javamosdecolar.docs.AviaoDoc;
+import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.outs.AviaoDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.service.AviaoService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
+@RestController
+@Validated
+@RequestMapping("/aviao")
+@RequiredArgsConstructor
+public class AviaoController implements AviaoDoc {
+    private final AviaoService aviaoService;
+
+    @GetMapping
+    public ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam Integer pagina,
+                                                        @RequestParam Integer tamanho) {
+        return new ResponseEntity<>(aviaoService.getAll(pagina, tamanho), OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<AviaoDTO> create(@Valid @RequestBody AviaoCreateDTO aviao)
+            throws RegraDeNegocioException{
+        return new ResponseEntity<>(aviaoService.create(aviao), CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<AviaoDTO> update(@Valid @RequestBody AviaoCreateDTO aviao)
+            throws RegraDeNegocioException{
+        return new ResponseEntity<>(aviaoService.create(aviao), OK);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer id) throws RegraDeNegocioException {
+        aviaoService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
