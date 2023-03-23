@@ -42,8 +42,8 @@ public class AviaoController implements AviaoDoc {
     }
 
     @DeleteMapping("/deletar/{idAviao}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) throws RegraDeNegocioException {
-        aviaoService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Integer idAviao) throws RegraDeNegocioException {
+        aviaoService.delete(idAviao);
         return ResponseEntity.noContent().build();
     }
 
