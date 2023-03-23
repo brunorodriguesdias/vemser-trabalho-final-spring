@@ -1,10 +1,12 @@
 package br.com.dbc.javamosdecolar.entity;
 
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "AVIAO")
+@SQLDelete(sql = "UPDATE AVIACAO.AVIAO p SET p.status = 1 WHERE p.id_aviao=?")
 public class AviaoEntity {
 
     @Id
@@ -34,6 +37,10 @@ public class AviaoEntity {
 
     @Column(name = "ULTIMA_MANUTENCAO")
     private LocalDate ultimaManutencao;
+
+    @Column(name = "STATUS")
+    private Status status;
+
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
