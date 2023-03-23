@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.entity;
 
+import br.com.dbc.javamosdecolar.entity.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,6 +37,9 @@ public class VooEntity {
 
     @Column(name = "DATA_CHEGADA")
     private LocalDateTime dataChegada;
+
+    @Column(name = "STATUS")
+    private Status status;
 
     @Column(name = "ASSENTOS_DISPONIVEIS")
     private Integer assentosDisponiveis;

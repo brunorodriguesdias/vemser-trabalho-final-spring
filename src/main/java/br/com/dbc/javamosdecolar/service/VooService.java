@@ -45,7 +45,7 @@ public class VooService {
                 .orElseThrow(() -> new RegraDeNegocioException("Voô não encontrado!"));
 
         if (vooEncontrado.getStatus() == Status.CANCELADO) {
-            throw new RegraDeNegocioException("Voô cancelado, não é possível editar!")
+            throw new RegraDeNegocioException("Voô cancelado, não é possível editar!");
         }
 
         vooEncontrado.setOrigem(vooCreateDTO.getOrigem());
