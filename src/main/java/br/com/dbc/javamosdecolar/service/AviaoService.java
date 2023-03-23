@@ -58,8 +58,8 @@ public class AviaoService {
         AviaoEntity aviaoEncontrado = aviaoRepository.findById(aviaoId)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
 
-        if (aviaoEncontrado.getStatus() == Status.CANCELADO) {
-            throw new RegraDeNegocioException("Avião cancelado, impossível edita-lo!");
+        if (!aviaoEncontrado.isAtivo()) {
+            throw new RegraDeNegocioException("Avião inativo, impossível edita-lo!");
         }
 
         companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
@@ -74,6 +74,9 @@ public class AviaoService {
     public void delete(Integer aviaoId) throws RegraDeNegocioException {
         AviaoEntity aviao = getAviao(aviaoId);
 
+        if (!aviao.isAtivo()) {
+            throw new RegraDeNegocioException("Avião já está inativo!");
+        }
         aviaoRepository.delete(aviao);
     }
 

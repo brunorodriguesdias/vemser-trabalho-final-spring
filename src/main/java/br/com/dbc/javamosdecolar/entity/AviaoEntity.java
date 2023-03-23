@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "AVIAO")
-@SQLDelete(sql = "UPDATE AVIACAO.AVIAO p SET p.status = 1 WHERE p.id_aviao=?")
+@SQLDelete(sql = "UPDATE AVIACAO.AVIAO p SET p.ativo = 0 WHERE p.id_aviao=?")
 public class AviaoEntity {
 
     @Id
@@ -38,8 +39,8 @@ public class AviaoEntity {
     @Column(name = "ULTIMA_MANUTENCAO")
     private LocalDate ultimaManutencao;
 
-    @Column(name = "STATUS")
-    private Status status;
+    @Column(name = "ATIVO")
+    private boolean ativo;
 
 
     @JsonIgnore
