@@ -126,13 +126,6 @@ public class PassagemService {
                 listaDePassagensDisponiveis);
     }
 
-    //PASSAR VALIDAR DATAS PARA VOO
-    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
-        if (dataChegada.isBefore(dataPartida)) {
-            throw new RegraDeNegocioException("Data inválida!");
-        }
-    }
-
     protected PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {
         return passagemRepository.findById(idPassagem)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
