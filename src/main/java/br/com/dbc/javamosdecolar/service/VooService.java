@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
+import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
@@ -13,12 +14,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class VooService {
     private final VooRepository vooRepository;
-
+    private final PassagemService passagemService;
     private AviaoService aviaoService;
     private final ObjectMapper objectMapper;
 
@@ -30,6 +33,14 @@ public class VooService {
         validarDatas(vooCreateDTO.getDataPartida(), vooCreateDTO.getDataPartida());
 
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
+        vooRepository.save(vooEntity);
+
+        Set<PassagemEntity> listaPassagens = new HashSet<>();
+        
+
+        while (vooEntity.getAssentosDisponiveis() > 0) {
+
+        }
 
         return objectMapper.convertValue(vooEntity, VooDTO.class);
     }

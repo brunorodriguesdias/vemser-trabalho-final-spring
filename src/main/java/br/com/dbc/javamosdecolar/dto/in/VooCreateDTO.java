@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 @Data
@@ -31,8 +32,8 @@ public class VooCreateDTO {
     private LocalDateTime dataChegada;
 
     @NotBlank
-    @Size(min = 1, max = 3)
-    @Schema(description = "Quantidade de assentos disponiveis", example = "35")
+    @Positive
+    @Schema(description = "Quantidade de assentos disponiveis", example = "20")
     private Integer assentosDisponiveis;
 
     @NotBlank
