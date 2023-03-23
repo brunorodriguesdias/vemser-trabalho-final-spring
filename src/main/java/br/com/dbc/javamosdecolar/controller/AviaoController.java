@@ -35,15 +35,20 @@ public class AviaoController implements AviaoDoc {
         return new ResponseEntity<>(aviaoService.create(aviao), CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<AviaoDTO> update(@Valid @RequestBody AviaoCreateDTO aviao)
-            throws RegraDeNegocioException{
+    @PutMapping("/{idAviao}")
+    public ResponseEntity<AviaoDTO> update(@PathVariable("idAviao") Integer idAviao,
+                                           @Valid @RequestBody AviaoCreateDTO aviao) throws RegraDeNegocioException{
         return new ResponseEntity<>(aviaoService.create(aviao), OK);
     }
 
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/deletar/{idAviao}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) throws RegraDeNegocioException {
         aviaoService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<AviaoDTO> getById(Integer idAviao) throws RegraDeNegocioException {
+        return new ResponseEntity<>(aviaoService.getById(idAviao), OK);
     }
 }
