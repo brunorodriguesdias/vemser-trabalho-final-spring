@@ -61,6 +61,9 @@ public class PassagemEntity {
     @Column(name = "ID_COMPANHIA")
     private Integer idCompanhia;
 
+    @Column(name = "ID_VOO")
+    private Integer idVoo;
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
@@ -68,12 +71,11 @@ public class PassagemEntity {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false)
+    @JoinColumn(name = "ID_VENDA", referencedColumnName = "ID_VENDA", insertable = false, updatable = false)
     private VendaEntity venda;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_AVIAO", referencedColumnName = "ID_AVIAO",
-            insertable = false)
-    private AviaoEntity aviao;
+    @JoinColumn(name = "ID_VOO", referencedColumnName = "ID_VOO", insertable = false, updatable = false)
+    private VooEntity voo;
 }

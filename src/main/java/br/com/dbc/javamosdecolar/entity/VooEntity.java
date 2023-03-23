@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -45,5 +45,9 @@ public class VooEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_AVIAO", referencedColumnName = "ID_AVIAO", insertable = false, updatable = false)
     private AviaoEntity aviao;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "voo")
+    private Set<PassagemEntity> passagens;
 
 }
