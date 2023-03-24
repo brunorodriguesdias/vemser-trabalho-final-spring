@@ -31,20 +31,20 @@ public class VooController implements VooDoc {
     @GetMapping("/voo-aviao")
     public ResponseEntity<PageDTO<VooDTO>> getByVooAviao(@RequestParam("idAviao") Integer idAviao,
                                                         @RequestParam("pagina") Integer pagina,
-                                                        @RequestParam("tamanho") Integer tamanho) {
+                                                        @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getByVooAviao(idAviao, pagina, tamanho), OK);
     }
 
     @GetMapping("/voo-companhia")
     public ResponseEntity<PageDTO<VooDTO>> getByVooCompanhia(@RequestParam("idCompanhia") Integer idCompanhia,
                                                          @RequestParam("pagina") Integer pagina,
-                                                         @RequestParam("tamanho") Integer tamanho) {
+                                                         @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getByVooCompanhia(idCompanhia, pagina, tamanho), OK);
     }
 
     @GetMapping("/voo-all")
     public ResponseEntity<PageDTO<VooDTO>> getAllVoo( @RequestParam("pagina") Integer pagina,
-                                                             @RequestParam("tamanho") Integer tamanho){
+                                                             @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getAllVoo(pagina, tamanho), OK);
     }
 
@@ -62,6 +62,6 @@ public class VooController implements VooDoc {
     @DeleteMapping
     public ResponseEntity<Void> delete(@PathVariable("idVoo") Integer idVoo) throws RegraDeNegocioException {
         vooService.delete(idVoo);
-        return  ResponseEntity.noContent().build();
+        return  ResponseEntity.ok().build();
     }
 }

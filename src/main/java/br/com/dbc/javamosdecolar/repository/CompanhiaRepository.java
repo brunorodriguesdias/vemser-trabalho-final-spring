@@ -40,7 +40,7 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
     @Query("SELECT c FROM COMPANHIA c " +
             " JOIN AVIAO av ON av.idCompanhia = c.idUsuario" +
             " JOIN VOO v ON v.idAviao = av.idAviao" +
-            " JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
+            " LEFT JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
             " WHERE " +
             " CASE :param" +
             "   WHEN 'idPassagem' THEN p.idPassagem" +
@@ -48,5 +48,5 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
             "   WHEN 'idAviao' THEN av.idAviao" +
             " END" +
             " = :value")
-    CompanhiaEntity findCompanhia(String param, Integer value);
+    CompanhiaEntity findSingleResultByParamAndValue(String param, Integer value);
 }

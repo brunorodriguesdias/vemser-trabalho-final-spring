@@ -14,7 +14,7 @@ public interface VooRepository extends JpaRepository<VooEntity, Integer> {
             " JOIN AVIAO av ON v.idAviao = av.idAviao" +
             " JOIN COMPANHIA c ON c.idUsuario = av.idCompanhia" +
             " WHERE c.idUsuario = :idCompanhia")
-    Page<VooEntity> findVooIdCompanhia(Integer idCompanhia);
+    Page<VooEntity> findVooIdCompanhia(Integer idCompanhia, Pageable pageable);
 
     Page<VooEntity> findByIdAviao(Integer idAviao, Pageable pageable);
 }

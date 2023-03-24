@@ -107,7 +107,7 @@ public class CompanhiaService {
     }
 
     protected CompanhiaEntity recuperarCompanhia(String param, Integer idPassagem){
-        return companhiaRepository.findCompanhia(param, idPassagem);
+        return companhiaRepository.findSingleResultByParamAndValue(param, idPassagem);
     }
 
     protected void validCnpj(String cnpj) throws RegraDeNegocioException {

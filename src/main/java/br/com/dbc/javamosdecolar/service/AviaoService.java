@@ -4,7 +4,6 @@ import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AviaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
-import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AviaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -90,6 +89,4 @@ public class AviaoService {
         return aviaoRepository.findById(idAviao)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
     }
-
-
 }

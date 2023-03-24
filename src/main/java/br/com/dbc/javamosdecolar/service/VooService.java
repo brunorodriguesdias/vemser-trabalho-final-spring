@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
+import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
@@ -23,21 +24,26 @@ import java.util.List;
 public class VooService {
     private final VooRepository vooRepository;
     private final CompanhiaService companhiaService;
-    private AviaoService aviaoService;
+    private final AviaoService aviaoService;
     private final ObjectMapper objectMapper;
 
     public VooDTO create(VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
 
         //VALIDANDO AVIAO
-        aviaoService.getAviao(vooCreateDTO.getIdAviao());
+        AviaoEntity aviaoEntity = aviaoService.getAviao(vooCreateDTO.getIdAviao());
 
         //VALIDANDO DATA
         validarDatas(vooCreateDTO.getDataPartida(), vooCreateDTO.getDataPartida());
 
+        //SALVANDO VOO NO BD
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
+        vooEntity.setStatus(Status.DISPONIVEL);
         vooEntity = vooRepository.save(vooEntity);
 
-        return objectMapper.convertValue(vooEntity, VooDTO.class);
+        VooDTO vooDTO = objectMapper.convertValue(vooEntity, VooDTO.class);
+        vooDTO.setNomeCompanhia(recuperarCompanhia(vooDTO.getIdVoo()).getNome());
+
+        return vooDTO;
     }
 
     public VooDTO update(Integer vooId, VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
@@ -48,12 +54,18 @@ public class VooService {
             throw new RegraDeNegocioException("Voô cancelado, não é possível editar!");
         }
 
+        vooEncontrado.setIdAviao(vooCreateDTO.getIdAviao());
         vooEncontrado.setOrigem(vooCreateDTO.getOrigem());
         vooEncontrado.setDestino(vooCreateDTO.getDestino());
         vooEncontrado.setDataPartida(vooCreateDTO.getDataPartida());
         vooEncontrado.setDataChegada(vooCreateDTO.getDataChegada());
 
-        return objectMapper.convertValue(vooEncontrado, VooDTO.class);
+        //UPDATE VOO
+        vooRepository.save(vooEncontrado);
+
+        VooDTO vooDTO = objectMapper.convertValue(vooEncontrado, VooDTO.class);
+        vooDTO.setNomeCompanhia(recuperarCompanhia(vooDTO.getIdVoo()).getNome());
+        return vooDTO;
     }
 
     public void delete(Integer idVoo) throws RegraDeNegocioException {
@@ -63,7 +75,7 @@ public class VooService {
             throw new RegraDeNegocioException("Voô já cancelado!");
         }
 
-        vooRepository.deleteById(idVoo);
+        vooRepository.delete(vooEntity);
     }
 
     public VooDTO getById(Integer idVoo) throws RegraDeNegocioException {
@@ -73,22 +85,26 @@ public class VooService {
         return vooDTO;
     }
 
-    public PageDTO<VooDTO> getByVooAviao(Integer idAviao, Integer pagina, Integer tamanho){
+    public PageDTO<VooDTO> getByVooAviao(Integer idAviao, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         Pageable pageable = PageRequest.of(pagina, tamanho);
         return listaPaginada(vooRepository.findByIdAviao(idAviao, pageable), pagina, tamanho);
     }
 
-    public PageDTO<VooDTO> getByVooCompanhia(Integer idCompanhia, Integer pagina, Integer tamanho) {
-        Page<VooEntity> pageVooEntity = vooRepository.findVooIdCompanhia(idCompanhia);
-        return listaPaginada(pageVooEntity, pagina, tamanho);
+    public PageDTO<VooDTO> getByVooCompanhia(Integer idCompanhia, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
+        Pageable pageable = PageRequest.of(pagina, tamanho);
+        return listaPaginada(vooRepository.findVooIdCompanhia(idCompanhia, pageable), pagina, tamanho);
     }
 
-    public PageDTO<VooDTO> getAllVoo(Integer pagina, Integer tamanho){
+    public PageDTO<VooDTO> getAllVoo(Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         Pageable pageable = PageRequest.of(pagina, tamanho);
         return listaPaginada(vooRepository.findAll(pageable), pagina, tamanho);
     }
 
-    private PageDTO<VooDTO> listaPaginada (Page<VooEntity> pageVooEntity, Integer pagina, Integer tamanho){
+    private PageDTO<VooDTO> listaPaginada (Page<VooEntity> pageVooEntity, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
+        if(pageVooEntity.isEmpty()){
+            throw new RegraDeNegocioException("Id não encontrado!");
+        }
+
         List<VooDTO> listaVoo = pageVooEntity
                 .map(voo -> {
                     VooDTO vooDTO = objectMapper.convertValue(voo, VooDTO.class);
