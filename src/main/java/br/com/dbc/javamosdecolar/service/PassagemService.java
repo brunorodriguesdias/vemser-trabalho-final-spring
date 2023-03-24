@@ -73,7 +73,7 @@ public class PassagemService {
 
         //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
         Integer nPassagem = passagemRepository.findByProximaPassagem(passagemCreateAmountDTO.getIdVoo());
-        CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vooEntity.getAviao().getIdCompanhia());
+        CompanhiaEntity companhiaEntity = companhiaService.getCompanhiaComId(vooEntity.getAviao().getIdCompanhia());
 
         //CRIANDO PASSAGENS SOLICITADAS
         for(int i = 0; i < passagemCreateAmountDTO.getQuantidadeDePassagens(); i ++){

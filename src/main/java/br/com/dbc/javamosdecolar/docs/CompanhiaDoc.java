@@ -52,7 +52,7 @@ public interface CompanhiaDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/logar")
+    @GetMapping("/buscar-companhia")
     ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException;
 
     @Operation(summary = "Criar companhia", description = "Cria uma nova companhia")
@@ -89,5 +89,6 @@ public interface CompanhiaDoc {
             }
     )
     @DeleteMapping("/deletar")
-    ResponseEntity<Void> delete(@RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@RequestHeader("id") Integer id,
+                                @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
 }
