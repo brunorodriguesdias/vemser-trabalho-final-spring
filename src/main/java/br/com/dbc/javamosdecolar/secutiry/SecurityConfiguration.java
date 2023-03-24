@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
-                                .antMatchers("/").hasRole("ADMIN")
+                                .antMatchers("/**/").hasRole("ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
@@ -37,7 +37,9 @@ public class SecurityConfiguration {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/swagger-ui/**",
+        return (web) -> web.ignoring().antMatchers(
+                "/",
+                "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/auth",
                 "/auth/create");

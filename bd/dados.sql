@@ -8,29 +8,52 @@
 --DELETE COMPANHIA;
 --DELETE COMPRADOR;
 --DELETE USUARIO;
+
+INSERT INTO AVIACAO.CARGO (id_cargo, nome) VALUES (seq_cargo.nextval, 'ROLE_ADMIN');
+INSERT INTO AVIACAO.CARGO (id_cargo, nome) VALUES (seq_cargo.nextval, 'ROLE_COMPANHIA');
+INSERT INTO AVIACAO.CARGO (id_cargo, nome) VALUES (seq_cargo.nextval, 'ROLE_COMPRADOR');
+
+
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'tam123@email.com', 'senhasecreta', 'companhia tam', '0', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'tam123@email.com', '4dafba3ed14e5d9ea6a9b345f64fbcfa26da33d39eb39dc8eacc28b9dfcdb171c90cf69ffbc9798e', 'companhia tam', '0', 1); -- senhasecreta
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'gol123@email.com', 'senhagol', 'companhia gol', '0', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'gol123@email.com', '651430ab2fa6a8df1de387d79cf27d28b1e5acfa8e40da0ae7c5aa5bfde5b86c50fa5e5b8afa6db5', 'companhia gol', '0', 1); -- senhagol
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'azul123@email.com', 'senhaazul', 'companhia azul', '0', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'azul123@email.com', '236ccc00bfbace55f3ed25829352caf0b35e14bcd456dd25107482e321a68b621524f48f5329f61e', 'companhia azul', '0', 1); -- senhaazul
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'fly123@email.com', 'senhafly', 'companhia fly emirates', '0', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'fly123@email.com', 'aa11f03cdaee11dab74acd847055175932fea8ec2e988c4c028c432bf168191f10cba9410307d39b', 'companhia fly emirates', '0', 1); -- senhafly
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'american123@email.com', 'senhaamerican', 'companhia american airlines', '0', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'american123@email.com', '3801375e8a3ac3551ac914a6085208dacb2cbe811cecc60c3f65866ff06c36f32b6b8e98389e397c', 'companhia american airlines', '0', 1); -- senhaamerican
+
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (2, 1);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (2, 2);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (2, 3);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (2, 4);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (2, 5);
 
 -- [2] - Comprador
 
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'castelovski@email.com', 'umasenha', 'kelly castelo', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'castelovski@email.com', '6ed5dfc521b61da70b3ddcd19301aadd7fd245d82f870761c795067b663ee27130b71918ab986c09', 'kelly castelo', '1', 1); -- umasenha
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'bruno123@email.com', 'esqueciasenha', 'bruno rodrigues', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'bruno123@email.com', '7317a889b3efc5a5971b3f80a59e76b299c41b64b0146618e32fa92349bf00cecae1a2c974da38ae', 'bruno rodrigues', '1', 1); --esqueciasenha
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'alasca123@email.com', 'alascalinda', 'alasca rodrigues', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'alasca123@email.com', '18aa7564f1fe9c1b3142afd9089bedcd5942a1770665ac59da93c531ec54b51c51cdf2de3eb1ee80', 'alasca rodrigues', '1', 1); --alascalinda
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'risadinha@email.com', 'mari123', 'mariana machado', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'risadinha@email.com', '6b5068ac3cf7427b23534b841794902ccfd70e4a082ba6d650a76e3bfed56c1d2e489ac2000d6312', 'mariana machado', '1', 1); --mari123
 INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
-	VALUES (AVIACAO.seq_usuario.nextval, 'robs@email.com', 'robervaldo123', 'robervaldo da silva', '1', 1);
+	VALUES (AVIACAO.seq_usuario.nextval, 'robs@email.com', '23a41a73819d0149061fa68acae2ac60595e56bc6391400ff37943472abbb7af0bd5ab2addb81ed6', 'robervaldo da silva', '1', 1); --robervaldo123
+
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (3, 6);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (3, 7);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (3, 8);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (3, 9);
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (3, 10);
+
+
+INSERT INTO AVIACAO.USUARIO (id_usuario, login, senha, nome, tipo, ativo)
+	VALUES (AVIACAO.seq_usuario.nextval, 'admin@email.com', 'f0ac1888bb8b2446937eaadcc07fbb06910b8fb0fee62f3aa95d19f84217c65de99c10fd84d87217', 'ADMINISTRADOR', '2', 1); --admin
+INSERT INTO AVIACAO.USUARIO_CARGO (id_cargo, ID_USUARIO) VALUES (1, 11);
 
 -- compradores --
 
@@ -199,3 +222,4 @@ UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 2, STATUS = 3 WHERE ID_PASSAGEM = 2;
 UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 3, STATUS = 3 WHERE ID_PASSAGEM = 3;
 UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 4, STATUS = 3 WHERE ID_PASSAGEM = 4;
 UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 5, STATUS = 3 WHERE ID_PASSAGEM = 5;
+
