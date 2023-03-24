@@ -33,7 +33,7 @@ public class CompanhiaController implements CompanhiaDoc{
 
     @GetMapping("/retornar-passagens")
     public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-                                                                                @RequestParam Integer tamanho){
+                                                                                @RequestParam Integer tamanho) {
         return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
     }
 

@@ -45,8 +45,13 @@ public class CompradorService {
 
     public PageDTO<CompradorRelatorioDTO> compradorComComprasRelatorio(Integer pagina, Integer tamanho){
         Pageable page = PageRequest.of(pagina, tamanho);
-        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorComComprasRelatorio(page);
+        Integer id = null;
 
+        if(compradorRepository.existsById(usuarioService.getIdLoggedUser())){
+            id = usuarioService.getIdLoggedUser();
+        }
+
+        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorComComprasRelatorio(page, id);
         List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
 
         return new PageDTO<>(pageRelatorios.getTotalElements(),

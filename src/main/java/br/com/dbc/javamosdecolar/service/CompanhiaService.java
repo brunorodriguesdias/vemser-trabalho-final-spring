@@ -46,8 +46,13 @@ public class CompanhiaService {
 
     public PageDTO<CompanhiaRelatorioDTO> companhiaRelatorio(Integer pagina, Integer tamanho){
         Pageable page = PageRequest.of(pagina, tamanho);
-        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page);
+        Integer id = null;
 
+        if(companhiaRepository.existsById(usuarioService.getIdLoggedUser())){
+            id = usuarioService.getIdLoggedUser();
+        }
+
+        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page, id);
         List<CompanhiaRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
 
         return new PageDTO<>(pageRelatorios.getTotalElements(),
