@@ -36,4 +36,11 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
 
     @Query("SELECT c FROM COMPANHIA c WHERE c.login = ?1 AND c.senha = ?2 AND c.ativo = true")
     CompanhiaEntity findByLoginAndSenha(String login, String senha);
+
+    @Query("SELECT c FROM COMPANHIA c " +
+            " JOIN AVIAO av ON av.idCompanhia = c.idUsuario" +
+            " JOIN VOO v ON v.idAviao = av.idAviao" +
+            " JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
+            " WHERE p.idPassagem = :idPassagem")
+    CompanhiaEntity findCompanhiaPassagem(Integer idPassagem);
 }

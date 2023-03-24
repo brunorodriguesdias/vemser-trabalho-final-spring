@@ -69,7 +69,7 @@ public interface PassagemDoc {
     @GetMapping("/new")
     ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina, @RequestParam Integer tamanho);
 
-    @Operation(summary = "Buscar passagens por id da companhia", description = "Lista as passagens id da companhia")
+    @Operation(summary = "Buscar passagens por id do voo", description = "Lista as passagens id do voo")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens solicitada"),
@@ -78,8 +78,8 @@ public interface PassagemDoc {
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
-    @GetMapping("/companhia")
-    ResponseEntity<List<PassagemDTO>> getByCompanhia(@RequestParam("idCompanhia") Integer idCompanhia) throws RegraDeNegocioException;
+    @GetMapping("/voo")
+    ResponseEntity<List<PassagemDTO>> getByVoo(@RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar passagem por valor", description = "Lista as passagens até o limite de valor selecionado")
     @ApiResponses(

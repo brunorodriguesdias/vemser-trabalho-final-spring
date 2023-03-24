@@ -44,9 +44,9 @@ public class VendaService {
             if (passagem.getStatus() != Status.DISPONIVEL) {
                 throw new RegraDeNegocioException("Passagem indisponível!");
             }
-            if (passagem.getCompanhia() != companhiaEntity) {
-                throw new RegraDeNegocioException("Passagem não pertence à essa companhia!");
-            }
+//            if (passagem.getCompanhia() != companhiaEntity) {
+//                throw new RegraDeNegocioException("Passagem não pertence à essa companhia!");
+//            }
 
 
             VendaEntity vendaEntity = objectMapper.convertValue(vendaDTO, VendaEntity.class);

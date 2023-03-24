@@ -1,10 +1,7 @@
 package br.com.dbc.javamosdecolar.service;
 
-import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
-import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
-import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -14,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,14 +28,7 @@ public class VooService {
         validarDatas(vooCreateDTO.getDataPartida(), vooCreateDTO.getDataPartida());
 
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
-        vooRepository.save(vooEntity);
-
-        Set<PassagemEntity> listaPassagens = new HashSet<>();
-
-
-        while (vooEntity.getAssentosDisponiveis() > 0) {
-
-        }
+        vooEntity = vooRepository.save(vooEntity);
 
         return objectMapper.convertValue(vooEntity, VooDTO.class);
     }
@@ -80,5 +68,9 @@ public class VooService {
     protected VooEntity getVoo(Integer idVoo) throws RegraDeNegocioException {
         return vooRepository.findById(idVoo)
                 .orElseThrow(() -> new RegraDeNegocioException("Voô não encontrado!"));
+    }
+
+    protected VooEntity updateAssentosDisponiveis(VooEntity vooEntity){
+        return vooRepository.save(vooEntity);
     }
 }

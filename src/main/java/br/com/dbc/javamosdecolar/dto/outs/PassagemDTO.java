@@ -13,11 +13,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PassagemDTO extends PassagemCreateDTO {
+
     @Schema(description = "id da passagem", example = "1")
     private Integer idPassagem;
 
     @Schema(description = "id da venda", example = "1")
     private Integer idVenda;
+
+    @Schema(description = "numero do assento", example = "1")
+    private Integer numeroAssento;
 
     @Schema(description = "nome da companhia", example = "TAM")
     private String nomeCompanhia;

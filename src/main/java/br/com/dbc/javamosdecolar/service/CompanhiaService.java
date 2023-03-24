@@ -106,6 +106,10 @@ public class CompanhiaService {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompanhiaDTO.class);
     }
 
+    protected CompanhiaEntity recuperarCompanhiaPassagem(Integer idPassagem){
+        return companhiaRepository.findCompanhiaPassagem(idPassagem);
+    }
+
     protected void validCnpj(String cnpj) throws RegraDeNegocioException {
         if (companhiaRepository.existsCompanhiaEntityByCnpjIsContaining(cnpj)) {
             throw new RegraDeNegocioException("Este CNPJ já está cadastrado!");

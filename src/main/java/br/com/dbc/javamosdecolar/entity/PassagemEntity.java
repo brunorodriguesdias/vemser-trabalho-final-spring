@@ -36,7 +36,7 @@ public class PassagemEntity {
     private BigDecimal valor;
 
     @Column(name = "NUMERO_ASSENTO")
-    private String numeroAssento;
+    private Integer numeroAssento;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "TIPO_ASSENTO")
@@ -45,16 +45,8 @@ public class PassagemEntity {
     @Column(name = "ID_VENDA")
     private Integer idVenda;
 
-    @Column(name = "ID_COMPANHIA")
-    private Integer idCompanhia;
-
     @Column(name = "ID_VOO")
     private Integer idVoo;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
-    private CompanhiaEntity companhia;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)

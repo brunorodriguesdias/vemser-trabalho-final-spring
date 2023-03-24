@@ -1,6 +1,7 @@
 package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.docs.PassagemDoc;
+import br.com.dbc.javamosdecolar.dto.in.PassagemCreateAmountDTO;
 import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PassagemDTO;
@@ -31,6 +32,11 @@ public class PassagemController implements PassagemDoc {
         return new ResponseEntity<>(this.passagemService.create(passagemDTO), CREATED);
     }
 
+    @PostMapping("/amount")
+    public ResponseEntity<List<PassagemDTO>> createAmount(@RequestBody @Valid PassagemCreateAmountDTO passagemCreateAmountDTO) throws RegraDeNegocioException {
+        return new ResponseEntity<>(this.passagemService.createAmount(passagemCreateAmountDTO), CREATED);
+    }
+
     @PutMapping("/{idPassagem}")
     public ResponseEntity<PassagemDTO> update(@PathVariable("idPassagem") Integer id,
                                               @RequestBody @Valid PassagemCreateDTO passagemDTO)
@@ -50,10 +56,10 @@ public class PassagemController implements PassagemDoc {
         return new ResponseEntity<>(this.passagemService.getUltimasPassagens(pagina, tamanho), OK);
     }
 
-    @GetMapping("/companhia")
-    public ResponseEntity<List<PassagemDTO>> getByCompanhia(
-            @RequestParam("idCompanhia") Integer idCompanhia) throws RegraDeNegocioException {
-        return new ResponseEntity<>(this.passagemService.getByCompanhia(idCompanhia), OK);
+    @GetMapping("/voo")
+    public ResponseEntity<List<PassagemDTO>> getByVoo(
+            @RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException {
+        return new ResponseEntity<>(this.passagemService.getByCompanhia(idVoo), OK);
     }
 
     @GetMapping("/valor")

@@ -157,28 +157,28 @@ INSERT INTO AVIACAO.VOO(id_voo, origem, destino, data_partida, data_chegada, ass
 -- [2] - executivo
 -- [3] - econômico
 
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'd111110c-a2be-4995-983b-bc386dcee06a', 2, 200.0, 'A1', 1, 1, 1 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'f333330e-a4cg-4997-983d-bc386dcee06c', 2, 300.0, 'A1', 1, 2, 2 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'h555550g-a6ei-4999-983f-bc386dcee06e', 2, 800.0, 'A1', 2, 3, 3 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'w888881s-b3km-2345-678r-hj098uyt67i', 2, 700.0, 'A1', 2, 4, 4 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'd666662p-e9th-4567-890y-po098ujh65t', 2, 600.0, 'A1', 2, 5, 5 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'd111110c-a2be-4995-983b-bc386dcee06a', 2, 200.0, 1, 1, 1 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'f333330e-a4cg-4997-983d-bc386dcee06c', 2, 300.0, 1, 1, 2 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'h555550g-a6ei-4999-983f-bc386dcee06e', 2, 800.0, 1, 2, 3 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'w888881s-b3km-2345-678r-hj098uyt67i', 2, 700.0, 1, 2, 4 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'd666662p-e9th-4567-890y-po098ujh65t', 2, 600.0, 1, 2, 5 );
 
 
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'e222220d-a3bf-4996-983c-bc386dcee06b', 2, 800.0, 'A1', 2, 1, 6 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'g444440f-a5dh-4998-983e-bc386dcee06d', 2, 120.0, 'A1', 3, 2, 7 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 't222220r-z8uj-9876-765t-df743ehg87r', 2, 400.0, 'A1', 2, 3, 8 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'f444441a-x2bn-3456-789t-lk765jhg43s', 2, 100.0, 'A1', 3, 4, 9 );
-INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_companhia, id_voo)
-	VALUES (AVIACAO.seq_passagem.nextval, 'j111116c-q7fg-5678-901u-mn432lkj10q', 2, 150.0, 'A1', 3, 5, 10 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'e222220d-a3bf-4996-983c-bc386dcee06b', 2, 800.0, 1, 2, 6 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'g444440f-a5dh-4998-983e-bc386dcee06d', 2, 120.0, 1, 2, 7 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 't222220r-z8uj-9876-765t-df743ehg87r', 2, 400.0, 1, 2, 8 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'f444441a-x2bn-3456-789t-lk765jhg43s', 2, 100.0, 1, 2, 9 );
+INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento, tipo_assento, id_voo)
+	VALUES (AVIACAO.seq_passagem.nextval, 'j111116c-q7fg-5678-901u-mn432lkj10q', 2, 150.0, 1, 2, 10 );
 
 
 --/ VENDAS --/

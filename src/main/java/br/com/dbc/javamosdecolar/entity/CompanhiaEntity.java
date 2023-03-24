@@ -34,10 +34,6 @@ public class CompanhiaEntity extends UsuarioEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "companhia")
-    private Set<PassagemEntity> passagens;
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "companhia")
     private Set<AviaoEntity> avioes;
 }
 
