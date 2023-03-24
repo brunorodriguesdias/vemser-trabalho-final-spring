@@ -8,11 +8,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class TokenService {
@@ -22,6 +24,8 @@ public class TokenService {
 
     @Value("${jwt.expiration}")
     private String expiration;
+
+    private static final String CARGOS_CHAVE = "cargos";
 
     public String gerarToken(UsuarioEntity usuarioEncontrado) throws RegraDeNegocioException {
         String meuToken = Jwts.builder()
@@ -45,7 +49,13 @@ public class TokenService {
                     .getBody();
             String user = body.get(Claims.ID, String.class);
             if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+
+                List<String> cargos = body.get(CARGOS_CHAVE, List.class);
+                List<SimpleGrantedAuthority> cargosDoUsuario = cargos.stream()
+                        .map(authority -> new SimpleGrantedAuthority(authority))
+                        .toList();
+
+                return new UsernamePasswordAuthenticationToken(user, null, cargosDoUsuario);
             }
         } catch (Exception e) {
             return null;

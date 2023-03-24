@@ -1,6 +1,7 @@
 package br.com.dbc.javamosdecolar.entity;
 
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,9 +44,13 @@ public class UsuarioEntity implements UserDetails {
     @Column(name = "ATIVO", nullable = false)
     private Boolean ativo;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "usuarios", fetch = FetchType.LAZY)
+    private Set<CargoEntity> cargos;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return cargos;
     }
 
     @Override
