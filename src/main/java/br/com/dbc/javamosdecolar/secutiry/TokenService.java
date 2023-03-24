@@ -17,10 +17,10 @@ import java.util.Collections;
 @Service
 public class TokenService {
 
-    @Value("$jwt.secret")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("$jwt.expiration")
+    @Value("${jwt.expiration}")
     private String expiration;
 
     public String gerarToken(UsuarioEntity usuarioEncontrado) throws RegraDeNegocioException {

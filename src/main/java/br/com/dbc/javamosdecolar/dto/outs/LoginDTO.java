@@ -1,17 +1,19 @@
 package br.com.dbc.javamosdecolar.dto.outs;
 
-import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
-import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
+
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LoginDTO extends UsuarioCreateDTO {
-    private Integer idUsuario;
+public class LoginDTO {
+    @NotNull
+    @Schema(description = "Login de acesso ao sistema", example = "example@dbccompany.com.br")
+    private String login;
 
-    private TipoUsuario tipoUsuario;
-
-    private Boolean ativo;
+    @NotNull
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(description = "Senha de acesso ao sistema", example = "123456")
+    private String senha;
 }

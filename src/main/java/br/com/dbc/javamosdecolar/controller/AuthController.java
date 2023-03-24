@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.controller;
 
 import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LoginDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.secutiry.TokenService;
 import br.com.dbc.javamosdecolar.service.UsuarioService;
@@ -29,12 +30,12 @@ public class AuthController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<LoginDTO> create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<UsuarioDTO> create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(usuarioService.create(usuarioCreateDTO), HttpStatus.OK);
     }
 
     @GetMapping("/get-usuario-loggado")
-    public ResponseEntity<LoginDTO> getUsuarioLogado() throws RegraDeNegocioException {
+    public ResponseEntity<UsuarioDTO> getUsuarioLogado() throws RegraDeNegocioException {
         return new ResponseEntity<>(usuarioService.getLoggedUser(), HttpStatus.OK);
     }
 }

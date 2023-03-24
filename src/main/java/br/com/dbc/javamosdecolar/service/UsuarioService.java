@@ -2,12 +2,12 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LoginDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,7 +34,7 @@ public class UsuarioService {
         this.objectMapper = objectMapper;
     }
 
-    public LoginDTO create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
 
         StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder();
@@ -45,7 +45,7 @@ public class UsuarioService {
 
         usuarioRepository.save(usuarioEntity);
 
-        return objectMapper.convertValue(usuarioEntity, LoginDTO.class);
+        return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
 
     public void deleteById(Integer idUsuario) {
@@ -82,10 +82,10 @@ public class UsuarioService {
         return Integer.parseInt(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 
-    public LoginDTO getLoggedUser() throws RegraDeNegocioException {
+    public UsuarioDTO getLoggedUser() throws RegraDeNegocioException {
         UsuarioEntity usuarioEntity = usuarioRepository.findById(getIdLoggedUser())
                 .orElseThrow(() -> new RegraDeNegocioException("Usuário não encontrado!"));
-        return objectMapper.convertValue(usuarioEntity, LoginDTO.class);
+        return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
 
     public Optional<UsuarioEntity> findByLogin (String login) {
