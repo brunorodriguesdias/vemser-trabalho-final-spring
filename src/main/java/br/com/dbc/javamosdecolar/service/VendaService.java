@@ -33,37 +33,31 @@ public class VendaService {
 
     public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
 
+        UUID codigo = UUID.randomUUID();
 
-            UUID codigo = UUID.randomUUID();
+        CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
 
-            CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
+        PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
+        if (passagem.getStatus() != Status.DISPONIVEL) {
+            throw new RegraDeNegocioException("Passagem indisponível!");
+        }
 
-            CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vendaDTO.getIdCompanhia());
+        CompanhiaEntity companhiaEntity = passagemService.recuperarCompanhia(vendaDTO.getIdPassagem());
 
-            PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
-            if (passagem.getStatus() != Status.DISPONIVEL) {
-                throw new RegraDeNegocioException("Passagem indisponível!");
-            }
-//            if (passagem.getCompanhia() != companhiaEntity) {
-//                throw new RegraDeNegocioException("Passagem não pertence à essa companhia!");
-//            }
+        VendaEntity vendaEntity = objectMapper.convertValue(vendaDTO, VendaEntity.class);
+        vendaEntity.setCodigo(String.valueOf(codigo));
+        vendaEntity.setComprador(compradorEntity);
+        vendaEntity.setPassagem(passagem);
+        vendaEntity.setStatus(Status.CONCLUIDO);
+        vendaEntity.setData(LocalDateTime.now());
+        VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
+        passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
+        VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
 
-            VendaEntity vendaEntity = objectMapper.convertValue(vendaDTO, VendaEntity.class);
-            vendaEntity.setCodigo(String.valueOf(codigo));
-            vendaEntity.setCompanhia(companhiaEntity);
-            vendaEntity.setComprador(compradorEntity);
-            vendaEntity.setPassagem(passagem);
-            vendaEntity.setStatus(Status.CONCLUIDO);
-            vendaEntity.setData(LocalDateTime.now());
-            VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
-            passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
+        emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
 
-            VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
-
-            emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
-
-            return vendaEfetuadaDTO;
+        return vendaEfetuadaDTO;
     }
 
     public boolean delete(Integer idVenda) throws RegraDeNegocioException {
@@ -81,43 +75,48 @@ public class VendaService {
         return true;
     }
 
-    public List<VendaDTO> getHistoricoComprasComprador(Integer idComprador) throws RegraDeNegocioException {
+    public PageDTO<VendaDTO> getHistoricoComprasComprador(Integer idComprador,Integer pagina,
+                                              Integer tamanho) throws RegraDeNegocioException {
+        compradorService.getComprador(idComprador);
 
-            CompradorEntity compradorEntity = compradorService.getComprador(idComprador);
-            List<VendaDTO> vendaDTOList = vendaRepository.findAllByIdComprador(idComprador)
-                    .stream()
-                    .map(venda -> {
-                        VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
-                        return vendaDTO;
-                    }).toList();
-            return vendaDTOList;
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+
+        return listaPaginada(vendaRepository.
+                        findAllByIdComprador(idComprador, solcitacaoPagina),
+                        pagina,
+                        tamanho);
     }
 
-    public List<VendaDTO> getHistoricoVendasCompanhia(Integer idCompanhia) throws RegraDeNegocioException {
+    public PageDTO<VendaDTO> getHistoricoVendasCompanhia(Integer idCompanhia, Integer pagina,
+                                             Integer tamanho) throws RegraDeNegocioException {
 
-        CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(idCompanhia);
+        companhiaService.getCompanhia(idCompanhia);
 
-        List<VendaDTO> vendaDTOList =  vendaRepository.findAllByIdCompanhia(idCompanhia)
-                .stream()
-                .map(venda -> {
-                    VendaDTO vendaDTO = objectMapper.convertValue(venda, VendaDTO.class);
-                    return vendaDTO;
-                }).toList();
-        return vendaDTOList;
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+
+        return listaPaginada(vendaRepository.
+                        findAllByIdCompanhia(idCompanhia, solcitacaoPagina),
+                pagina,
+                tamanho);
     }
 
-    public PageDTO<VendaDTO> getVendasBetween(LocalDateTime inicio, LocalDateTime fim, Integer pagina, Integer tamanho) {
+    public PageDTO<VendaDTO> getVendasBetween(LocalDateTime inicio, LocalDateTime fim,
+                                              Integer pagina, Integer tamanho) {
         Pageable solicitacaoPagina = PageRequest.of(pagina, tamanho);
-        Page<VendaEntity> vendasBetween = vendaRepository.findAllByDataBetween(solicitacaoPagina, inicio, fim);
+        Page<VendaDTO> vendasBetween = vendaRepository.findAllByDataBetween(inicio, fim,
+                                                                        solicitacaoPagina);
 
-        List<VendaDTO> paginaDeVendasDTO = vendasBetween.getContent().stream()
-                .map(pessoas -> objectMapper.convertValue(pessoas, VendaDTO.class))
-                .toList();
+        return listaPaginada(vendasBetween,
+                            pagina,
+                            tamanho);
+    }
 
-        return new PageDTO<>(vendasBetween.getTotalElements(),
-                vendasBetween.getTotalPages(),
+    private PageDTO<VendaDTO> listaPaginada (Page<VendaDTO> pageVendaDTO, Integer pagina, Integer tamanho){
+
+        return new PageDTO<>(pageVendaDTO.getTotalElements(),
+                pageVendaDTO.getTotalPages(),
                 pagina,
                 tamanho,
-                paginaDeVendasDTO);
+                pageVendaDTO.getContent());
     }
 }

@@ -29,15 +29,19 @@ public class VendaController implements VendaDoc{
 
     @Override
     @GetMapping("/{idComprador}/comprador")
-    public ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
+    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id,
+                                                                @RequestParam Integer pagina,
+                                                                @RequestParam Integer tamanho)
             throws RegraDeNegocioException {
-        return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id), OK);
+        return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id, pagina, tamanho), OK);
     }
     @Override
     @GetMapping("/{idCompanhia}/companhia")
-    public ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
+    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id,
+                                                               @RequestParam Integer pagina,
+                                                               @RequestParam Integer tamanho)
             throws RegraDeNegocioException {
-        return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id), OK);
+        return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id, pagina, tamanho), OK);
     }
     @Override
     @GetMapping("/vendas-between")

@@ -15,10 +15,6 @@ public class VendaCreateDTO {
     @NotNull(message = "O campo idComprador não pode estar nulo!")
     private Integer idComprador;
 
-    @Schema(description = "id da companhia que oferta a passagem", example = "6", required = true)
-    @NotNull(message = "O campo idCompanhia não pode estar nulo!")
-    private Integer idCompanhia;
-
     @Schema(description = "id da passagem a ser comprada", example = "2", required = true)
     @NotNull(message = "O campo idPassagem não pode estar nulo!")
     private Integer idPassagem;

@@ -38,8 +38,8 @@ public class VendaEntity {
     @Column(name = "ID_PASSAGEM")
     private Integer idPassagem;
 
-    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
-    private Integer idCompanhia;
+//    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
+//    private Integer idCompanhia;
 
     @Column(name = "ID_COMPRADOR", insertable = false, updatable = false)
     private Integer idComprador;
@@ -48,11 +48,6 @@ public class VendaEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_COMPRADOR", referencedColumnName = "ID_USUARIO")
     private CompradorEntity comprador;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "ID_COMPANHIA", referencedColumnName = "ID_USUARIO")
-    private CompanhiaEntity companhia;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "venda")

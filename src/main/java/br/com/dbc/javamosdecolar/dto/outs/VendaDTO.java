@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class VendaDTO extends VendaCreateDTO {
 
@@ -24,4 +23,22 @@ public class VendaDTO extends VendaCreateDTO {
 
     @Schema(description = "data de realização da venda", example = "2023-10-10T16:11:26.2")
     private LocalDateTime data;
+
+    @Schema(description = "Nome da Companhia", example = "Avionárias Brasil")
+    private String companhia;
+
+    @Schema(description = "Nome do Comprador", example = "Celso Carvalho Camargo")
+    private String comprador;
+
+    public VendaDTO(Integer idComprador,Integer idPassagem, Integer idVenda,
+                    String codigo, Status status, LocalDateTime data,
+                    String companhia, String comprador) {
+        super(idComprador, idPassagem);
+        this.idVenda = idVenda;
+        this.codigo = codigo;
+        this.status = status;
+        this.data = data;
+        this.companhia = companhia;
+        this.comprador = comprador;
+    }
 }

@@ -43,7 +43,8 @@ public interface VendaDoc {
     @DeleteMapping("/{idVenda}/cancelar")
     ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException;
 
-    @Operation(summary = "Historico de compras do comprador", description = "Lista o historico de compras do comprador")
+    @Operation(summary = "Historico de compras do comprador", description = "Lista o historico de compras do comprador " +
+    "páginados")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Retorna a lista de companhias cadastradas"),
@@ -53,10 +54,13 @@ public interface VendaDoc {
             }
     )
     @GetMapping("/{idComprador}/comprador")
-    ResponseEntity<List<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id)
-            throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id,
+                                                            @RequestParam Integer pagina,
+                                                            @RequestParam Integer tamanho)
+                                                            throws RegraDeNegocioException;
 
-    @Operation(summary = "Historico de vendas da companhia", description = "Lista o historico de vendas da companhia")
+    @Operation(summary = "Historico de vendas da companhia", description = "Lista o historico de vendas da companhia " +
+    "páginadas")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Retorna a lista de companhias cadastradas"),
@@ -66,7 +70,9 @@ public interface VendaDoc {
             }
     )
     @GetMapping("/{idCompanhia}/companhia")
-    ResponseEntity<List<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id)
+    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id,
+                                                           @RequestParam Integer pagina,
+                                                           @RequestParam Integer tamanho)
             throws RegraDeNegocioException;
 
     @Operation(summary = "Vendas realizadas entre as datas informadas", description = "Lista as vendas dentro do intervalo de tempo informado")
