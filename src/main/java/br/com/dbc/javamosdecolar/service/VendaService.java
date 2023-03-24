@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -90,7 +89,7 @@ public class VendaService {
     public PageDTO<VendaDTO> getHistoricoVendasCompanhia(Integer idCompanhia, Integer pagina,
                                              Integer tamanho) throws RegraDeNegocioException {
 
-        companhiaService.getCompanhia(idCompanhia);
+        companhiaService.getCompanhiaComId(idCompanhia);
 
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
 

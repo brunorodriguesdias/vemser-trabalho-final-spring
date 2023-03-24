@@ -14,8 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class AviaoService {
@@ -42,7 +40,7 @@ public class AviaoService {
         }
 
         // VALIDANDO E RECUPERANDO COMPANHIA
-        CompanhiaEntity companhia = companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
+        CompanhiaEntity companhia = companhiaService.getCompanhiaComId(aviaoCreateDTO.getIdCompanhia());
 
         AviaoEntity aviao = objectMapper.convertValue(aviaoCreateDTO, AviaoEntity.class);
         aviao.setAtivo(true);
@@ -65,7 +63,7 @@ public class AviaoService {
         }
 
         // RECUPERANDO COMPANHIA
-        CompanhiaEntity companhia = companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
+        CompanhiaEntity companhia = companhiaService.getCompanhiaComId(aviaoCreateDTO.getIdCompanhia());
 
         // ATUALIZANDO
         aviaoEncontrado.setCapacidade(aviaoCreateDTO.getCapacidade());
@@ -91,7 +89,7 @@ public class AviaoService {
 
     public AviaoDTO getById(Integer id) throws RegraDeNegocioException {
         AviaoDTO aviaoDTO = objectMapper.convertValue(getAviao(id), AviaoDTO.class);
-        aviaoDTO.setNomeCompanhia(companhiaService.getCompanhia(aviaoDTO.getIdCompanhia()).getNomeFantasia());
+        aviaoDTO.setNomeCompanhia(companhiaService.getCompanhiaComId(aviaoDTO.getIdCompanhia()).getNomeFantasia());
         return aviaoDTO;
     }
 

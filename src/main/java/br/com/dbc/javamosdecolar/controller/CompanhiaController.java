@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @Validated
@@ -37,29 +38,27 @@ public class CompanhiaController implements CompanhiaDoc{
     }
 
 
-    @GetMapping("/logar")
+    @GetMapping("/buscar-companhia-logada")
     public ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException {
-//        return new ResponseEntity<>(companhiaService.getLoginSenhaReturn(login,senha), OK);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(companhiaService.getByCompanhia(), OK);
     }
 
     @PostMapping
     public ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO)
             throws RegraDeNegocioException {
-//        return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
     }
 
     @PutMapping("/alterar")
     public ResponseEntity<CompanhiaDTO> update(@Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO)
                                                 throws RegraDeNegocioException {
-//        return new ResponseEntity<>(companhiaService.update(login, senha, companhiaUpdateDTO), OK);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(companhiaService.update(companhiaUpdateDTO), OK);
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
-//        companhiaService.delete(login, senha, cnpj);
+    public ResponseEntity<Void> delete(@RequestHeader("id") Integer id,
+                                       @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
+        companhiaService.delete(id, cnpj);
         return ResponseEntity.noContent().build();
     }
 }
