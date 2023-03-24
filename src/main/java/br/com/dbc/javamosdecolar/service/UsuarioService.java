@@ -3,11 +3,13 @@ package br.com.dbc.javamosdecolar.service;
 import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LoginDTO;
 import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
+import br.com.dbc.javamosdecolar.entity.CargoEntity;
 import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,22 +19,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
-    private final AuthenticationManager authenticaticationManager;
-
     private final ObjectMapper objectMapper;
-
-    public UsuarioService(UsuarioRepository usuarioRepository, @Lazy AuthenticationManager authenticaticationManager, ObjectMapper objectMapper) {
-        this.usuarioRepository = usuarioRepository;
-        this.authenticaticationManager = authenticaticationManager;
-        this.objectMapper = objectMapper;
-    }
+    private final CargoService cargoService;
 
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
@@ -41,7 +37,10 @@ public class UsuarioService {
         String senha = standardPasswordEncoder.encode(usuarioCreateDTO.getSenha());
         usuarioEntity.setSenha(senha);
         usuarioEntity.setTipoUsuario(TipoUsuario.ADMIN);
+        usuarioEntity.setCargos(new HashSet<>());
+        usuarioEntity.getCargos().add(cargoService.findByNome("ROLE_ADMIN"));
         usuarioEntity.setAtivo(true);
+
 
         usuarioRepository.save(usuarioEntity);
 
@@ -55,26 +54,6 @@ public class UsuarioService {
     public void existsLogin(String login) throws RegraDeNegocioException {
         if(usuarioRepository.existsByLogin(login)){
             throw new RegraDeNegocioException("Este login já está cadastrado!");
-        }
-    }
-
-    public UsuarioEntity autenticar(LoginDTO loginDTO) throws RegraDeNegocioException {
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(
-                        loginDTO.getLogin(),
-                        loginDTO.getSenha());
-
-        Authentication authentication;
-        try {
-            authentication =
-                    authenticaticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-            Object principal = authentication.getPrincipal();
-            UsuarioEntity usuarioEntity = (UsuarioEntity) principal;
-
-            return usuarioEntity;
-        } catch (BadCredentialsException ex) {
-            throw new RegraDeNegocioException("Usuario não encontrado");
         }
     }
 

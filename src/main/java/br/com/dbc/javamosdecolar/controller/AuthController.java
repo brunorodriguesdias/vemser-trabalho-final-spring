@@ -4,6 +4,7 @@ import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LoginDTO;
 import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.secutiry.AuthenticationService;
 import br.com.dbc.javamosdecolar.secutiry.TokenService;
 import br.com.dbc.javamosdecolar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +22,12 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final TokenService tokenService;
-
     private final UsuarioService usuarioService;
+    private final AuthenticationService authenticationService;
 
     @PostMapping
     public String auth(@RequestBody @Valid LoginDTO loginDTO) throws RegraDeNegocioException {
-        return tokenService.gerarToken(usuarioService.autenticar(loginDTO));
+        return tokenService.gerarToken(authenticationService.autenticar(loginDTO));
     }
 
     @PostMapping("/create")

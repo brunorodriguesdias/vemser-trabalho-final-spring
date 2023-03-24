@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -24,6 +25,7 @@ public class CompradorService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
+    private final CargoService cargoService;
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -60,15 +62,17 @@ public class CompradorService {
         validCpf(compradorCreateDTO.getCpf());
 
         //editando e adicionando usuario ao comprador
-        CompradorEntity comprador = objectMapper.convertValue(compradorCreateDTO, CompradorEntity.class);
-        comprador.setTipoUsuario(TipoUsuario.COMPRADOR);
-        comprador.setSenha(compradorCreateDTO.getSenha());
-        comprador.setAtivo(true);
+        CompradorEntity compradorEntity = objectMapper.convertValue(compradorCreateDTO, CompradorEntity.class);
+        compradorEntity.setTipoUsuario(TipoUsuario.COMPRADOR);
+        compradorEntity.setSenha(compradorCreateDTO.getSenha());
+        compradorEntity.setAtivo(true);
+        compradorEntity.setCargos(new HashSet<>());
+        compradorEntity.getCargos().add(cargoService.findByNome("ROLE_COMPRADOR"));
 
         //salvando no bd o novo comprador
-        compradorRepository.save(comprador);
-        emailService.sendEmail(comprador);
-        return objectMapper.convertValue(comprador, CompradorDTO.class);
+        compradorRepository.save(compradorEntity);
+        emailService.sendEmail(compradorEntity);
+        return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
 
     public CompradorDTO update(String login, String senha, String novaSenha) throws RegraDeNegocioException {
