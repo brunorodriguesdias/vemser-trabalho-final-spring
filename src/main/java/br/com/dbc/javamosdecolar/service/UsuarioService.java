@@ -68,14 +68,14 @@ public class UsuarioService {
         try {
             authentication =
                     authenticaticationManager.authenticate(usernamePasswordAuthenticationToken);
+
+            Object principal = authentication.getPrincipal();
+            UsuarioEntity usuarioEntity = (UsuarioEntity) principal;
+
+            return usuarioEntity;
         } catch (BadCredentialsException ex) {
             throw new RegraDeNegocioException("Usuario não encontrado");
         }
-
-        Object principal = authentication.getPrincipal();
-        UsuarioEntity usuarioEntity = (UsuarioEntity) principal;
-
-        return usuarioEntity;
     }
 
     public Integer getIdLoggedUser() {

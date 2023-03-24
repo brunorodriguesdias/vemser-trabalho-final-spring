@@ -28,9 +28,14 @@ public class TokenService {
     private static final String CARGOS_CHAVE = "cargos";
 
     public String gerarToken(UsuarioEntity usuarioEncontrado) throws RegraDeNegocioException {
+        List<String> cargos = usuarioEncontrado.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .toList();
+
         String meuToken = Jwts.builder()
                 .claim("login", usuarioEncontrado.getLogin())
                 .claim(Claims.ID, String.valueOf(usuarioEncontrado.getIdUsuario()))
+                .claim(CARGOS_CHAVE, cargos)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(Date.valueOf(LocalDate.now().plusDays(Long.parseLong(expiration))))
                 .signWith(SignatureAlgorithm.HS256, secret)

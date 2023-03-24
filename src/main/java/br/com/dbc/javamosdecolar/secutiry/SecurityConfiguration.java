@@ -27,8 +27,8 @@ public class SecurityConfiguration {
                 .and().cors()
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
-                        requisicao.antMatchers("/")
-                                .permitAll()
+                        requisicao
+                                .antMatchers("/").hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
