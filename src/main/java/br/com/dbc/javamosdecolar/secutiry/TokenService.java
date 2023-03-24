@@ -61,6 +61,7 @@ public class TokenService {
                 List<SimpleGrantedAuthority> cargosDoUsuario = cargos.stream()
                         .map(authority -> new SimpleGrantedAuthority(authority))
                         .toList();
+//                cargosDoUsuario.forEach(System.out::println);
 
                 return new UsernamePasswordAuthenticationToken(user, null, cargosDoUsuario);
             }

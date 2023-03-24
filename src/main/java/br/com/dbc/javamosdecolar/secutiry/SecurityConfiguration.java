@@ -28,7 +28,8 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
-                                .antMatchers("/**/").hasRole("ROLE_ADMIN")
+                                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+                                .antMatchers("/companhia**").hasAuthority("ROLE_COMPANHIA")
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
