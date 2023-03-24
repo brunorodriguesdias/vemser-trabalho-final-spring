@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.secutiry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,8 +29,11 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
-                                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+                                .antMatchers(HttpMethod.POST,"/comprador", "/companhia").permitAll() //
                                 .antMatchers("/companhia**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.GET,  "/passagem/new", "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
+                                .antMatchers(HttpMethod.POST,  "/venda").hasAuthority("ROLE_COMPRADOR")
+                                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
