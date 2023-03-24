@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -26,6 +27,7 @@ public class CompanhiaService {
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
+    private final CargoService cargoService;
 
     public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -66,6 +68,8 @@ public class CompanhiaService {
         companhiaEntity.setTipoUsuario(TipoUsuario.COMPANHIA);
         companhiaEntity.setSenha(companhiaCreateDTO.getSenha());
         companhiaEntity.setAtivo(true);
+        companhiaEntity.setCargos(new HashSet<>());
+        companhiaEntity.getCargos().add(cargoService.findByNome("ROLE_COMPANHIA"));
 
         //salvando no bd o novo comprador
         companhiaRepository.save(companhiaEntity);
