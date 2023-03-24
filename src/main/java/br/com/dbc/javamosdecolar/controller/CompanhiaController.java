@@ -4,6 +4,7 @@ import br.com.dbc.javamosdecolar.docs.CompanhiaDoc;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @Validated
@@ -30,38 +30,36 @@ public class CompanhiaController implements CompanhiaDoc{
         return new ResponseEntity<>(companhiaService.getAll(pagina, tamanho), OK);
     }
 
-//    @GetMapping("/retornar-passagens")
-//    public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-//                                                                                @RequestParam Integer tamanho){
-//        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
-//    }
+    @GetMapping("/retornar-passagens")
+    public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
+                                                                                @RequestParam Integer tamanho){
+        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
+    }
 
 
     @GetMapping("/logar")
-    public ResponseEntity<CompanhiaDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
-                                                        @Valid @RequestHeader("senha") String senha) throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.getLoginSenhaReturn(login,senha), OK);
+    public ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException {
+//        return new ResponseEntity<>(companhiaService.getLoginSenhaReturn(login,senha), OK);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping
     public ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO)
             throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
+//        return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/alterar")
-    public ResponseEntity<CompanhiaDTO> update(@RequestHeader("login") String login,
-                                               @RequestHeader("senha") String senha,
-                                               @Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO)
+    public ResponseEntity<CompanhiaDTO> update(@Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO)
                                                 throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.update(login, senha, companhiaUpdateDTO), OK);
+//        return new ResponseEntity<>(companhiaService.update(login, senha, companhiaUpdateDTO), OK);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestHeader("login") String login,
-                                       @RequestHeader("senha") String senha,
-                                       @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
-        companhiaService.delete(login, senha, cnpj);
+    public ResponseEntity<Void> delete(@RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
+//        companhiaService.delete(login, senha, cnpj);
         return ResponseEntity.noContent().build();
     }
 }

@@ -6,8 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 
 @AllArgsConstructor
 @Data
@@ -15,40 +16,42 @@ import java.time.LocalDateTime;
 public class CompanhiaRelatorioDTO {
 
     //COMPANHIA
+    @Schema(example = "1")
+    private Integer idUsuario;
     @Schema(example = "Companhia Jovem")
-    private String nomeCompanhia;
+    private String nome;
     @Schema(example = "47.026.248/0001-95")
     private String cnpj;
 
-    //PASSAGEM
-    @Schema(example = "fae8d717-f21d-48ea-9f10-a7ff0a2f48ae")
-    private String codigoPassagem;
-    @Schema(example = "2023-02-17T16:18:00")
-    private LocalDateTime dataPartida;
-    @Schema(example = "2023-02-18T16:18:00")
-    private LocalDateTime dataChegada;
-    @Schema(example = "DISPONÍVEL")
-    private Status statusDaPassagem;
+    //AVIAO
+    @Schema(example = "1")
+    private Integer idAviao;
+    @Schema(example = "XXXX-XXXXXXXXX-XXXXXXX-XXXXXXX")
+    private String codigoAviao;
     @Schema(example = "500")
-    private BigDecimal valorDaPassagem;
+    private Integer capacidade;
+    @Schema(example = "2023-03-24")
+    private LocalDate ultimaManutencao;
+    @Schema(example = "ATIVO")
+    private boolean ativo;
 
-    //TRECHO
-    @Schema(example = "SAL")
+    //VOO
+    @Schema(example = "1")
+    private Integer idVoo;
+    @Schema(example = "Salvador")
     private String origem;
-    @Schema(example = "REC")
+    @Schema(example = "Porto Alegre")
     private String destino;
+    @Schema(example = "2023-03-24T17:14:33.871Z")
+    private LocalDateTime dataPartida;
+    @Schema(example = "2023-03-24T17:14:33.871Z")
+    private LocalDateTime dataChegada;
+    @Schema(example = "DISPONIVEL")
+    private Status status;
+    @Schema(example = "50")
+    private Integer assentosDisponiveis;
 
-    //VENDA
-    @Schema(example = "c66f0d6e-de0e-4eb7-b6d2-0f0f6c488c6d")
-    private String codigoVenda;
-    @Schema(example = "2023-03-16T14:30:00")
-    private LocalDateTime dataVenda;
-    @Schema(example = "CONCLUIDO")
-    private Status statusDaVenda;
-
-    //COMPRADOR
-    @Schema(example = "Gabriel de Jesus")
-    private String nomeComprador;
-    @Schema(example = "04500185699")
-    private String cpf;
+    //PASSAGEM
+    @Schema(example = "10")
+    private Integer qtdDePassagens;
 }

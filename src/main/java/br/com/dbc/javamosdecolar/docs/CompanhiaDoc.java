@@ -53,8 +53,7 @@ public interface CompanhiaDoc {
             }
     )
     @GetMapping("/logar")
-    ResponseEntity<CompanhiaDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
-                                                        @Valid @RequestHeader("senha") String senha) throws RegraDeNegocioException;
+    ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException;
 
     @Operation(summary = "Criar companhia", description = "Cria uma nova companhia")
     @ApiResponses(
@@ -78,9 +77,7 @@ public interface CompanhiaDoc {
             }
     )
     @PutMapping("/alterar")
-    ResponseEntity<CompanhiaDTO> update(@RequestHeader("login") String login,
-                                        @RequestHeader("senha") String senha,
-                                        @Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO) throws RegraDeNegocioException;
+    ResponseEntity<CompanhiaDTO> update(@Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar companhia por id", description = "Deleta a companhia selecionado")
     @ApiResponses(
@@ -92,7 +89,5 @@ public interface CompanhiaDoc {
             }
     )
     @DeleteMapping("/deletar")
-    ResponseEntity<Void> delete(@RequestHeader("login") String login,
-                                @RequestHeader("senha") String senha,
-                                @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
 }
