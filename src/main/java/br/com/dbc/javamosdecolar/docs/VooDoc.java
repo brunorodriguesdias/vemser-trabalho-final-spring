@@ -105,5 +105,5 @@ public interface VooDoc {
             }
     )
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable("idVoo") Integer idVoo) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@PathVariable("idVoo") Integer idVoo) throws RegraDeNegocioException;
 }

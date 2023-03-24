@@ -75,7 +75,7 @@ public class VooService {
             throw new RegraDeNegocioException("Voô já cancelado!");
         }
 
-        vooRepository.delete(vooEntity);
+        vooRepository.deleteById(idVoo);
     }
 
     public VooDTO getById(Integer idVoo) throws RegraDeNegocioException {

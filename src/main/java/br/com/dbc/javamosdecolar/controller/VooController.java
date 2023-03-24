@@ -60,8 +60,8 @@ public class VooController implements VooDoc {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> delete(@PathVariable("idVoo") Integer idVoo) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete(@RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException {
         vooService.delete(idVoo);
-        return  ResponseEntity.ok().build();
+        return new ResponseEntity<>(OK);
     }
 }

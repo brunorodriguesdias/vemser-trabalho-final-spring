@@ -17,7 +17,7 @@ import java.util.Set;
 @Entity(name = "VOO")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLDelete(sql = "UPDATE AVIACAO.voo v SET v.status = 1 WHERE p.id_voo=?")
+@SQLDelete(sql = "UPDATE AVIACAO.voo v SET v.status = 1 WHERE v.id_voo=?")
 public class VooEntity {
 
     @Id
