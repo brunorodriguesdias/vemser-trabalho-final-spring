@@ -27,11 +27,7 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
             " v.dataChegada," +
             " v.status," +
             " v.assentosDisponiveis," +
-            " (SELECT COUNT(p.idPassagem) FROM COMPANHIA c " +
-            "            LEFT JOIN AVIAO av ON av.idCompanhia = c.idUsuario" +
-            "            LEFT JOIN VOO v ON v.idAviao = av.idAviao" +
-            "            LEFT JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
-            "            WHERE p.status = 'DISPONIVEL')" +
+            " v.passagens.size" +
             ")" +
             " FROM COMPANHIA c" +
             " LEFT JOIN AVIAO av ON av.idCompanhia = c.idUsuario" +

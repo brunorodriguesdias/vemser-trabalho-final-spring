@@ -53,5 +53,5 @@ public class CompanhiaRelatorioDTO {
 
     //PASSAGEM
     @Schema(example = "10")
-    private Integer qtdDePassagens;
+    private Object qtdDePassagens;
 }
