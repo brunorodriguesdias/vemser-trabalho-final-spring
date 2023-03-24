@@ -29,10 +29,18 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
-                                .antMatchers(HttpMethod.POST,"/comprador", "/companhia").permitAll() //
-                                .antMatchers("/companhia**").hasAuthority("ROLE_COMPANHIA")
-                                .antMatchers(HttpMethod.GET,  "/passagem/new", "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
+                                // Companhias a definir
+                                .antMatchers("/companhia**", "/aviao**", "/voo**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.GET,  "/venda/**/companhia").hasAuthority("ROLE_COMPANIHA")
+                                // Ambos cancelam venda
+                                .antMatchers(HttpMethod.DELETE,  "/venda").hasAnyAuthority("ROLE_COMPANIHA", "ROLE_COMPRADOR")
+                                // Compradores podem vizualizar passagens disponíveis e suas compras
+                                .antMatchers(HttpMethod.GET,  "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
+                                // Ambos pegam passagem pelo id
+                                .antMatchers(HttpMethod.GET, "/passagem/**").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA")
+                                // Comprador pode realizar suas compras
                                 .antMatchers(HttpMethod.POST,  "/venda").hasAuthority("ROLE_COMPRADOR")
+                                // Admin é livre no sistema
                                 .antMatchers("/**").hasAuthority("ROLE_ADMIN")
                                 .anyRequest()
                                 .authenticated());
@@ -47,7 +55,10 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/auth",
-                "/auth/create");
+                "/auth/create")
+                // Qualquer pessoa pode se cadastrar como companhia ou comprador
+                .antMatchers(HttpMethod.POST, "/companhia", "/comprador");
+
     }
 
     @Bean

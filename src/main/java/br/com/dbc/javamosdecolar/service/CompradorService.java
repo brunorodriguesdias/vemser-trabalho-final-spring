@@ -25,8 +25,9 @@ public class CompradorService {
     private final CompradorRepository compradorRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-    private final EmailService emailService;
+//    private final EmailService emailService;
     private final CargoService cargoService;
+
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -77,7 +78,7 @@ public class CompradorService {
 
         //salvando no bd o novo comprador
         compradorRepository.save(compradorEntity);
-        emailService.sendEmail(compradorEntity);
+//        emailService.sendEmail(compradorEntity);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
 

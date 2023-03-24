@@ -27,7 +27,7 @@ public class VendaService {
     private final PassagemService passagemService;
     private final CompradorService compradorService;
     private final CompanhiaService companhiaService;
-    private final EmailService emailService;
+//    private final EmailService emailService;
     private final ObjectMapper objectMapper;
 
     public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
@@ -54,7 +54,7 @@ public class VendaService {
 
         VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
 
-        emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
+//        emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
 
         return vendaEfetuadaDTO;
     }
@@ -69,8 +69,8 @@ public class VendaService {
         }
 
         vendaRepository.deleteById(idVenda);
-        emailService.sendEmail(venda, "DELETAR",
-                compradorService.getCompradorComId(venda.getIdComprador()));
+//        emailService.sendEmail(venda, "DELETAR",
+//                compradorService.getCompradorComId(venda.getIdComprador()));
         return true;
     }
 

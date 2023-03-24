@@ -26,7 +26,7 @@ public class CompanhiaService {
     private final CompanhiaRepository companhiaRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-    private final EmailService emailService;
+//    private final EmailService emailService;
     private final CargoService cargoService;
 
     public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
@@ -78,7 +78,7 @@ public class CompanhiaService {
 
         //salvando no bd o novo comprador
         companhiaRepository.save(companhiaEntity);
-        emailService.sendEmail(companhiaEntity);
+//        emailService.sendEmail(companhiaEntity);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
