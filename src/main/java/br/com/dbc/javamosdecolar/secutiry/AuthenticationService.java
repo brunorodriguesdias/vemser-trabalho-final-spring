@@ -5,6 +5,7 @@ import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,11 +18,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
     private final UsuarioService usuarioService;
     private final AuthenticationManager authenticaticationManager;
+
+    public AuthenticationService(UsuarioService usuarioService, @Lazy AuthenticationManager authenticaticationManager) {
+        this.usuarioService = usuarioService;
+        this.authenticaticationManager = authenticaticationManager;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

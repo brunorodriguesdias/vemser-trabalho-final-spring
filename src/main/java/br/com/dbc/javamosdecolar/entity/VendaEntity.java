@@ -38,9 +38,6 @@ public class VendaEntity {
     @Column(name = "ID_PASSAGEM")
     private Integer idPassagem;
 
-//    @Column(name = "ID_COMPANHIA", insertable = false, updatable = false)
-//    private Integer idCompanhia;
-
     @Column(name = "ID_COMPRADOR", insertable = false, updatable = false)
     private Integer idComprador;
 
