@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
@@ -40,18 +41,18 @@ public class CompradorService {
                 compradores);
     }
 
-//    public PageDTO<CompradorRelatorioDTO> compradorRelatorio(Integer pagina, Integer tamanho){
-//        Pageable page = PageRequest.of(pagina, tamanho);
-//        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorRelatorio(page);
-//
-//        List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
-//
-//        return new PageDTO<>(pageRelatorios.getTotalElements(),
-//                pageRelatorios.getTotalPages(),
-//                pagina,
-//                tamanho,
-//                relatorios);
-//    }
+    public PageDTO<CompradorRelatorioDTO> compradorComComprasRelatorio(Integer pagina, Integer tamanho){
+        Pageable page = PageRequest.of(pagina, tamanho);
+        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorComComprasRelatorio(page);
+
+        List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
+
+        return new PageDTO<>(pageRelatorios.getTotalElements(),
+                pageRelatorios.getTotalPages(),
+                pagina,
+                tamanho,
+                relatorios);
+    }
 
     public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
         //validando se o login se já está registrado
@@ -71,9 +72,9 @@ public class CompradorService {
         return objectMapper.convertValue(comprador, CompradorDTO.class);
     }
 
-    public CompradorDTO update(String login, String senha, String novaSenha) throws RegraDeNegocioException {
+    public CompradorDTO update(String novaSenha) throws RegraDeNegocioException {
         //Retorna o comprador
-        CompradorEntity compradorEntity = getLoginSenha(login,senha);
+        CompradorEntity compradorEntity = getCompradorSemId();
 
         if(compradorEntity.getSenha().equals(novaSenha.trim())){
             throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
@@ -89,9 +90,9 @@ public class CompradorService {
 
     }
 
-    public void delete(String login, String senha, String cpf) throws RegraDeNegocioException {
+    public void delete(Integer id, String cpf) throws RegraDeNegocioException {
         //recuperando comprador
-        CompradorEntity comprador = getLoginSenha(login,senha);
+        CompradorEntity comprador = getCompradorComId(id);
 
         //deletando comprador do bd
         if(comprador.getCpf().trim().equals(cpf.trim())) {
@@ -102,8 +103,8 @@ public class CompradorService {
 
     }
 
-    public CompradorDTO getLoginSenhaReturn(String login, String senha) throws RegraDeNegocioException {
-        return objectMapper.convertValue(getLoginSenha(login,senha), CompradorDTO.class);
+    public CompradorDTO getByComprador() throws RegraDeNegocioException {
+        return objectMapper.convertValue(getCompradorSemId(), CompradorDTO.class);
     }
 
     protected void validCpf(String cpf) throws RegraDeNegocioException {
@@ -112,17 +113,13 @@ public class CompradorService {
         }
     }
 
-    protected CompradorEntity getComprador(Integer id) throws RegraDeNegocioException {
+    protected CompradorEntity getCompradorComId(Integer id) throws RegraDeNegocioException {
         return compradorRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
     }
 
-    protected CompradorEntity getLoginSenha(String login, String senha) throws RegraDeNegocioException {
-        CompradorEntity comprador = compradorRepository.findByLoginAndSenha(login,senha);
-
-        if(comprador == null){
-            throw new RegraDeNegocioException("Login e Senha inválidos!");
-        }
-        return comprador;
+    protected CompradorEntity getCompradorSemId() throws RegraDeNegocioException {
+        return compradorRepository.findById(usuarioService.getIdLoggedUser())
+                .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
     }
 }

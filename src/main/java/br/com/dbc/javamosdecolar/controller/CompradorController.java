@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.controller;
 import br.com.dbc.javamosdecolar.docs.CompradorDoc;
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
+import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
@@ -33,16 +34,15 @@ public class CompradorController implements CompradorDoc {
     }
 
     @GetMapping("/logar")
-    public ResponseEntity<CompradorDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
-                                                @Valid @RequestHeader("senha") String senha) throws RegraDeNegocioException {
-        return new ResponseEntity<>(compradorService.getLoginSenhaReturn(login, senha), OK);
+    public ResponseEntity<CompradorDTO> getByComprador() throws RegraDeNegocioException {
+        return new ResponseEntity<>(compradorService.getByComprador(), OK);
     }
 
-//    @GetMapping("/retornar-compras")
-//    public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
-//                                                                              @RequestParam Integer tamanho){
-//        return new ResponseEntity<>(compradorService.compradorRelatorio(pagina, tamanho), OK);
-//    }
+    @GetMapping("/retornar-compras")
+    public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
+                                                                              @RequestParam Integer tamanho){
+        return new ResponseEntity<>(compradorService.compradorComComprasRelatorio(pagina, tamanho), OK);
+    }
 
     @PostMapping
     public ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
@@ -51,20 +51,17 @@ public class CompradorController implements CompradorDoc {
     }
 
     @PutMapping("/alterar")
-    public ResponseEntity<CompradorDTO> update(@RequestHeader("login") String login,
-                                               @RequestHeader("senha") String senha,
-                                               @Valid
+    public ResponseEntity<CompradorDTO> update(@Valid
                                                @NotBlank(message = "É necessário informar uma senha!")
                                                @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!") @RequestHeader String novaSenha)
                                                 throws RegraDeNegocioException {
-        return new ResponseEntity<>(compradorService.update(login, senha, novaSenha), OK);
+        return new ResponseEntity<>(compradorService.update(novaSenha), OK);
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestHeader("login") String login,
-                                       @RequestHeader("senha") String senha,
+    public ResponseEntity<Void> delete(@RequestParam("Id") Integer id,
                                        @RequestHeader("cpf") String cpf) throws RegraDeNegocioException {
-        compradorService.delete(login,senha,cpf);
+        compradorService.delete(id, cpf);
         return ResponseEntity.noContent().build();
     }
 }

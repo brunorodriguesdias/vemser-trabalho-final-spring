@@ -41,9 +41,7 @@ public interface CompradorDoc {
             }
     )
     @GetMapping("/logar")
-    ResponseEntity<CompradorDTO> getByLoginSenha(@Valid @RequestHeader("login") String login,
-                                                 @Valid @RequestHeader("senha") String senha)
-            throws RegraDeNegocioException;
+    ResponseEntity<CompradorDTO> getByComprador() throws RegraDeNegocioException;
 
 //    @Operation(summary = "Relatório paginado", description = "Exibe relatório do comprador e suas compras.")
 //    @ApiResponses(
@@ -82,9 +80,7 @@ public interface CompradorDoc {
             }
     )
     @PutMapping("/alterar")
-    ResponseEntity<CompradorDTO> update(@RequestHeader("login") String login,
-                                        @RequestHeader("senha") String senha,
-                                        @Valid
+    ResponseEntity<CompradorDTO> update(@Valid
                                         @NotBlank(message = "É necessário informar uma senha!")
                                         @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!") @RequestHeader String novaSenha)
             throws RegraDeNegocioException;
@@ -99,7 +95,6 @@ public interface CompradorDoc {
             }
     )
     @DeleteMapping("/deletar")
-    ResponseEntity<Void> delete(@RequestHeader("login") String login,
-                                @RequestHeader("senha") String senha,
+    ResponseEntity<Void> delete(@RequestParam("Id") Integer id,
                                 @RequestHeader("cpf") String cpf) throws RegraDeNegocioException;
 }

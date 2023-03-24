@@ -34,7 +34,7 @@ public class VendaService {
 
         UUID codigo = UUID.randomUUID();
 
-        CompradorEntity compradorEntity = compradorService.getComprador(vendaDTO.getIdComprador());
+        CompradorEntity compradorEntity = compradorService.getCompradorComId(vendaDTO.getIdComprador());
 
         PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
         if (passagem.getStatus() != Status.DISPONIVEL) {
@@ -70,13 +70,13 @@ public class VendaService {
 
         vendaRepository.deleteById(idVenda);
         emailService.sendEmail(venda, "DELETAR",
-                compradorService.getComprador(venda.getIdComprador()));
+                compradorService.getCompradorComId(venda.getIdComprador()));
         return true;
     }
 
     public PageDTO<VendaDTO> getHistoricoComprasComprador(Integer idComprador,Integer pagina,
                                               Integer tamanho) throws RegraDeNegocioException {
-        compradorService.getComprador(idComprador);
+        compradorService.getCompradorComId(idComprador);
 
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
 

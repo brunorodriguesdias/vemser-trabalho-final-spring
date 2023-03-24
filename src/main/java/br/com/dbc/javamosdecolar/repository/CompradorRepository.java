@@ -1,6 +1,9 @@
 package br.com.dbc.javamosdecolar.repository;
 
+import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,27 +11,38 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompradorRepository extends JpaRepository<CompradorEntity, Integer> {
 
-//    @Query(value = "SELECT new br.com.dbc.javamosdecolar.dto.CompradorRelatorioDTO(" +
-//            " c.nome," +
-//            " c.cpf," +
-//            " ce.cnpj," +
-//            " ce.nome," +
-//            " v.codigo," +
-//            " v.data," +
-//            " p.codigo," +
-//            " p.dataPartida," +
-//            " p.dataChegada," +
-//            " p.status," +
-//            " p.valor," +
-//            " t.origem," +
-//            " t.destino" +
-//            ")" +
-//            " FROM COMPRADOR c" +
-//            " JOIN VENDA v ON v.idComprador = c.idUsuario" +
-//            " JOIN PASSAGEM p ON p.idVenda = v.idVenda" +
-//            " JOIN TRECHO t ON t.idTrecho = p.idTrecho" +
-//            " JOIN COMPANHIA ce on ce.idUsuario = p.idCompanhia")
-//    Page<CompradorRelatorioDTO> compradorRelatorio(Pageable pageable);
+    @Query(value = "SELECT new br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO(" +
+            " c.idUsuario," +
+            " c.nome," +
+            " c.cpf," +
+            " c.ativo," +
+            " v.idVenda," +
+            " v.codigo," +
+            " v.data," +
+            " v.status," +
+            " p.idPassagem," +
+            " p.status," +
+            " p.valor," +
+            " p.numeroAssento," +
+            " p.tipoAssento," +
+            " co.idUsuario," +
+            " co.nome," +
+            " co.cnpj," +
+            " co.ativo," +
+            " vo.idVoo," +
+            " vo.origem," +
+            " vo.destino," +
+            " vo.dataPartida," +
+            " vo.dataChegada," +
+            " vo.status" +
+            ")" +
+            " FROM COMPRADOR c" +
+            " JOIN VENDA v ON c.idUsuario = v.idComprador" +
+            " JOIN PASSAGEM p ON p.idVenda = v.idVenda" +
+            " JOIN VOO vo ON vo.idVoo = p.idVoo" +
+            " JOIN AVIAO av ON av.idAviao = vo.idAviao" +
+            " JOIN COMPANHIA co ON co.idUsuario = av.idCompanhia")
+    Page<CompradorRelatorioDTO> compradorComComprasRelatorio(Pageable pageable);
 
     Boolean existsCompradorEntityByCpfIsContaining(String cpf);
 
