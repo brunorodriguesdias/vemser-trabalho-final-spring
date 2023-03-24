@@ -106,8 +106,8 @@ public class CompanhiaService {
         return objectMapper.convertValue(getLoginSenha(login,senha), CompanhiaDTO.class);
     }
 
-    protected CompanhiaEntity recuperarCompanhiaPassagem(Integer idPassagem){
-        return companhiaRepository.findCompanhiaPassagem(idPassagem);
+    protected CompanhiaEntity recuperarCompanhia(String param, Integer idPassagem){
+        return companhiaRepository.findCompanhia(param, idPassagem);
     }
 
     protected void validCnpj(String cnpj) throws RegraDeNegocioException {

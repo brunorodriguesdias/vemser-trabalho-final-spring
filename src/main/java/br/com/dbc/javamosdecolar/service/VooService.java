@@ -1,42 +1,43 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
+import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VooRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class VooService {
     private final VooRepository vooRepository;
-    private final PassagemService passagemService;
+    private final CompanhiaService companhiaService;
     private AviaoService aviaoService;
     private final ObjectMapper objectMapper;
 
     public VooDTO create(VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
 
-//        Validando o avião
+        //VALIDANDO AVIAO
         aviaoService.getAviao(vooCreateDTO.getIdAviao());
-//        Validando data
+
+        //VALIDANDO DATA
         validarDatas(vooCreateDTO.getDataPartida(), vooCreateDTO.getDataPartida());
 
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
         vooEntity = vooRepository.save(vooEntity);
 
         return objectMapper.convertValue(vooEntity, VooDTO.class);
-    }
-
-    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
-        if (dataChegada.isBefore(dataPartida)) {
-            throw new RegraDeNegocioException("Data inválida!");
-        }
     }
 
     public VooDTO update(Integer vooId, VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
@@ -65,12 +66,59 @@ public class VooService {
         vooRepository.deleteById(idVoo);
     }
 
+    public VooDTO getById(Integer idVoo) throws RegraDeNegocioException {
+        VooEntity voo = getVoo(idVoo);
+        VooDTO vooDTO = objectMapper.convertValue(voo, VooDTO.class);
+        vooDTO.setNomeCompanhia(recuperarCompanhia(idVoo).getNome());
+        return vooDTO;
+    }
+
+    public PageDTO<VooDTO> getByVooAviao(Integer idAviao, Integer pagina, Integer tamanho){
+        Pageable pageable = PageRequest.of(pagina, tamanho);
+        return listaPaginada(vooRepository.findByIdAviao(idAviao, pageable), pagina, tamanho);
+    }
+
+    public PageDTO<VooDTO> getByVooCompanhia(Integer idCompanhia, Integer pagina, Integer tamanho) {
+        Page<VooEntity> pageVooEntity = vooRepository.findVooIdCompanhia(idCompanhia);
+        return listaPaginada(pageVooEntity, pagina, tamanho);
+    }
+
+    public PageDTO<VooDTO> getAllVoo(Integer pagina, Integer tamanho){
+        Pageable pageable = PageRequest.of(pagina, tamanho);
+        return listaPaginada(vooRepository.findAll(pageable), pagina, tamanho);
+    }
+
+    private PageDTO<VooDTO> listaPaginada (Page<VooEntity> pageVooEntity, Integer pagina, Integer tamanho){
+        List<VooDTO> listaVoo = pageVooEntity
+                .map(voo -> {
+                    VooDTO vooDTO = objectMapper.convertValue(voo, VooDTO.class);
+                    vooDTO.setNomeCompanhia(recuperarCompanhia(voo.getIdVoo()).getNome());
+                    return vooDTO;
+                }).toList();
+
+        return new PageDTO<>(pageVooEntity.getTotalElements(),
+                pageVooEntity.getTotalPages(),
+                pagina,
+                tamanho,
+                listaVoo);
+    }
+
+    private CompanhiaEntity recuperarCompanhia(Integer idVoo) {
+        return companhiaService.recuperarCompanhia("idVoo", idVoo);
+    }
+
+    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
+        if (dataChegada.isBefore(dataPartida)) {
+            throw new RegraDeNegocioException("Data inválida!");
+        }
+    }
+
     protected VooEntity getVoo(Integer idVoo) throws RegraDeNegocioException {
         return vooRepository.findById(idVoo)
                 .orElseThrow(() -> new RegraDeNegocioException("Voô não encontrado!"));
     }
 
-    protected VooEntity updateAssentosDisponiveis(VooEntity vooEntity){
+    protected VooEntity updateAssentosDisponiveis(VooEntity vooEntity) {
         return vooRepository.save(vooEntity);
     }
 }

@@ -41,6 +41,12 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
             " JOIN AVIAO av ON av.idCompanhia = c.idUsuario" +
             " JOIN VOO v ON v.idAviao = av.idAviao" +
             " JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
-            " WHERE p.idPassagem = :idPassagem")
-    CompanhiaEntity findCompanhiaPassagem(Integer idPassagem);
+            " WHERE " +
+            " CASE :param" +
+            "   WHEN 'idPassagem' THEN p.idPassagem" +
+            "   WHEN 'idVoo' THEN v.idVoo" +
+            "   WHEN 'idAviao' THEN av.idAviao" +
+            " END" +
+            " = :value")
+    CompanhiaEntity findCompanhia(String param, Integer value);
 }

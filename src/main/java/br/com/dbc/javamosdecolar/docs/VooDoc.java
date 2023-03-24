@@ -10,8 +10,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 public interface VooDoc {
+
+    @Operation(summary = "Buscar um voô", description = "Buscar um voô pelo ID")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "201", description = "Retorna o voô buscado"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/id")
+    ResponseEntity<VooDTO> getById(@RequestParam @Valid @NotNull(message = "Digite um ID") Integer idVoo) throws RegraDeNegocioException;
 
     @Operation(summary = "Criar um voô", description = "Cria um novo voô")
     @ApiResponses(

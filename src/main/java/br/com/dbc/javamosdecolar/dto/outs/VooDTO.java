@@ -12,4 +12,7 @@ import lombok.NoArgsConstructor;
 public class VooDTO extends VooCreateDTO {
     @Schema(example = "2")
     private Integer idVoo;
+
+    @Schema(example = "TAM")
+    private String nomeCompanhia;
 }

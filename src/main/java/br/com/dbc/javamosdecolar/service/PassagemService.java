@@ -154,10 +154,6 @@ public class PassagemService {
        return listaPaginada(passagemRepository.findAllByStatusIs(Status.DISPONIVEL, solcitacaoPagina), pagina, tamanho);
     }
 
-    private CompanhiaEntity recuperarCompanhia(Integer idPassagem) {
-        return companhiaService.recuperarCompanhiaPassagem(idPassagem);
-    }
-
     private PageDTO<PassagemDTO> listaPaginada (Page<PassagemEntity> pagePassagemEntity, Integer pagina, Integer tamanho){
         List<PassagemDTO> listaPassagensDoVoo = pagePassagemEntity
                 .map(passagem -> {
@@ -171,6 +167,10 @@ public class PassagemService {
                 pagina,
                 tamanho,
                 listaPassagensDoVoo);
+    }
+
+    protected CompanhiaEntity recuperarCompanhia(Integer idPassagem) {
+        return companhiaService.recuperarCompanhia("idPassagem", idPassagem);
     }
 
     protected PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {
