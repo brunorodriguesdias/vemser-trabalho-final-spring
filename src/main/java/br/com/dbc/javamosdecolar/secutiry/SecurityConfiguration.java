@@ -30,18 +30,36 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
                                 // Companhias a definir
-                                .antMatchers("/aviao**", "/voo**", "/passagem**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers("/aviao**", "/passagem**").hasAuthority("ROLE_COMPANHIA")
+
+                                // Companhia pode selecionar, atualizar e deletar a si mesmo
                                 .antMatchers(HttpMethod.GET, "/companhia/**").hasAuthority("ROLE_COMPANHIA")
                                 .antMatchers(HttpMethod.PUT, "/companhia/**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.DELETE, "/companhia/**").hasAuthority("ROLE_COMPANHIA")
+
+                                // Companhia pode selecionar, atualizar e deletar
+                                .antMatchers(HttpMethod.GET, "/voo/**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.PUT, "/voo/**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.DELETE, "/voo/**").hasAuthority("ROLE_COMPANHIA")
+
+                                // Comprador pode selecionar, atualizar e deletar a si mesmo
+                                .antMatchers("/comprador**").hasAuthority("ROLE_COMPRADOR")
+
+                                // Companhia pode ver o histórico de vendas
                                 .antMatchers(HttpMethod.GET,  "/venda/**/companhia").hasAuthority("ROLE_COMPANIHA")
+
                                 // Ambos cancelam venda
                                 .antMatchers(HttpMethod.DELETE,  "/venda").hasAnyAuthority("ROLE_COMPANIHA", "ROLE_COMPRADOR")
+
                                 // Compradores podem vizualizar passagens disponíveis e suas compras
                                 .antMatchers(HttpMethod.GET,  "/passagem/**", "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
+
                                 // Comprador pode realizar suas compras
                                 .antMatchers(HttpMethod.POST,  "/venda").hasAuthority("ROLE_COMPRADOR")
+
                                 // Admin é livre no sistema
                                 .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
