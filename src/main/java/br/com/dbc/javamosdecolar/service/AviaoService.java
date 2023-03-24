@@ -4,6 +4,7 @@ import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AviaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AviaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,17 +26,13 @@ public class AviaoService {
 
     public PageDTO<AviaoDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
-        Page<AviaoEntity> avioesPaginados = aviaoRepository.findAll(solcitacaoPagina);
-
-        List<AviaoDTO> avioes = avioesPaginados.getContent().stream()
-                .map(pessoa -> objectMapper.convertValue(pessoa, AviaoDTO.class))
-                .toList();
+        Page<AviaoDTO> avioesPaginados = aviaoRepository.getAllAviaoWithCompanhia(solcitacaoPagina);
 
         return new PageDTO<>(avioesPaginados.getTotalElements(),
                 avioesPaginados.getTotalPages(),
                 pagina,
                 tamanho,
-                avioes);
+                avioesPaginados.getContent());
     }
 
     public AviaoDTO create(AviaoCreateDTO aviaoCreateDTO) throws RegraDeNegocioException {
@@ -44,17 +41,22 @@ public class AviaoService {
             throw new RegraDeNegocioException("Já existe avião com esse código!");
         }
 
-        companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
+        // VALIDANDO E RECUPERANDO COMPANHIA
+        CompanhiaEntity companhia = companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
 
         AviaoEntity aviao = objectMapper.convertValue(aviaoCreateDTO, AviaoEntity.class);
         aviao.setAtivo(true);
 
-        AviaoEntity aviaoCriada = aviaoRepository.save(aviao);
+        // SALVANDO REGISTRO E PREPARANDO RETORNO
+        AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.save(aviao)
+                                                , AviaoDTO.class);
+        aviaoDTO.setNomeCompanhia(companhia.getNomeFantasia());
 
-        return objectMapper.convertValue(aviaoCriada, AviaoDTO.class);
+        return aviaoDTO;
     }
 
     public AviaoDTO update(Integer aviaoId, AviaoCreateDTO aviaoCreateDTO) throws RegraDeNegocioException {
+        // VALIDANDO
         AviaoEntity aviaoEncontrado = aviaoRepository.findById(aviaoId)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
 
@@ -62,13 +64,20 @@ public class AviaoService {
             throw new RegraDeNegocioException("Avião inativo, impossível edita-lo!");
         }
 
-        companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
+        // RECUPERANDO COMPANHIA
+        CompanhiaEntity companhia = companhiaService.getCompanhia(aviaoCreateDTO.getIdCompanhia());
 
+        // ATUALIZANDO
         aviaoEncontrado.setCapacidade(aviaoCreateDTO.getCapacidade());
         aviaoEncontrado.setIdCompanhia(aviaoCreateDTO.getIdCompanhia());
         aviaoEncontrado.setUltimaManutencao(aviaoCreateDTO.getUltimaManutencao());
 
-        return objectMapper.convertValue(aviaoRepository.save(aviaoEncontrado), AviaoDTO.class);
+        // SALVANDO REGISTRO E PREPARANDO RETORNO
+        AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.save(aviaoEncontrado)
+                , AviaoDTO.class);
+        aviaoDTO.setNomeCompanhia(companhia.getNomeFantasia());
+
+        return aviaoDTO;
     }
 
     public void delete(Integer aviaoId) throws RegraDeNegocioException {
@@ -81,8 +90,9 @@ public class AviaoService {
     }
 
     public AviaoDTO getById(Integer id) throws RegraDeNegocioException {
-        return objectMapper.convertValue(aviaoRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!")), AviaoDTO.class);
+        AviaoDTO aviaoDTO = objectMapper.convertValue(getAviao(id), AviaoDTO.class);
+        aviaoDTO.setNomeCompanhia(companhiaService.getCompanhia(aviaoDTO.getIdCompanhia()).getNomeFantasia());
+        return aviaoDTO;
     }
 
     protected AviaoEntity getAviao(Integer idAviao) throws RegraDeNegocioException {
