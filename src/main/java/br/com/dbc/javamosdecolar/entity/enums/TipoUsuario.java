@@ -4,7 +4,8 @@ import java.util.Arrays;
 
 public enum TipoUsuario {
     COMPANHIA(1, "1"),
-    COMPRADOR(2, "2"),;
+    COMPRADOR(2, "2"),
+    ADMIN(3,"3");
 
     private Integer tipo;
     private String tipoString;
