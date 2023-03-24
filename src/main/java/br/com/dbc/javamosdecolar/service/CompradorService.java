@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -27,6 +28,7 @@ public class CompradorService {
     private final ObjectMapper objectMapper;
 //    private final EmailService emailService;
     private final CargoService cargoService;
+    private final PasswordEncoder passwordEncoder;
 
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
@@ -71,7 +73,7 @@ public class CompradorService {
         //editando e adicionando usuario ao comprador
         CompradorEntity compradorEntity = objectMapper.convertValue(compradorCreateDTO, CompradorEntity.class);
         compradorEntity.setTipoUsuario(TipoUsuario.COMPRADOR);
-        compradorEntity.setSenha(compradorCreateDTO.getSenha());
+        compradorEntity.setSenha(passwordEncoder.encode(compradorCreateDTO.getSenha()));
         compradorEntity.setAtivo(true);
         compradorEntity.setCargos(new HashSet<>());
         compradorEntity.getCargos().add(cargoService.findByNome("ROLE_COMPRADOR"));
@@ -91,7 +93,7 @@ public class CompradorService {
         }
 
         //alterando entidade
-        compradorEntity.setSenha(novaSenha);
+        compradorEntity.setSenha(passwordEncoder.encode(novaSenha));
 
         //salvando no bd
         compradorRepository.save(compradorEntity);

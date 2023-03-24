@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -28,6 +29,7 @@ public class CompanhiaService {
     private final ObjectMapper objectMapper;
 //    private final EmailService emailService;
     private final CargoService cargoService;
+    private final PasswordEncoder passwordEncoder;
 
     public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -71,7 +73,7 @@ public class CompanhiaService {
         //editando e adicionando usuario ao comprador
         CompanhiaEntity companhiaEntity = objectMapper.convertValue(companhiaCreateDTO, CompanhiaEntity.class);
         companhiaEntity.setTipoUsuario(TipoUsuario.COMPANHIA);
-        companhiaEntity.setSenha(companhiaCreateDTO.getSenha());
+        companhiaEntity.setSenha(passwordEncoder.encode(companhiaCreateDTO.getSenha()));
         companhiaEntity.setAtivo(true);
         companhiaEntity.setCargos(new HashSet<>());
         companhiaEntity.getCargos().add(cargoService.findByNome("ROLE_COMPANHIA"));
@@ -91,7 +93,7 @@ public class CompanhiaService {
         }
 
         //alterando entidade
-        companhiaEntity.setSenha(companhiaUpdateDTO.getSenha());
+        companhiaEntity.setSenha(passwordEncoder.encode(companhiaUpdateDTO.getSenha()));
         companhiaEntity.setNomeFantasia(companhiaUpdateDTO.getNomeFantasia());
 
         //salvando no bd

@@ -23,7 +23,7 @@ public class CargoEntity  implements GrantedAuthority {
     private String nome;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "USUARIO_CARGO",
             joinColumns = @JoinColumn(name = "ID_CARGO"),

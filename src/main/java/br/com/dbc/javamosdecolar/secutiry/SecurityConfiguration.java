@@ -30,14 +30,14 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
                                 // Companhias a definir
-                                .antMatchers("/companhia**", "/aviao**", "/voo**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers("/aviao**", "/voo**", "/passagem**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.GET, "/companhia/**").hasAuthority("ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.PUT, "/companhia/**").hasAuthority("ROLE_COMPANHIA")
                                 .antMatchers(HttpMethod.GET,  "/venda/**/companhia").hasAuthority("ROLE_COMPANIHA")
                                 // Ambos cancelam venda
                                 .antMatchers(HttpMethod.DELETE,  "/venda").hasAnyAuthority("ROLE_COMPANIHA", "ROLE_COMPRADOR")
                                 // Compradores podem vizualizar passagens disponíveis e suas compras
-                                .antMatchers(HttpMethod.GET,  "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
-                                // Ambos pegam passagem pelo id
-                                .antMatchers(HttpMethod.GET, "/passagem/**").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA")
+                                .antMatchers(HttpMethod.GET,  "/passagem/**", "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
                                 // Comprador pode realizar suas compras
                                 .antMatchers(HttpMethod.POST,  "/venda").hasAuthority("ROLE_COMPRADOR")
                                 // Admin é livre no sistema
