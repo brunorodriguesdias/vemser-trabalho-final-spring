@@ -7,9 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class AviaoDTO extends AviaoCreateDTO {
     @Schema(description = "ID do avião", example = "1")
     private Integer idAviao;
@@ -17,4 +19,14 @@ public class AviaoDTO extends AviaoCreateDTO {
     @Schema(description = "Status do avião", example = "true")
     private boolean ativo;
 
+    @Schema(description = "Nome da companhia", example = "Avionária Corp.")
+    private String nomeCompanhia;
+
+    public AviaoDTO(Integer idCompanhia, String codigoAviao, Integer capacidade, LocalDate ultimaManutencao,
+                    Integer idAviao, boolean ativo, String nomeCompanhia) {
+        super(idCompanhia, codigoAviao, capacidade, ultimaManutencao);
+        this.idAviao = idAviao;
+        this.ativo = ativo;
+        this.nomeCompanhia = nomeCompanhia;
+    }
 }
