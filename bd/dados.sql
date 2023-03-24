@@ -183,16 +183,16 @@ INSERT INTO AVIACAO.PASSAGEM (id_passagem, codigo, status, valor, numero_assento
 
 --/ VENDAS --/
 
-INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
-	VALUES (AVIACAO.seq_venda.nextval, 0, SYSDATE, 1, 6, 1, 'd3f84afb-30ba-40bf-a8e4-1fe43e29f81f');
-INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
-	VALUES (AVIACAO.seq_venda.nextval, 0, SYSDATE, 2, 7, 2, 'b9e19222-412e-43eb-8f37-46ab322e77d3');
-INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
-	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 3, 8, 3, 'd744dfb4-6f57-45fa-96a3-e8c3349b71ec');
-INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
-	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 4, 9, 4, '4e5e9c7d-4b72-4dc4-a984-22bae61473fd');
-INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_companhia, id_comprador, id_passagem, codigo)
-	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 5, 10, 5, 'e0470f31-f930-488c-b6e9-4f15236fabb7');
+INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_comprador, id_passagem, codigo)
+	VALUES (AVIACAO.seq_venda.nextval, 0, SYSDATE, 6, 1, 'd3f84afb-30ba-40bf-a8e4-1fe43e29f81f');
+INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_comprador, id_passagem, codigo)
+	VALUES (AVIACAO.seq_venda.nextval, 0, SYSDATE, 7, 2, 'b9e19222-412e-43eb-8f37-46ab322e77d3');
+INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_comprador, id_passagem, codigo)
+	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 8, 3, 'd744dfb4-6f57-45fa-96a3-e8c3349b71ec');
+INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_comprador, id_passagem, codigo)
+	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 9, 4, '4e5e9c7d-4b72-4dc4-a984-22bae61473fd');
+INSERT INTO AVIACAO.VENDA  (id_venda, status, data, id_comprador, id_passagem, codigo)
+	VALUES (AVIACAO.seq_venda.nextval, 0 , SYSDATE, 10, 5, 'e0470f31-f930-488c-b6e9-4f15236fabb7');
 
 UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 1, STATUS = 3 WHERE ID_PASSAGEM = 1;
 UPDATE AVIACAO.PASSAGEM SET ID_VENDA = 2, STATUS = 3 WHERE ID_PASSAGEM = 2;
