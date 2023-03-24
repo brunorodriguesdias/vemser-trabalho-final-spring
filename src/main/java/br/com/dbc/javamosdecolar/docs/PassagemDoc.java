@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Tag(name = "Passagem", description = "Endpoints de passagem")
 public interface PassagemDoc {
@@ -79,19 +78,23 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/voo")
-    ResponseEntity<List<PassagemDTO>> getByVoo(@RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<PassagemDTO>> getByVoo(@RequestParam("idVoo") Integer idVoo,
+                                                  @RequestParam Integer pagina,
+                                                  @RequestParam Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar passagem por valor", description = "Lista as passagens até o limite de valor selecionado")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens solicitadas"),
+                    @ApiResponse(responseCode = "200", description = "Retorna a lista de passagens do voo solicitado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/valor")
-    ResponseEntity<List<PassagemDTO>> getByValorMaximo(@RequestParam("max") BigDecimal valor);
+    ResponseEntity<PageDTO<PassagemDTO>> getByValorMaximo(@RequestParam("max") BigDecimal valor,
+                                                       @RequestParam("pagina") Integer pagina,
+                                                       @RequestParam("tamanho") Integer tamanho);
 
     @Operation(summary = "Buscar passagem por id", description = "Mostra os dados da passagem pelo id")
     @ApiResponses(

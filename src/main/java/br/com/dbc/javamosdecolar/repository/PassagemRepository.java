@@ -10,12 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Repository
 public interface PassagemRepository extends JpaRepository<PassagemEntity, Integer> {
-    List<PassagemEntity> findAllByValorIsLessThanEqual(BigDecimal valor);
-    List<PassagemEntity> findAllByVoo(VooEntity vooEntity);
+    Page<PassagemEntity> findAllByValorIsLessThanEqual(BigDecimal valor, Pageable solicitacaoPaginada);
+    Page<PassagemEntity> findAllByVoo(VooEntity vooEntity, Pageable solicitacaoPaginada);
     Page<PassagemEntity> findAllByStatusIs(Status status, Pageable solcitacaoPagina);
     @Query("SELECT COALESCE(MAX(p.numeroAssento), 0) FROM PASSAGEM p WHERE p.idVoo = :idVoo")
     Integer findByProximaPassagem(Integer idVoo);

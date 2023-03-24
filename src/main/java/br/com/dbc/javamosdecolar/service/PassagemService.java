@@ -29,22 +29,23 @@ public class PassagemService {
     private final ObjectMapper objectMapper;
     private final CompanhiaService companhiaService;
     private final VooService vooService;
-    private final AviaoService aviaoService;
 
-    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService, @Lazy VooService vooService, @Lazy AviaoService aviaoService) {
+    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService, @Lazy VooService vooService) {
         this.passagemRepository = passagemRepository;
         this.objectMapper = objectMapper;
         this.companhiaService = companhiaService;
         this.vooService = vooService;
-        this.aviaoService = aviaoService;
     }
 
     public PassagemDTO create(PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
 
         UUID codigo = UUID.randomUUID();
+
+        //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateDTO.getIdVoo());
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - 1);
 
+        //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
         PassagemEntity passagem = objectMapper.convertValue(passagemCreateDTO, PassagemEntity.class);
         Integer nAssento = passagemRepository.findByProximaPassagem(passagemCreateDTO.getIdVoo());
 
@@ -57,20 +58,24 @@ public class PassagemService {
         CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
         passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
 
+        //ATUALIZANDO O NUMERO DE ASSENTOS DISPONIVEIS DAQUELE VOO
         vooService.updateAssentosDisponiveis(vooEntity);
-
         return passagemDTO;
     }
 
     public List<PassagemDTO> createAmount(PassagemCreateAmountDTO passagemCreateAmountDTO) throws RegraDeNegocioException {
 
         List<PassagemDTO> passagemDTOS = new ArrayList<>();
+
+        //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateAmountDTO.getIdVoo());
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - passagemCreateAmountDTO.getQuantidadeDePassagens());
 
+        //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
         Integer nPassagem = passagemRepository.findByProximaPassagem(passagemCreateAmountDTO.getIdVoo());
         CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vooEntity.getAviao().getIdCompanhia());
 
+        //CRIANDO PASSAGENS SOLICITADAS
         for(int i = 0; i < passagemCreateAmountDTO.getQuantidadeDePassagens(); i ++){
             PassagemEntity passagemEntity = objectMapper.convertValue(passagemCreateAmountDTO, PassagemEntity.class);
             passagemEntity.setTipoAssento(passagemCreateAmountDTO.getTipoAssento());
@@ -82,6 +87,7 @@ public class PassagemService {
             passagemDTOS.add(passagemDTO);
         }
 
+        //ATUALIZANDO O NUMERO DE ASSENTOS DISPONIVEIS DAQUELE VOO
         vooService.updateAssentosDisponiveis(vooEntity);
         return passagemDTOS;
     }
@@ -90,7 +96,7 @@ public class PassagemService {
         PassagemEntity passagemEncontrada = passagemRepository.findById(passagemId)
                 .orElseThrow(() -> new RegraDeNegocioException("Passagem não encontrada!"));
 
-        //Validando voo
+        //VALIDANDO VOO
         vooService.getVoo(passagemCreateDTO.getIdVoo());
         CompanhiaEntity companhiaEntity = recuperarCompanhia(passagemEncontrada.getIdPassagem());
 
@@ -110,8 +116,6 @@ public class PassagemService {
     public void delete(Integer passagemId) throws RegraDeNegocioException {
         PassagemEntity passagem = getPassagem(passagemId);
 
-        //PRECISO SABER VIVER
-
         if (passagem.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Passagem já cancelada!");
         }
@@ -128,44 +132,45 @@ public class PassagemService {
         return passagemDTO;
     }
 
-    public List<PassagemDTO> getByValorMaximo(BigDecimal valorMaximo){
-        return passagemRepository.findAllByValorIsLessThanEqual(valorMaximo).stream()
-                .map(passagem -> {
-                    PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-                    passagemDTO.setNomeCompanhia(recuperarCompanhia(passagem.getIdPassagem()).getNome());
-                    return passagemDTO;
-                }).toList();
+    public PageDTO<PassagemDTO> getByValorMaximo(BigDecimal valorMaximo, Integer pagina, Integer tamanho){
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+        return listaPaginada(passagemRepository
+                .findAllByValorIsLessThanEqual(valorMaximo, solcitacaoPagina),
+                pagina,
+                tamanho);
     }
 
-    public List<PassagemDTO> getByCompanhia(Integer idVoo) throws RegraDeNegocioException {
+    public PageDTO<PassagemDTO> getByVoo(Integer idVoo, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         VooEntity vooEntity = vooService.getVoo(idVoo);
-        return passagemRepository
-                .findAllByVoo(vooEntity).stream()
-                .map(passagem -> {
-                    PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-                    passagemDTO.setNomeCompanhia(recuperarCompanhia(passagem.getIdPassagem()).getNome());
-                    return passagemDTO;
-                }).toList();
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+        return listaPaginada(passagemRepository
+                .findAllByVoo(vooEntity, solcitacaoPagina),
+                pagina,
+                tamanho);
     }
 
     public PageDTO<PassagemDTO> getUltimasPassagens(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
-        Page<PassagemEntity> listaPaginada = passagemRepository.findAllByStatusIs(Status.DISPONIVEL, solcitacaoPagina);
-        List<PassagemDTO> listaDePassagensDisponiveis = listaPaginada.map(passagem -> {
-            PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
-            passagemDTO.setNomeCompanhia(recuperarCompanhia(passagem.getIdPassagem()).getNome());
-            return passagemDTO;
-        }).toList();
-
-        return new PageDTO<>(listaPaginada.getTotalElements(),
-                listaPaginada.getTotalPages(),
-                pagina,
-                tamanho,
-                listaDePassagensDisponiveis);
+       return listaPaginada(passagemRepository.findAllByStatusIs(Status.DISPONIVEL, solcitacaoPagina), pagina, tamanho);
     }
 
     private CompanhiaEntity recuperarCompanhia(Integer idPassagem) {
         return companhiaService.recuperarCompanhiaPassagem(idPassagem);
+    }
+
+    private PageDTO<PassagemDTO> listaPaginada (Page<PassagemEntity> pagePassagemEntity, Integer pagina, Integer tamanho){
+        List<PassagemDTO> listaPassagensDoVoo = pagePassagemEntity
+                .map(passagem -> {
+                    PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
+                    passagemDTO.setNomeCompanhia(recuperarCompanhia(passagem.getIdPassagem()).getNome());
+                    return passagemDTO;
+                }).toList();
+
+        return new PageDTO<>(pagePassagemEntity.getTotalElements(),
+                pagePassagemEntity.getTotalPages(),
+                pagina,
+                tamanho,
+                listaPassagensDoVoo);
     }
 
     protected PassagemEntity getPassagem(Integer idPassagem) throws RegraDeNegocioException {

@@ -57,15 +57,19 @@ public class PassagemController implements PassagemDoc {
     }
 
     @GetMapping("/voo")
-    public ResponseEntity<List<PassagemDTO>> getByVoo(
-            @RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException {
-        return new ResponseEntity<>(this.passagemService.getByCompanhia(idVoo), OK);
+    public ResponseEntity<PageDTO<PassagemDTO>> getByVoo(
+            @RequestParam("idVoo") Integer idVoo,
+            @RequestParam Integer pagina,
+            @RequestParam Integer tamanho) throws RegraDeNegocioException {
+        return new ResponseEntity<>(this.passagemService.getByVoo(idVoo, pagina, tamanho), OK);
     }
 
     @GetMapping("/valor")
-    public ResponseEntity<List<PassagemDTO>> getByValorMaximo(
-            @RequestParam("max") BigDecimal valor) {
-        return new ResponseEntity<>(this.passagemService.getByValorMaximo(valor), OK);
+    public ResponseEntity<PageDTO<PassagemDTO>> getByValorMaximo(
+            @RequestParam("max") BigDecimal valor,
+            @RequestParam("pagina") Integer pagina,
+            @RequestParam("tamanho") Integer tamanho) {
+        return new ResponseEntity<>(this.passagemService.getByValorMaximo(valor, pagina, tamanho), OK);
     }
 
     @GetMapping("/{idPassagem}")
