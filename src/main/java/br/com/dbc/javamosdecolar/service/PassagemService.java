@@ -69,16 +69,16 @@ public class PassagemService {
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - passagemCreateAmountDTO.getQuantidadeDePassagens());
 
         Integer nPassagem = passagemRepository.findByProximaPassagem(passagemCreateAmountDTO.getIdVoo());
+        CompanhiaEntity companhiaEntity = companhiaService.getCompanhia(vooEntity.getAviao().getIdCompanhia());
 
         for(int i = 0; i < passagemCreateAmountDTO.getQuantidadeDePassagens(); i ++){
             PassagemEntity passagemEntity = objectMapper.convertValue(passagemCreateAmountDTO, PassagemEntity.class);
             passagemEntity.setTipoAssento(passagemCreateAmountDTO.getTipoAssento());
             passagemEntity.setStatus(Status.DISPONIVEL);
             passagemEntity.setCodigo(UUID.randomUUID().toString());
-            System.out.println(passagemEntity.getCodigo());
             passagemEntity.setNumeroAssento(++nPassagem);
             PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.save(passagemEntity), PassagemDTO.class);
-            passagemDTO.setNomeCompanhia(recuperarCompanhia(passagemEntity.getIdPassagem()).getNome());
+            passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
             passagemDTOS.add(passagemDTO);
         }
 
