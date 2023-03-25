@@ -35,11 +35,15 @@ public class SecurityConfiguration {
                                         "/companhia/all",
                                         "/aviao/all").hasAuthority("ROLE_ADMIN")
 
+                                //Iguais
+                                .antMatchers("/passagem/valor",
+                                        "/passagem/buscar/{idPassagem}",
+                                        "/passagem/voo",
+                                        "/venda/vendas-between")
+                                .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
+
                                 //All Comprador
-                                .antMatchers("/comprador/alterar",
-                                        "/comprador/retornar-compras",
-                                        "/comprador/logar",
-                                        "/comprador/deletar",
+                                .antMatchers("/comprador/**",
                                         "/venda",
                                         "/venda/**/comprador")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
@@ -53,13 +57,8 @@ public class SecurityConfiguration {
                                         "/voo/alterar/**",
                                         "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
 
-                                //Iguais
-                                .antMatchers("/voo/**",
-                                        "/passagem/valor",
-                                        "/passagem/buscar/{idPassagem}",
-                                        "/passagem/voo",
-                                        "/venda/vendas-between")
-                                .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
+                                //Iguais mais genericos
+                                .antMatchers("/voo/**").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_COMPRADOR", "ROLE_ADMIN")
 
                                 .anyRequest()
                                 .authenticated());
