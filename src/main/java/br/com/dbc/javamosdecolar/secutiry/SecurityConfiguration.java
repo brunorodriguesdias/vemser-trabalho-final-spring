@@ -61,10 +61,6 @@ public class SecurityConfiguration {
                                         "/venda/vendas-between")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
 
-//                                //Venda
-//                                .antMatchers("/venda", "/venda/**/comprador").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
-//                                .antMatchers("/venda/vendas-between").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
-
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
