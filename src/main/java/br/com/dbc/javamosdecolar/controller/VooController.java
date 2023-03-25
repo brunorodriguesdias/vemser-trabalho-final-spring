@@ -28,38 +28,38 @@ public class VooController implements VooDoc {
         return new ResponseEntity<>(this.vooService.getById(idVoo), OK);
     }
 
-    @GetMapping("/voo-aviao")
+    @GetMapping("/aviao")
     public ResponseEntity<PageDTO<VooDTO>> getByVooAviao(@RequestParam("idAviao") Integer idAviao,
                                                         @RequestParam("pagina") Integer pagina,
                                                         @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getByVooAviao(idAviao, pagina, tamanho), OK);
     }
 
-    @GetMapping("/voo-companhia")
+    @GetMapping("/companhia")
     public ResponseEntity<PageDTO<VooDTO>> getByVooCompanhia(@RequestParam("idCompanhia") Integer idCompanhia,
                                                          @RequestParam("pagina") Integer pagina,
                                                          @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getByVooCompanhia(idCompanhia, pagina, tamanho), OK);
     }
 
-    @GetMapping("/voo-all")
+    @GetMapping("/all")
     public ResponseEntity<PageDTO<VooDTO>> getAllVoo( @RequestParam("pagina") Integer pagina,
                                                              @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.getAllVoo(pagina, tamanho), OK);
     }
 
-    @PostMapping
+    @PostMapping("/criar")
     public ResponseEntity<VooDTO> create(@RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.create(vooCreateDTO), CREATED);
     }
 
-    @PutMapping("/{idVoo}")
+    @PutMapping("/alterar/{idVoo}")
     public ResponseEntity<VooDTO> update (@PathVariable("idVoo") Integer idVoo,
                                           @RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(vooService.update(idVoo, vooCreateDTO), OK);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/deletar")
     public ResponseEntity<Void> delete(@RequestParam("idVoo") Integer idVoo) throws RegraDeNegocioException {
         vooService.delete(idVoo);
         return new ResponseEntity<>(OK);

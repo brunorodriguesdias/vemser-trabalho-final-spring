@@ -25,7 +25,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class CompanhiaController implements CompanhiaDoc{
     private final CompanhiaService companhiaService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam Integer pagina,
                                                         @RequestParam Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(companhiaService.getAll(pagina, tamanho), OK);

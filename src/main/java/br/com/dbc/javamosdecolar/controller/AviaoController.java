@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class AviaoController implements AviaoDoc {
     private final AviaoService aviaoService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam Integer pagina,
                                                         @RequestParam Integer tamanho) {
         return new ResponseEntity<>(aviaoService.getAll(pagina, tamanho), OK);

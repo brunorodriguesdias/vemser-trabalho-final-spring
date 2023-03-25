@@ -50,7 +50,7 @@ public class PassagemController implements PassagemDoc {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/new")
+    @GetMapping("/all-new")
     public ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina,
                                                                     @RequestParam Integer tamanho) {
         return new ResponseEntity<>(this.passagemService.getUltimasPassagens(pagina, tamanho), OK);
@@ -72,7 +72,7 @@ public class PassagemController implements PassagemDoc {
         return new ResponseEntity<>(this.passagemService.getByValorMaximo(valor, pagina, tamanho), OK);
     }
 
-    @GetMapping("/{idPassagem}")
+    @GetMapping("/buscar/{idPassagem}")
     public ResponseEntity<PassagemDTO> getById(
             @PathVariable("idPassagem") Integer id) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.getById(id), OK);

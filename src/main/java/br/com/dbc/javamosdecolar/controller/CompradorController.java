@@ -27,7 +27,7 @@ public class CompradorController implements CompradorDoc {
 
     private final CompradorService compradorService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<PageDTO<CompradorDTO>> getAll(@RequestParam Integer pagina,
                                                         @RequestParam Integer tamanho) {
         return new ResponseEntity<>(compradorService.getAll(pagina, tamanho), OK);

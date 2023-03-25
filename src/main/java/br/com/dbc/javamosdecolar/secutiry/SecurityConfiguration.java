@@ -29,24 +29,42 @@ public class SecurityConfiguration {
                 .and().csrf().disable()
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
-                                // Comprador pode selecionar, atualizar e deletar a si mesmo
-                                .antMatchers("/comprador/**").hasAuthority("ROLE_COMPRADOR")
-                                .antMatchers(HttpMethod.GET, "/voo/**").hasAuthority("ROLE_COMPRADOR")
+                                //All Admin
+                                .antMatchers("/voo/all",
+                                        "/comprador/all",
+                                        "/companhia/all",
+                                        "/aviao/all").hasAuthority("ROLE_ADMIN")
 
-                                //Venda
-                                .antMatchers(HttpMethod.POST,  "/venda").hasAuthority("ROLE_COMPRADOR")
-                                .antMatchers(HttpMethod.GET, "/venda/**/comprador").hasAuthority("ROLE_COMPRADOR")
-                                .antMatchers(HttpMethod.DELETE,  "/venda").hasAnyAuthority("ROLE_COMPANIHA", "ROLE_COMPRADOR")
+                                //All Comprador
+                                .antMatchers("/comprador/alterar",
+                                        "/comprador/retornar-compras",
+                                        "/comprador/logar",
+                                        "/comprador/deletar",
+                                        "/venda",
+                                        "/venda/**/comprador")
+                                .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
 
-                                // All Companhia
-                                .antMatchers("/aviao**",
-                                        "/passagem**",
-                                        "/voo**",
+                                //All Companhia
+                                .antMatchers("/aviao/**",
+                                        "/passagem/**",
                                         "/venda/**/companhia",
-                                        "/companhia/**").hasAuthority("ROLE_COMPANHIA")
+                                        "/companhia/**",
+                                        "/voo/criar",
+                                        "/voo/alterar/**",
+                                        "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
 
-                                // Admin é livre no sistema
-                                .antMatchers("/**").hasAuthority("ROLE_ADMIN")
+                                //Iguais
+                                .antMatchers("/voo/**",
+                                        "/passagem/valor",
+                                        "/passagem/buscar/{idPassagem}",
+                                        "/passagem/voo",
+                                        "/venda/vendas-between")
+                                .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
+
+//                                //Venda
+//                                .antMatchers("/venda", "/venda/**/comprador").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
+//                                .antMatchers("/venda/vendas-between").hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
+
                                 .anyRequest()
                                 .authenticated());
         http.addFilterBefore(new TokenAuthenticationFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
@@ -60,9 +78,9 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/auth",
-                "/auth/create")
+                "/auth/create");
                 // Qualquer pessoa pode se cadastrar como companhia ou comprador
-                .antMatchers(HttpMethod.POST, "/companhia", "/comprador");
+//                .antMatchers(HttpMethod.POST, "/companhia", "/comprador");
 
     }
 

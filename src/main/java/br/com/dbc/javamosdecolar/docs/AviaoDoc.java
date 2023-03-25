@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Tag(name = "Avião", description = "Endpoints de avião")
 public interface AviaoDoc {
-    @Operation(summary = "Lista todos os aviãos", description = "Lista todos os aviãos cadastrados")
+    @Operation(summary = "Lista todos os aviões", description = "Lista todos os aviões cadastrados")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Retorna os aviãos cadastrados"),
