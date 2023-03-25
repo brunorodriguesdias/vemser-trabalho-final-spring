@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VendaDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
@@ -29,6 +30,7 @@ public class VendaService {
     private final CompanhiaService companhiaService;
 //    private final EmailService emailService;
     private final ObjectMapper objectMapper;
+    private final UsuarioService usuarioService;
 
     public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
 
@@ -68,8 +70,11 @@ public class VendaService {
             throw new RegraDeNegocioException("Venda já cancelada!");
         }
 
-        CompradorEntity compradorEntity = compradorService.getCompradorSemId();
-        if (compradorEntity != venda.getComprador()) {
+        UsuarioDTO loggedUser = usuarioService.getLoggedUser();
+        CompanhiaEntity companhiaVendedora = companhiaService.recuperarCompanhia("idPassagem", venda.getIdPassagem());
+
+        if (!(loggedUser.getIdUsuario() == venda.getIdComprador() ||
+                loggedUser.getIdUsuario() == companhiaVendedora.getIdUsuario())) {
             throw new RegraDeNegocioException("Você não tem permissão de cancelar essa venda!");
         }
 
