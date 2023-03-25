@@ -86,7 +86,7 @@ public interface CompradorDoc {
                                         @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!") @RequestHeader String novaSenha)
             throws RegraDeNegocioException;
 
-    @Operation(summary = "Deletar comprador", description = "Deleta o comprador selecionado")
+    @Operation(summary = "Deletar comprador", description = "Deleta o comprador autenticado")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "No content"),
@@ -97,4 +97,17 @@ public interface CompradorDoc {
     )
     @DeleteMapping("/deletar")
     ResponseEntity<Void> delete() throws RegraDeNegocioException;
+
+    @Operation(summary = "Deletar comprador por id", description = "Deleta a comprador pelo id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "No content"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @DeleteMapping("/deletar/admin")
+    ResponseEntity<Void> deleteCompradorAdmin(@RequestParam("Id") Integer id,
+                                              @RequestHeader("cpf") String cpf) throws RegraDeNegocioException;
 }

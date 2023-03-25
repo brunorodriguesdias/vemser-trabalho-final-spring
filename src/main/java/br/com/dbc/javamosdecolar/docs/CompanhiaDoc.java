@@ -80,7 +80,7 @@ public interface CompanhiaDoc {
     @PutMapping("/alterar")
     ResponseEntity<CompanhiaDTO> update(@Valid @RequestBody CompanhiaUpdateDTO companhiaUpdateDTO) throws RegraDeNegocioException;
 
-    @Operation(summary = "Deletar companhia por id", description = "Deleta a companhia selecionado")
+    @Operation(summary = "Deletar companhia", description = "Deleta a companhia autenticada")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "204", description = "No content"),
@@ -90,6 +90,19 @@ public interface CompanhiaDoc {
             }
     )
     @DeleteMapping("/deletar")
-    ResponseEntity<Void> delete(@RequestHeader("id") Integer id,
-                                @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete() throws RegraDeNegocioException;
+
+    @Operation(summary = "Deletar companhia por id", description = "Deleta a companhia pelo id")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "204", description = "No content"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @DeleteMapping("/deletar/admin")
+    ResponseEntity<Void> deleteCompanhiaAdmin(@RequestHeader("id") Integer id,
+                                              @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
+
 }

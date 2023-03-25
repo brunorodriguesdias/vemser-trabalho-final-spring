@@ -103,6 +103,14 @@ public class CompanhiaService {
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
+    public void delete() throws RegraDeNegocioException {
+        //procurando companhia pelo ID
+        CompanhiaEntity companhia = getCompanhiaSemId();
+
+        //deletando companhia do bd
+        usuarioService.deleteById(companhia.getIdUsuario());
+    }
+
     public void delete(Integer id, String cnpj) throws RegraDeNegocioException {
         //procurando companhia pelo ID
         CompanhiaEntity companhia = getCompanhiaComId(id);

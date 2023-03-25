@@ -63,5 +63,12 @@ public class CompradorController implements CompradorDoc {
         compradorService.delete();
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/deletar/admin")
+    public ResponseEntity<Void> deleteCompradorAdmin(@RequestParam("Id") Integer id,
+                                                     @RequestHeader("cpf") String cpf) throws RegraDeNegocioException {
+        compradorService.delete(id, cpf);
+        return ResponseEntity.noContent().build();
+    }
 }
 

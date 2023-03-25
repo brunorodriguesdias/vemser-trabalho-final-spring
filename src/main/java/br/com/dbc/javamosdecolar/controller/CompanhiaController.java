@@ -56,8 +56,14 @@ public class CompanhiaController implements CompanhiaDoc{
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestHeader("id") Integer id,
-                                       @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete() throws RegraDeNegocioException {
+        companhiaService.delete();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/deletar/admin")
+    public ResponseEntity<Void> deleteCompanhiaAdmin(@RequestHeader("id") Integer id,
+                                                     @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException {
         companhiaService.delete(id, cnpj);
         return ResponseEntity.noContent().build();
     }

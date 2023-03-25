@@ -109,8 +109,19 @@ public class CompradorService {
         CompradorEntity comprador = getCompradorSemId();
 
         //deletando comprador do bd
-
         usuarioService.deleteById(comprador.getIdUsuario());
+    }
+
+    public void delete(Integer id, String cpf) throws RegraDeNegocioException {
+        //recuperando comprador
+        CompradorEntity comprador = getCompradorComId(id);
+
+        //deletando comprador do bd
+        if(comprador.getCpf().trim().equals(cpf.trim())) {
+            usuarioService.deleteById(comprador.getIdUsuario());
+        } else {
+            throw new RegraDeNegocioException("CPF Inválido!");
+        }
     }
 
     public CompradorDTO getByComprador() throws RegraDeNegocioException {

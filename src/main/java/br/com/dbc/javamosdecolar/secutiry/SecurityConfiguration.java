@@ -35,7 +35,9 @@ public class SecurityConfiguration {
                                         "/companhia/all",
                                         "/aviao/all",
                                         "/auth/create",
-                                        "/auth/get-usuario-loggado").hasAuthority("ROLE_ADMIN")
+                                        "/auth/get-usuario-loggado",
+                                        "/comprador/deletar/admin",
+                                        "/companhia/deletar/admin").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
                                 .antMatchers("/passagem/valor",
