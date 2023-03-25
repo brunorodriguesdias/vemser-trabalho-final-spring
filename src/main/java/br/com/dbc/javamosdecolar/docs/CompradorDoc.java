@@ -96,6 +96,5 @@ public interface CompradorDoc {
             }
     )
     @DeleteMapping("/deletar")
-    ResponseEntity<Void> delete(@RequestParam("Id") Integer id,
-                                @RequestHeader("cpf") String cpf) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete() throws RegraDeNegocioException;
 }

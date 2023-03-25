@@ -59,9 +59,8 @@ public class CompradorController implements CompradorDoc {
     }
 
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestParam("Id") Integer id,
-                                       @RequestHeader("cpf") String cpf) throws RegraDeNegocioException {
-        compradorService.delete(id, cpf);
+    public ResponseEntity<Void> delete() throws RegraDeNegocioException {
+        compradorService.delete();
         return ResponseEntity.noContent().build();
     }
 }
