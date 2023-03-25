@@ -68,6 +68,11 @@ public class VendaService {
             throw new RegraDeNegocioException("Venda já cancelada!");
         }
 
+        CompradorEntity compradorEntity = compradorService.getCompradorSemId();
+        if (compradorEntity != venda.getComprador()) {
+            throw new RegraDeNegocioException("Você não tem permissão de cancelar essa venda!");
+        }
+
         vendaRepository.deleteById(idVenda);
 //        emailService.sendEmail(venda, "DELETAR",
 //                compradorService.getCompradorComId(venda.getIdComprador()));

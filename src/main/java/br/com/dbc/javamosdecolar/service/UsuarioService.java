@@ -25,6 +25,7 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+        existsLogin(usuarioCreateDTO.getLogin());
         UsuarioEntity usuarioEntity = objectMapper.convertValue(usuarioCreateDTO, UsuarioEntity.class);
 
         String senha = passwordEncoder.encode(usuarioCreateDTO.getSenha());
