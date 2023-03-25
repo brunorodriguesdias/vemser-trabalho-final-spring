@@ -33,7 +33,9 @@ public class SecurityConfiguration {
                                 .antMatchers("/voo/all",
                                         "/comprador/all",
                                         "/companhia/all",
-                                        "/aviao/all").hasAuthority("ROLE_ADMIN")
+                                        "/aviao/all",
+                                        "/auth/create",
+                                        "/auth/get-usuario-loggado").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
                                 .antMatchers("/passagem/valor",
@@ -73,7 +75,6 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/auth",
-                "/auth/create",
                 // Qualquer pessoa pode se cadastrar como companhia ou comprador
                 "/comprador/create",
                 "/companhia/create");

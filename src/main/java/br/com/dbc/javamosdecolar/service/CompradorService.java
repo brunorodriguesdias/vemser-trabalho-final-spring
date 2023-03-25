@@ -54,7 +54,7 @@ public class CompradorService {
             id = usuarioService.getIdLoggedUser();
         }
 
-        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.compradorComComprasRelatorio(page, id);
+        Page<CompradorRelatorioDTO> pageRelatorios = compradorRepository.gerarRelatorioCompras(page, id);
         List<CompradorRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
 
         return new PageDTO<>(pageRelatorios.getTotalElements(),

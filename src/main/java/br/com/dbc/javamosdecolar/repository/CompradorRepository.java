@@ -43,7 +43,7 @@ public interface CompradorRepository extends JpaRepository<CompradorEntity, Inte
             " JOIN AVIAO av ON av.idAviao = vo.idAviao" +
             " JOIN COMPANHIA co ON co.idUsuario = av.idCompanhia" +
             " WHERE :idClausula IS NULL OR c.idUsuario = :idClausula")
-    Page<CompradorRelatorioDTO> compradorComComprasRelatorio(Pageable pageable, Integer idClausula);
+    Page<CompradorRelatorioDTO> gerarRelatorioCompras(Pageable pageable, Integer idClausula);
 
     Boolean existsCompradorEntityByCpfIsContaining(String cpf);
 

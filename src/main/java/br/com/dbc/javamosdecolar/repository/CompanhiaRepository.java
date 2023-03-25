@@ -34,7 +34,7 @@ public interface CompanhiaRepository extends JpaRepository<CompanhiaEntity, Inte
             " LEFT JOIN VOO v ON v.idAviao = av.idAviao" +
             " LEFT JOIN PASSAGEM p ON p.idVoo = v.idVoo" +
             " WHERE :idClausula IS NULL OR c.idUsuario = :idClausula")
-    Page<CompanhiaRelatorioDTO> companhiaRelatorio(Pageable pageable, Integer idClausula);
+    Page<CompanhiaRelatorioDTO> gerarRelatorioCompanhia(Pageable pageable, Integer idClausula);
 
     Boolean existsCompanhiaEntityByCnpjIsContaining(String cpf);
 

@@ -54,7 +54,7 @@ public class CompanhiaService {
             id = usuarioService.getIdLoggedUser();
         }
 
-        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.companhiaRelatorio(page, id);
+        Page<CompanhiaRelatorioDTO> pageRelatorios = companhiaRepository.gerarRelatorioCompanhia(page, id);
         List<CompanhiaRelatorioDTO> relatorios = pageRelatorios.getContent().stream().toList();
 
         return new PageDTO<>(pageRelatorios.getTotalElements(),
