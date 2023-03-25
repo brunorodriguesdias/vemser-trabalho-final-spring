@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class TokenService {
     private static final String CARGOS_CHAVE = "cargos";
 
     public String gerarToken(UsuarioEntity usuarioEncontrado) throws RegraDeNegocioException {
+        Date now = Date.valueOf(LocalDate.now());
+        Date dateExpiration = new Date(now.getTime() + Long.parseLong(expiration));
+
         List<String> cargos = usuarioEncontrado.getAuthorities().stream()
                 .map(grantedAuthority -> grantedAuthority.getAuthority())
                 .toList();
@@ -38,8 +42,8 @@ public class TokenService {
                 .claim("login", usuarioEncontrado.getLogin())
                 .claim(Claims.ID, String.valueOf(usuarioEncontrado.getIdUsuario()))
                 .claim(CARGOS_CHAVE, cargos)
-                .setIssuedAt(Date.valueOf(LocalDate.now()))
-                .setExpiration(Date.valueOf(LocalDate.now().plusDays(Long.parseLong(expiration))))
+                .setIssuedAt(now)
+                .setExpiration(dateExpiration)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
         return meuToken;
@@ -61,7 +65,6 @@ public class TokenService {
                 List<SimpleGrantedAuthority> cargosDoUsuario = cargos.stream()
                         .map(authority -> new SimpleGrantedAuthority(authority))
                         .toList();
-//                cargosDoUsuario.forEach(System.out::println);
 
                 return new UsernamePasswordAuthenticationToken(user, null, cargosDoUsuario);
             }

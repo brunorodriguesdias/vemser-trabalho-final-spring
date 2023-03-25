@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,6 +53,8 @@ public class AuthenticationService implements UserDetailsService {
             return usuarioEntity;
         } catch (BadCredentialsException ex) {
             throw new RegraDeNegocioException("Usuario não encontrado");
+        } catch (DisabledException e) {
+            throw new RegraDeNegocioException("Usuário desabilitado!");
         }
     }
 }
