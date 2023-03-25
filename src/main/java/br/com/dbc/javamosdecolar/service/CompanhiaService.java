@@ -80,6 +80,7 @@ public class CompanhiaService {
 
         //salvando no bd o novo comprador
         companhiaRepository.save(companhiaEntity);
+        cargoService.saveCargo(companhiaEntity);
 //        emailService.sendEmail(companhiaEntity);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }

@@ -34,8 +34,8 @@ public class UsuarioService {
         usuarioEntity.getCargos().add(cargoService.findByNome("ROLE_ADMIN"));
         usuarioEntity.setAtivo(true);
 
-
         usuarioRepository.save(usuarioEntity);
+        cargoService.saveCargo(usuarioEntity);
 
         return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }

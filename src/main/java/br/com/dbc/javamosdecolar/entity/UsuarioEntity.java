@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.entity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

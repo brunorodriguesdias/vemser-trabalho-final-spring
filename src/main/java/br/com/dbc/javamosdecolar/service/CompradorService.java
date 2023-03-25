@@ -72,6 +72,7 @@ public class CompradorService {
 
         //editando e adicionando usuario ao comprador
         CompradorEntity compradorEntity = objectMapper.convertValue(compradorCreateDTO, CompradorEntity.class);
+        System.out.println(compradorEntity.getLogin());
         compradorEntity.setTipoUsuario(TipoUsuario.COMPRADOR);
         compradorEntity.setSenha(passwordEncoder.encode(compradorCreateDTO.getSenha()));
         compradorEntity.setAtivo(true);
@@ -80,6 +81,7 @@ public class CompradorService {
 
         //salvando no bd o novo comprador
         compradorRepository.save(compradorEntity);
+        cargoService.saveCargo(compradorEntity);
 //        emailService.sendEmail(compradorEntity);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
