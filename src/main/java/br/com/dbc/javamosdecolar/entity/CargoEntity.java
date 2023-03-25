@@ -27,7 +27,7 @@ public class CargoEntity  implements GrantedAuthority {
     @JoinTable(
             name = "USUARIO_CARGO",
             joinColumns = @JoinColumn(name = "ID_CARGO"),
-            inverseJoinColumns = @JoinColumn(name = "id_usuario")
+            inverseJoinColumns = @JoinColumn(name = "ID_USUARIO")
     )
     private Set<UsuarioEntity> usuarios;
 

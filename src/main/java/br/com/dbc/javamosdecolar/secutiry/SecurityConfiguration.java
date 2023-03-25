@@ -73,10 +73,10 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/v3/api-docs/**",
                 "/auth",
-                "/auth/create");
+                "/auth/create",
                 // Qualquer pessoa pode se cadastrar como companhia ou comprador
-//                .antMatchers(HttpMethod.POST, "/companhia", "/comprador");
-
+                "/comprador/create",
+                "/companhia/create");
     }
 
     @Bean

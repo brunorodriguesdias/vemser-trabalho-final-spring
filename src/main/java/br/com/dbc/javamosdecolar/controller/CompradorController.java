@@ -44,7 +44,7 @@ public class CompradorController implements CompradorDoc {
         return new ResponseEntity<>(compradorService.compradorComComprasRelatorio(pagina, tamanho), OK);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
                                                 throws RegraDeNegocioException{
         return new ResponseEntity<>(compradorService.create(comprador), CREATED);

@@ -43,7 +43,7 @@ public class CompanhiaController implements CompanhiaDoc{
         return new ResponseEntity<>(companhiaService.getByCompanhia(), OK);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
