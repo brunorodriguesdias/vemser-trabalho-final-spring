@@ -59,6 +59,7 @@ public class VooService {
         vooEncontrado.setDestino(vooCreateDTO.getDestino());
         vooEncontrado.setDataPartida(vooCreateDTO.getDataPartida());
         vooEncontrado.setDataChegada(vooCreateDTO.getDataChegada());
+        vooEncontrado.setAssentosDisponiveis(vooCreateDTO.getAssentosDisponiveis());
 
         //UPDATE VOO
         vooRepository.save(vooEncontrado);
