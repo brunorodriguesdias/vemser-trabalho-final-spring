@@ -37,13 +37,18 @@ public class SecurityConfiguration {
                                         "/auth/create",
                                         "/auth/get-usuario-loggado",
                                         "/comprador/deletar/admin",
-                                        "/companhia/deletar/admin").hasAuthority("ROLE_ADMIN")
+                                        "/companhia/deletar/admin",
+                                        "/venda/vendas-between").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
-                                .antMatchers("/passagem/valor",
+                                .antMatchers("/passagem/all-new",
+                                        "/passagem/valor",
                                         "/passagem/buscar/{idPassagem}",
                                         "/passagem/voo",
-                                        "/venda/vendas-between")
+                                        "/voo/id",
+                                        "/voo/companhia",
+                                        "/voo/aviao",
+                                        "/voo/all")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
 
                                 //All Comprador

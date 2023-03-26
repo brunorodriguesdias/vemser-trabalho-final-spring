@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VendaEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -36,7 +38,8 @@ public class VendaService {
 
         UUID codigo = UUID.randomUUID();
 
-        CompradorEntity compradorEntity = compradorService.getCompradorComId(vendaDTO.getIdComprador());
+//        CompradorEntity compradorEntity = compradorService.getCompradorComId(vendaDTO.getIdComprador());
+        CompradorEntity compradorEntity = compradorService.getCompradorSemId();
 
         PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
         if (passagem.getStatus() != Status.DISPONIVEL) {
@@ -55,6 +58,8 @@ public class VendaService {
         passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
         VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
+        vendaEfetuadaDTO.setComprador(compradorEntity.getNome());
+        vendaEfetuadaDTO.setCompanhia(companhiaEntity.getNome());
 
 //        emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
 
@@ -88,6 +93,13 @@ public class VendaService {
                                               Integer tamanho) throws RegraDeNegocioException {
         compradorService.getCompradorComId(idComprador);
 
+        // Se o comprador logado não tiver o mesmo id que o fornecido e não for admin.
+        // não tem permissão para acessar esse recurso
+        if (!Objects.equals(idComprador, usuarioService.getIdLoggedUser()) &&
+                usuarioService.getLoggedUser().getTipoUsuario() != TipoUsuario.ADMIN) {
+            throw new RegraDeNegocioException("Você não tem permissão para realizar essa operação!");
+        }
+
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
 
         return listaPaginada(vendaRepository.
@@ -100,6 +112,13 @@ public class VendaService {
                                              Integer tamanho) throws RegraDeNegocioException {
 
         companhiaService.getCompanhiaComId(idCompanhia);
+
+        // Se a companhia logado não tiver o mesmo id que o fornecido e não for admin.
+        // não tem permissão para acessar esse recurso
+        if (!Objects.equals(idCompanhia, usuarioService.getIdLoggedUser()) &&
+                usuarioService.getLoggedUser().getTipoUsuario() != TipoUsuario.ADMIN) {
+            throw new RegraDeNegocioException("Você não tem permissão para realizar essa operação!");
+        }
 
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
 
