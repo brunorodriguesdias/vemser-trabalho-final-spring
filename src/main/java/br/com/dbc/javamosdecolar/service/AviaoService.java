@@ -14,6 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class AviaoService {
@@ -39,8 +41,8 @@ public class AviaoService {
             throw new RegraDeNegocioException("Já existe avião com esse código!");
         }
 
-        // VALIDANDO E RECUPERANDO COMPANHIA
-        CompanhiaEntity companhia = companhiaService.getCompanhiaComId(aviaoCreateDTO.getIdCompanhia());
+        // RECUPERANDO COMPANHIA
+        CompanhiaEntity companhia = companhiaService.getCompanhiaSemId();
 
         AviaoEntity aviao = objectMapper.convertValue(aviaoCreateDTO, AviaoEntity.class);
         aviao.setAtivo(true);
@@ -62,18 +64,17 @@ public class AviaoService {
             throw new RegraDeNegocioException("Avião inativo, impossível edita-lo!");
         }
 
-        // RECUPERANDO COMPANHIA
-        CompanhiaEntity companhia = companhiaService.getCompanhiaComId(aviaoCreateDTO.getIdCompanhia());
+        // VALIDANDO COMPANHIA
+        validarCompanhiaLogada(aviaoEncontrado);
 
         // ATUALIZANDO
         aviaoEncontrado.setCapacidade(aviaoCreateDTO.getCapacidade());
-        aviaoEncontrado.setIdCompanhia(aviaoCreateDTO.getIdCompanhia());
         aviaoEncontrado.setUltimaManutencao(aviaoCreateDTO.getUltimaManutencao());
 
         // SALVANDO REGISTRO E PREPARANDO RETORNO
         AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.save(aviaoEncontrado)
                 , AviaoDTO.class);
-        aviaoDTO.setNomeCompanhia(companhia.getNomeFantasia());
+        aviaoDTO.setNomeCompanhia(aviaoEncontrado.getCompanhia().getNomeFantasia());
 
         return aviaoDTO;
     }
@@ -81,9 +82,14 @@ public class AviaoService {
     public void delete(Integer aviaoId) throws RegraDeNegocioException {
         AviaoEntity aviao = getAviao(aviaoId);
 
+
         if (!aviao.isAtivo()) {
             throw new RegraDeNegocioException("Avião já está inativo!");
         }
+
+        // VALIDANDO COMPANHIA
+        validarCompanhiaLogada(aviao);
+
         aviaoRepository.delete(aviao);
     }
 
@@ -96,5 +102,12 @@ public class AviaoService {
     protected AviaoEntity getAviao(Integer idAviao) throws RegraDeNegocioException {
         return aviaoRepository.findById(idAviao)
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
+    }
+
+    private void validarCompanhiaLogada(AviaoEntity aviao) throws RegraDeNegocioException {
+        if (!Objects.equals(aviao.getIdCompanhia(), companhiaService.getCompanhiaSemId().getIdUsuario())) {
+            throw new RegraDeNegocioException("Você naõ tem permissão de realizar essa operação: " +
+                    "O avião informado pertence à outra companhia!");
+        }
     }
 }

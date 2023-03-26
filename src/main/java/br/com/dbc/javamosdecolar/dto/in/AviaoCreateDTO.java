@@ -11,9 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AviaoCreateDTO {
-    @NotNull
-    @Schema(description = "ID da companhia", example = "5")
-    private Integer idCompanhia;
 
     @NotBlank
     @Schema(description = "Código do avião", example = "PP-XTY")
