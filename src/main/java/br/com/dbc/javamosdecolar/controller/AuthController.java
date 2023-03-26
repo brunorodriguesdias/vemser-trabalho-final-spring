@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.controller;
 
+import br.com.dbc.javamosdecolar.docs.AuthDoc;
 import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LoginDTO;
 import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 @Validated
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthDoc {
 
     private final TokenService tokenService;
     private final UsuarioService usuarioService;
