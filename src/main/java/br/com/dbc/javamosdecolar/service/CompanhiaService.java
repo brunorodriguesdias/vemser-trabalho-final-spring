@@ -89,7 +89,7 @@ public class CompanhiaService {
         //Retorna o companhia
         CompanhiaEntity companhiaEntity = getCompanhiaSemId();
 
-        if(companhiaUpdateDTO.getSenha().equals(companhiaUpdateDTO.getSenha().trim())){
+        if(companhiaEntity.getSenha().equals(companhiaUpdateDTO.getSenha().trim())){
             throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
         }
 
