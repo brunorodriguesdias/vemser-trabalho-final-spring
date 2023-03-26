@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requisicao) ->
                         requisicao
                                 //All Admin
-                                .antMatchers("/voo/all",
+                                .antMatchers(
                                         "/comprador/all",
                                         "/companhia/all",
                                         "/aviao/all",
@@ -41,7 +41,8 @@ public class SecurityConfiguration {
                                         "/venda/vendas-between").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
-                                .antMatchers("/passagem/all-new",
+                                .antMatchers("/voo/all",
+                                        "/passagem/all-new",
                                         "/passagem/valor",
                                         "/passagem/buscar/{idPassagem}",
                                         "/passagem/voo",
