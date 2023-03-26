@@ -31,6 +31,9 @@ public class VooService {
 
         //VALIDANDO AVIAO
         AviaoEntity aviaoEntity = aviaoService.getAviao(vooCreateDTO.getIdAviao());
+        if (!aviaoEntity.isAtivo()){
+            throw new RegraDeNegocioException("O avião informado está inativo!");
+        }
 
         //VALIDANDO DATA
         validarDatas(vooCreateDTO.getDataPartida(), vooCreateDTO.getDataPartida());
