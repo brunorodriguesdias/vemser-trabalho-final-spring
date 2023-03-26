@@ -94,8 +94,10 @@ public class AviaoService {
     }
 
     public AviaoDTO getById(Integer id) throws RegraDeNegocioException {
+        AviaoEntity aviao = getAviao(id);
+        validarCompanhiaLogada(aviao);
         AviaoDTO aviaoDTO = objectMapper.convertValue(getAviao(id), AviaoDTO.class);
-        aviaoDTO.setNomeCompanhia(companhiaService.getCompanhiaComId(aviaoDTO.getIdCompanhia()).getNomeFantasia());
+        aviaoDTO.setNomeCompanhia(aviao.getCompanhia().getNomeFantasia());
         return aviaoDTO;
     }
 
@@ -106,7 +108,7 @@ public class AviaoService {
 
     private void validarCompanhiaLogada(AviaoEntity aviao) throws RegraDeNegocioException {
         if (!Objects.equals(aviao.getIdCompanhia(), companhiaService.getCompanhiaSemId().getIdUsuario())) {
-            throw new RegraDeNegocioException("Você naõ tem permissão de realizar essa operação: " +
+            throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
                     "O avião informado pertence à outra companhia!");
         }
     }
