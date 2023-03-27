@@ -29,11 +29,14 @@ public class VendaDTO extends VendaCreateDTO {
 
     @Schema(description = "Nome do Comprador", example = "Celso Carvalho Camargo")
     private String comprador;
+    @Schema(description = "Identificador do Comprador", example = "15")
+    private Integer idComprador;
 
     public VendaDTO(Integer idComprador,Integer idPassagem, Integer idVenda,
                     String codigo, Status status, LocalDateTime data,
                     String companhia, String comprador) {
-        super(idComprador, idPassagem);
+        super(idPassagem);
+        this.idComprador = idComprador;
         this.idVenda = idVenda;
         this.codigo = codigo;
         this.status = status;
