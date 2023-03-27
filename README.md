@@ -14,7 +14,7 @@
 ## 2. Metodologia
 
 Como abordagem para codificação desse projeto, resolvemos montar um diagrama de classes, 
-que utilizamos como guia para entendermos as necessidades básicas do sistema. Nossa proposta neste módulo de Spring Data
+que utilizamos como guia para entendermos as necessidades básicas do sistema. Nossa proposta neste módulo de Spring Data e Spring Security
 foi diminuir a complexidade do código, priorizando funções e métodos úteis nos pensando em um uso real do sistema,
 buscando assim deixar o sistema mais "clean".  
   
