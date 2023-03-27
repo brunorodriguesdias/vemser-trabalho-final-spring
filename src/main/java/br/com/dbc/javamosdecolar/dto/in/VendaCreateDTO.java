@@ -11,9 +11,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VendaCreateDTO {
-    @Schema(description = "id do comprador", example = "3", required = true)
-    @NotNull(message = "O campo idComprador não pode estar nulo!")
-    private Integer idComprador;
 
     @Schema(description = "id da passagem a ser comprada", example = "2", required = true)
     @NotNull(message = "O campo idPassagem não pode estar nulo!")

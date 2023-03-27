@@ -38,7 +38,6 @@ public class VendaService {
 
         UUID codigo = UUID.randomUUID();
 
-//        CompradorEntity compradorEntity = compradorService.getCompradorComId(vendaDTO.getIdComprador());
         CompradorEntity compradorEntity = compradorService.getCompradorSemId();
 
         PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
