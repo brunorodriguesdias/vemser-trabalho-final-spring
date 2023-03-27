@@ -180,7 +180,7 @@ public class PassagemService {
 
     protected boolean alteraDisponibilidadePassagem (PassagemEntity passagem, VendaEntity vendaEntity) {
         passagem.setStatus(Status.VENDIDA);
-        passagem.setVenda(vendaEntity);
+        passagem.setIdVenda(vendaEntity.getIdVenda());
         passagemRepository.save(passagem);
         return true;
     }
