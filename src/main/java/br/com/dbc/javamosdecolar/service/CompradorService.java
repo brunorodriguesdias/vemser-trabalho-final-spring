@@ -26,7 +26,7 @@ public class CompradorService {
     private final CompradorRepository compradorRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-//    private final EmailService emailService;
+    private final EmailService emailService;
     private final CargoService cargoService;
     private final PasswordEncoder passwordEncoder;
 
@@ -82,7 +82,7 @@ public class CompradorService {
         //salvando no bd o novo comprador
         compradorRepository.save(compradorEntity);
         cargoService.saveCargo(compradorEntity);
-//        emailService.sendEmail(compradorEntity);
+        emailService.sendEmail(compradorEntity);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
 
