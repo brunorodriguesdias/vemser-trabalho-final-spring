@@ -5,15 +5,19 @@ import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.AvaliacaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +27,7 @@ public class AvaliacaoService {
     private final ObjectMapper objectMapper;
 
     public PageDTO<AvaliacaoDTO> findAll(Integer pagina, Integer tamanho) {
-        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
+        Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho, Sort.by(Sort.Direction.DESC, "nota"));
         Page<AvaliacaoEntity> compradoresPaginados = avaliacaoRepository.findAll(solcitacaoPagina);
 
         List<AvaliacaoDTO> compradores = compradoresPaginados.getContent().stream()
@@ -52,8 +56,12 @@ public class AvaliacaoService {
                 compradores);
     }
 
-    public AvaliacaoDTO findByIdAvaliacao(Integer idAvaliacao) {
-        return  objectMapper.convertValue(avaliacaoRepository.findByIdAvaliacao(idAvaliacao), AvaliacaoDTO.class);
+    public AvaliacaoDTO findByIdAvaliacao(String idAvaliacao) throws RegraDeNegocioException {
+        Optional<AvaliacaoEntity> avaliacaoDTO = avaliacaoRepository.findById(idAvaliacao);
+        if(avaliacaoDTO.isEmpty()){
+            throw new RegraDeNegocioException("Avaliação não encontrada!");
+        }
+        return  objectMapper.convertValue(avaliacaoDTO.get(), AvaliacaoDTO.class);
     }
 
     public AvaliacaoDTO create(AvaliacaoCreateDTO avaliacaoCreateDTO){
@@ -61,7 +69,8 @@ public class AvaliacaoService {
         return objectMapper.convertValue(avaliacaoRepository.save(avaliacao), AvaliacaoDTO.class);
     }
 
-    public void delete(Integer idAvaliacao){
-        avaliacaoRepository.deleteById(String.valueOf(idAvaliacao));
+    public void delete(String idAvaliacao) throws RegraDeNegocioException{
+        findByIdAvaliacao(idAvaliacao);
+        avaliacaoRepository.deleteById(idAvaliacao);
     }
 }

@@ -38,7 +38,8 @@ public class SecurityConfiguration {
                                         "/auth/get-usuario-loggado",
                                         "/comprador/deletar/admin",
                                         "/companhia/deletar/admin",
-                                        "/venda/vendas-between").hasAuthority("ROLE_ADMIN")
+                                        "/venda/vendas-between",
+                                        "/avaliacao/deletar").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
                                 .antMatchers("/voo/all",
@@ -49,13 +50,16 @@ public class SecurityConfiguration {
                                         "/voo/id",
                                         "/voo/companhia",
                                         "/voo/aviao",
-                                        "/voo/all")
+                                        "/voo/all",
+                                        "/avaliacao/listar-nota",
+                                        "/avaliacao/all")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
 
                                 //All Comprador
                                 .antMatchers("/comprador/**",
                                         "/venda",
-                                        "/venda/**/comprador")
+                                        "/venda/**/comprador",
+                                        "/avaliacao/create")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
 
                                 //All Companhia

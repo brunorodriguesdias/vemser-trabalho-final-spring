@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AvaliacaoEntity {
 
     @Id
-    private Integer idAvaliacao;
+    private String idAvaliacao;
 
     private String nome;
 
