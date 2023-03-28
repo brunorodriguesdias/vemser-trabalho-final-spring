@@ -1,7 +1,10 @@
 package br.com.dbc.javamosdecolar.controller;
 
+import br.com.dbc.javamosdecolar.dto.in.AvaliacaoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.service.AvaliacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +22,14 @@ public class AvaliacaoController {
     @GetMapping("/all")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(@RequestParam Integer pagina,
                                                          @RequestParam Integer tamanho) {
-        return new ResponseEntity(avaliacaoService.findAll(), OK);
+        return new ResponseEntity(avaliacaoService.findAll(pagina, tamanho), OK);
     }
 
     @GetMapping("/listar-nota")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(@RequestParam Integer nota,
                                                                @RequestParam Integer pagina,
                                                                @RequestParam Integer tamanho) {
-        return new ResponseEntity<>(avaliacaoService.findAllByNota(nota), HttpStatus.OK);
+        return new ResponseEntity<>(avaliacaoService.findAllByNota(pagina, tamanho, nota), HttpStatus.OK);
     }
 
     @GetMapping("/buscar-id")
@@ -36,7 +39,7 @@ public class AvaliacaoController {
 
     @PostMapping("/create")
     public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) {
-        return new ResponseEntity<>(avaliacaoService.create(avaliacaoCreateDTO));
+        return new ResponseEntity<>(avaliacaoService.create(avaliacaoCreateDTO), OK);
     }
 
     @DeleteMapping("/deletar")
