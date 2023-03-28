@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.controller;
 
+import br.com.dbc.javamosdecolar.docs.AvaliacaoDoc;
 import br.com.dbc.javamosdecolar.dto.in.AvaliacaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
@@ -20,16 +21,17 @@ import static org.springframework.http.HttpStatus.OK;
 @RequiredArgsConstructor
 @RequestMapping("/avaliacao")
 @Validated
-public class AvaliacaoController {
+public class AvaliacaoController implements AvaliacaoDoc {
 
     private final AvaliacaoService avaliacaoService;
-
+    @Override
     @GetMapping("/all")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(@RequestParam Integer pagina,
                                                          @RequestParam @Valid @Positive Integer tamanho) {
         return new ResponseEntity(avaliacaoService.findAll(pagina, tamanho), OK);
     }
 
+    @Override
     @GetMapping("/listar-nota")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(@RequestParam Integer nota,
                                                                @RequestParam Integer pagina,
@@ -37,16 +39,19 @@ public class AvaliacaoController {
         return new ResponseEntity<>(avaliacaoService.findAllByNota(pagina, tamanho, nota), HttpStatus.OK);
     }
 
+    @Override
     @GetMapping("/buscar-id")
     public ResponseEntity<AvaliacaoDTO> findByIdAvaliacao(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.findByIdAvaliacao(idAvaliacao), OK);
     }
 
+    @Override
     @PostMapping("/create")
     public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) {
         return new ResponseEntity<>(avaliacaoService.create(avaliacaoCreateDTO), OK);
     }
 
+    @Override
     @DeleteMapping("/deletar")
     public ResponseEntity<Void> delete(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
         avaliacaoService.delete(idAvaliacao);
