@@ -40,6 +40,14 @@ public class AvaliacaoController implements AvaliacaoDoc {
     }
 
     @Override
+    @GetMapping("/listar-nome")
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNome(@RequestParam String nome,
+                                                               @RequestParam Integer pagina,
+                                                               @RequestParam @Valid @Positive Integer tamanho) {
+        return new ResponseEntity<>(avaliacaoService.findAllByNome(pagina, tamanho, nome), HttpStatus.OK);
+    }
+
+    @Override
     @GetMapping("/buscar-id")
     public ResponseEntity<AvaliacaoDTO> findByIdAvaliacao(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.findByIdAvaliacao(idAvaliacao), OK);

@@ -43,6 +43,19 @@ public interface AvaliacaoDoc {
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(@RequestParam Integer nota,
                                                                @RequestParam Integer pagina,
                                                                @RequestParam @Valid @Positive Integer tamanho);
+    @Operation(summary = "Listar avaliações por nome do avaliador", description = "Lista avaliações cujo nome do " +
+            "avaliador contenha a palavra determinada")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Retorna avaliações com a nota desejada"),
+                    @ApiResponse(responseCode = "400", description = "Bad Request"),
+                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+            }
+    )
+    @GetMapping("/listar-nome")
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNome(@RequestParam String nome,
+                                                               @RequestParam Integer pagina,
+                                                               @RequestParam @Valid @Positive Integer tamanho);
 
     @Operation(summary = "Busca avaliação por id", description = "Busca uma avaliação pelo seu id")
     @ApiResponses(

@@ -4,7 +4,6 @@ import br.com.dbc.javamosdecolar.dto.in.AvaliacaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.AvaliacaoEntity;
-import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AvaliacaoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,6 +42,21 @@ public class AvaliacaoService {
     public PageDTO<AvaliacaoDTO> findAllByNota(Integer pagina, Integer tamanho, Integer nota) {
         Pageable solicitacaoPagina = PageRequest.of(pagina, tamanho);
         Page<AvaliacaoEntity> compradoresPaginados = avaliacaoRepository.findAllByNota(nota, solicitacaoPagina);
+
+        List<AvaliacaoDTO> compradores = compradoresPaginados.getContent().stream()
+                .map(avaliacaoEntity -> objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class))
+                .toList();
+
+        return new PageDTO<>(compradoresPaginados.getTotalElements(),
+                compradoresPaginados.getTotalPages(),
+                pagina,
+                tamanho,
+                compradores);
+    }
+
+    public PageDTO<AvaliacaoDTO> findAllByNome(Integer pagina, Integer tamanho, String nome) {
+        Pageable solicitacaoPagina = PageRequest.of(pagina, tamanho);
+        Page<AvaliacaoEntity> compradoresPaginados = avaliacaoRepository.findAllByNomeContainingIgnoreCase(nome, solicitacaoPagina);
 
         List<AvaliacaoDTO> compradores = compradoresPaginados.getContent().stream()
                 .map(avaliacaoEntity -> objectMapper.convertValue(avaliacaoEntity, AvaliacaoDTO.class))

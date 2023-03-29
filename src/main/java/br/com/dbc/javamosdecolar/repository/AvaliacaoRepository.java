@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface AvaliacaoRepository extends MongoRepository<AvaliacaoEntity, String> {
 
     Page<AvaliacaoEntity> findAllByNota(Integer nota, Pageable pageable);
+    Page<AvaliacaoEntity> findAllByNomeContainingIgnoreCase(String nome, Pageable pageable);
 }
