@@ -39,7 +39,8 @@ public class SecurityConfiguration {
                                         "/comprador/deletar/admin",
                                         "/companhia/deletar/admin",
                                         "/venda/vendas-between",
-                                        "/avaliacao/deletar").hasAuthority("ROLE_ADMIN")
+                                        "/avaliacao/deletar",
+                                        "/avaliacao/relatorio").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
                                 .antMatchers("/voo/all",
@@ -52,6 +53,7 @@ public class SecurityConfiguration {
                                         "/voo/aviao",
                                         "/voo/all",
                                         "/avaliacao/listar-nota",
+                                        "/avaliacao/listar-nome",
                                         "/avaliacao/all")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_COMPANHIA", "ROLE_ADMIN")
 

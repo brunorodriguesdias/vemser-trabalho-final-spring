@@ -64,4 +64,6 @@ public class UsuarioService {
     public Optional<UsuarioEntity> findByLogin (String login) {
         return usuarioRepository.findByLogin(login);
     }
+
+    protected Integer getCountUsers() { return usuarioRepository.countUsuarioEntitiesBy();}
 }

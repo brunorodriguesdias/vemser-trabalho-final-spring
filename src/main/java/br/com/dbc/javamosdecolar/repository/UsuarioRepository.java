@@ -12,4 +12,6 @@ public interface UsuarioRepository extends JpaRepository<UsuarioEntity, Integer>
     Boolean existsByLogin(String login);
 
     Optional<UsuarioEntity> findByLogin(String login);
+
+    Integer countUsuarioEntitiesBy();
 }

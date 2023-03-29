@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.AvaliacaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
+import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.AvaliacaoEntity;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -23,6 +24,7 @@ public class AvaliacaoService {
 
     private final AvaliacaoRepository avaliacaoRepository;
     private final ObjectMapper objectMapper;
+    private final UsuarioService usuarioService;
 
     public PageDTO<AvaliacaoDTO> findAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho, Sort.by(Sort.Direction.DESC, "nota"));
@@ -67,6 +69,12 @@ public class AvaliacaoService {
                 pagina,
                 tamanho,
                 compradores);
+    }
+
+    public AvaliacaoRelatorioDTO gerarRelatorio() {
+        AvaliacaoRelatorioDTO avaliacaoRelatorioDTO = avaliacaoRepository.gerarRelatorioAvaliacoes();
+        avaliacaoRelatorioDTO.setQtdUsuarios(usuarioService.getCountUsers());
+        return avaliacaoRelatorioDTO;
     }
 
     public AvaliacaoDTO findByIdAvaliacao(String idAvaliacao) throws RegraDeNegocioException {

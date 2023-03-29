@@ -3,6 +3,7 @@ package br.com.dbc.javamosdecolar.controller;
 import br.com.dbc.javamosdecolar.docs.AvaliacaoDoc;
 import br.com.dbc.javamosdecolar.dto.in.AvaliacaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoDTO;
+import br.com.dbc.javamosdecolar.dto.outs.AvaliacaoRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.AvaliacaoService;
@@ -51,6 +52,11 @@ public class AvaliacaoController implements AvaliacaoDoc {
     @GetMapping("/buscar-id")
     public ResponseEntity<AvaliacaoDTO> findByIdAvaliacao(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.findByIdAvaliacao(idAvaliacao), OK);
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<AvaliacaoRelatorioDTO> findByIdAvaliacao() throws RegraDeNegocioException {
+        return new ResponseEntity<>(avaliacaoService.gerarRelatorio(), OK);
     }
 
     @Override
