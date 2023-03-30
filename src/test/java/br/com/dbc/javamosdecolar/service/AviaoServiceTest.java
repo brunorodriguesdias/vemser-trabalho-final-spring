@@ -137,7 +137,7 @@ public class AviaoServiceTest {
     }
 
     @Test
-    public void deveTestarDeletar() throws RegraDeNegocioException {
+    public void deveDeletarComSucesso() throws RegraDeNegocioException {
         AviaoEntity aviaoEntity = getAviaoEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
         Mockito.doReturn(aviaoEntity).when(aviaoService).getAviao(anyInt());
