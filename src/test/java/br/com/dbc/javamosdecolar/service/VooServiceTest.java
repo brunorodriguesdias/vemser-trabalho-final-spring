@@ -26,18 +26,13 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @NoArgsConstructor
 @RunWith(MockitoJUnitRunner.class)
@@ -186,7 +181,7 @@ public class VooServiceTest {
     }
 
     @Test
-    public void shouldGetByVooAviao() throws RegraDeNegocioException{
+    public void shouldGetByVooAviaoSucess() throws RegraDeNegocioException{
         //SETUP
         Integer pagina = 0;
         Integer tamanho = 2;
@@ -213,18 +208,151 @@ public class VooServiceTest {
         Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
         Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
         Assert.assertEquals(pageDTO.getQuantidadePaginas(), vooDTOPageDTO.getQuantidadePaginas());
+        Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
     }
 
-//    @Test
-//    public void testarRecuperarCompanhia(){
-//        //SETUP
-//        CompanhiaEntity companhia = getCompanhiaEntity();
-//
-//        //ACT
-//        Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt()));
-//
-//        vooService.recuperarCompanhia(1);
-//    }
+    @Test
+    public void shouldGetByVooCompanhiaSucess() throws RegraDeNegocioException{
+        //SETUP
+        Integer pagina = 0;
+        Integer tamanho = 2;
+        Integer idCompanhia = 3;
+        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
+        List<VooDTO> vooDTOs = vooEntities.stream().map(vooEntity ->  objectMapper.convertValue(vooEntity, VooDTO.class)).toList();
+
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        PageDTO<VooDTO> pageDTO = new PageDTO<>(vooEntitiesPage.getTotalElements(),
+                vooEntitiesPage.getTotalPages(),
+                pagina,
+                tamanho,
+                vooDTOs);
+
+        Mockito.when(vooRepository.findVooIdCompanhia(Mockito.anyInt(), Mockito.any(Pageable.class))).thenReturn(vooEntitiesPage);
+        Mockito.doReturn(pageDTO).when(vooService).listaPaginada(Mockito.any(Page.class), Mockito.anyInt(), Mockito.anyInt());
+
+        //ACT
+        PageDTO<VooDTO> vooDTOPageDTO = vooService.getByVooCompanhia(idCompanhia, pagina, tamanho);
+
+        //ASSERT
+        Assert.assertNotNull(vooDTOPageDTO);
+        Assert.assertEquals(pageDTO.getPagina(), vooDTOPageDTO.getPagina());
+        Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
+        Assert.assertEquals(pageDTO.getQuantidadePaginas(), vooDTOPageDTO.getQuantidadePaginas());
+        Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
+    }
+
+    @Test
+    public void shouldGetByVooAllSucess() throws RegraDeNegocioException {
+        //SETUP
+        Integer pagina = 0;
+        Integer tamanho = 2;
+        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
+        List<VooDTO> vooDTOs = vooEntities.stream().map(vooEntity ->  objectMapper.convertValue(vooEntity, VooDTO.class)).toList();
+
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        PageDTO<VooDTO> pageDTO = new PageDTO<>(vooEntitiesPage.getTotalElements(),
+                vooEntitiesPage.getTotalPages(),
+                pagina,
+                tamanho,
+                vooDTOs);
+
+        Mockito.when(vooRepository.findAll(Mockito.any(Pageable.class))).thenReturn(vooEntitiesPage);
+        Mockito.doReturn(pageDTO).when(vooService).listaPaginada(Mockito.any(Page.class), Mockito.anyInt(), Mockito.anyInt());
+
+        //ACT
+        PageDTO<VooDTO> vooDTOPageDTO = vooService.getAllVoo(pagina, tamanho);
+
+        //ASSERT
+        Assert.assertNotNull(vooDTOPageDTO);
+        Assert.assertEquals(pageDTO.getPagina(), vooDTOPageDTO.getPagina());
+        Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
+        Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
+    }
+
+    @Test
+    public void shouldListaPaginadaSucess() throws RegraDeNegocioException {
+        //SETUP
+        Integer pagina = 0;
+        Integer tamanho = 2;
+        CompanhiaEntity companhiaEntity = getCompanhiaEntity();
+        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
+
+        //ACT
+        PageDTO<VooDTO> vooDTOPageDTO = vooService.listaPaginada(vooEntitiesPage, pagina, tamanho);
+
+        //ASSERT
+        Assert.assertNotNull(vooDTOPageDTO);
+        Assert.assertEquals(pagina, vooDTOPageDTO.getPagina());
+        Assert.assertEquals(tamanho, vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(Optional.of(vooEntitiesPage.getTotalPages()).get(), vooDTOPageDTO.getQuantidadePaginas());
+        Assert.assertEquals(Optional.of(vooEntitiesPage.getTotalElements()).get(), vooDTOPageDTO.getTotalElementos());
+        Assert.assertEquals(vooEntitiesPage.getContent().size(), vooDTOPageDTO.getElementos().size());
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void shouldListaPaginadaFail() throws RegraDeNegocioException{
+        //SETUP
+        Integer pagina = 0;
+        Integer tamanho = 1;
+        Page<VooEntity> vooEntityPage = new PageImpl<>(new ArrayList<>());
+
+        //ACT
+        vooService.listaPaginada(vooEntityPage,pagina,tamanho);
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void shouldValidarDatasFail() throws RegraDeNegocioException{
+        //SETUP
+        LocalDateTime dataChegada = LocalDateTime.now();
+        LocalDateTime dataPartida = dataChegada.plusDays(1);
+
+        //ACT
+        vooService.validarDatas(dataPartida, dataChegada);
+    }
+
+    @Test
+    public void shouldGetVooSucess() throws RegraDeNegocioException{
+        //SETUP
+        VooEntity vooEntity = getVooEntity();
+        Mockito.when(vooRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(vooEntity));
+
+        //ACT
+        VooEntity vooReturn = vooService.getVoo(vooEntity.getIdVoo());
+
+        //ASSERT
+        Assert.assertEquals(vooEntity.getIdVoo(), vooReturn.getIdVoo());
+        Assert.assertEquals(vooEntity.getOrigem(), vooReturn.getOrigem());
+        Assert.assertEquals(vooEntity.getDestino(), vooReturn.getDestino());
+        Assert.assertEquals(vooEntity.getDataPartida(), vooReturn.getDataPartida());
+        Assert.assertEquals(vooEntity.getDataChegada(), vooReturn.getDataChegada());
+        Assert.assertEquals(vooEntity.getStatus(), vooReturn.getStatus());
+        Assert.assertEquals(vooEntity.getAssentosDisponiveis(), vooReturn.getAssentosDisponiveis());
+        Assert.assertEquals(vooEntity.getIdAviao(), vooReturn.getIdAviao());
+    }
+
+    @Test
+    public void shouldUpdateAssentosDisponiveisSucess(){
+        //SETUP
+        VooEntity vooEntity = getVooEntity();
+        Mockito.when(vooRepository.save(Mockito.any(VooEntity.class))).thenReturn(vooEntity);
+
+        //ACT
+        VooEntity vooReturn = vooService.updateAssentosDisponiveis(vooEntity);
+
+        //ASSERT
+        Assert.assertEquals(vooEntity.getIdVoo(), vooReturn.getIdVoo());
+        Assert.assertEquals(vooEntity.getOrigem(), vooReturn.getOrigem());
+        Assert.assertEquals(vooEntity.getDestino(), vooReturn.getDestino());
+        Assert.assertEquals(vooEntity.getDataPartida(), vooReturn.getDataPartida());
+        Assert.assertEquals(vooEntity.getDataChegada(), vooReturn.getDataChegada());
+        Assert.assertEquals(vooEntity.getStatus(), vooReturn.getStatus());
+        Assert.assertEquals(vooEntity.getAssentosDisponiveis(), vooReturn.getAssentosDisponiveis());
+        Assert.assertEquals(vooEntity.getIdAviao(), vooReturn.getIdAviao());
+    }
 
     public static VooCreateDTO getVooCreateDTO(){
         VooCreateDTO vooCreateDTO = new VooCreateDTO();
