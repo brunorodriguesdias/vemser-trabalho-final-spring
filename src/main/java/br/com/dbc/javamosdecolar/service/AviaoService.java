@@ -106,7 +106,7 @@ public class AviaoService {
                 .orElseThrow(() -> new RegraDeNegocioException("Aviao não encontrado!"));
     }
 
-    private void validarCompanhiaLogada(AviaoEntity aviao) throws RegraDeNegocioException {
+    protected void validarCompanhiaLogada(AviaoEntity aviao) throws RegraDeNegocioException {
         if (!Objects.equals(aviao.getIdCompanhia(), companhiaService.getCompanhiaSemId().getIdUsuario())) {
             throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
                     "O avião informado pertence à outra companhia!");
