@@ -47,6 +47,7 @@ public class VooServiceTest {
     private CompanhiaService companhiaService;
     @Mock
     private AviaoService aviaoService;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Before
@@ -186,15 +187,18 @@ public class VooServiceTest {
         Integer pagina = 0;
         Integer tamanho = 2;
         Integer idAviao = 3;
-        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
-        List<VooDTO> vooDTOs = vooEntities.stream().map(vooEntity ->  objectMapper.convertValue(vooEntity, VooDTO.class)).toList();
 
-        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>(
+                List.of(getVooEntity(), getVooEntity())
+        );
         PageDTO<VooDTO> pageDTO = new PageDTO<>(vooEntitiesPage.getTotalElements(),
                 vooEntitiesPage.getTotalPages(),
                 pagina,
                 tamanho,
-                vooDTOs);
+                vooEntitiesPage.getContent().stream()
+                .map(vooEntity -> objectMapper.convertValue(vooEntity, VooDTO.class))
+                 .toList()
+        );
 
         Mockito.when(vooRepository.findByIdAviao(Mockito.anyInt(), Mockito.any(Pageable.class))).thenReturn(vooEntitiesPage);
         Mockito.doReturn(pageDTO).when(vooService).listaPaginada(Mockito.any(Page.class), Mockito.anyInt(), Mockito.anyInt());
@@ -204,8 +208,8 @@ public class VooServiceTest {
 
         //ASSERT
         Assert.assertNotNull(vooDTOPageDTO);
-        Assert.assertEquals(pageDTO.getPagina(), vooDTOPageDTO.getPagina());
-        Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(pagina, vooDTOPageDTO.getPagina());
+        Assert.assertEquals(tamanho, vooDTOPageDTO.getTamanho());
         Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
         Assert.assertEquals(pageDTO.getQuantidadePaginas(), vooDTOPageDTO.getQuantidadePaginas());
         Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
@@ -217,15 +221,18 @@ public class VooServiceTest {
         Integer pagina = 0;
         Integer tamanho = 2;
         Integer idCompanhia = 3;
-        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
-        List<VooDTO> vooDTOs = vooEntities.stream().map(vooEntity ->  objectMapper.convertValue(vooEntity, VooDTO.class)).toList();
 
-        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>(
+                List.of(getVooEntity(), getVooEntity())
+        );
         PageDTO<VooDTO> pageDTO = new PageDTO<>(vooEntitiesPage.getTotalElements(),
                 vooEntitiesPage.getTotalPages(),
                 pagina,
                 tamanho,
-                vooDTOs);
+                vooEntitiesPage.getContent().stream()
+                .map(vooEntity -> objectMapper.convertValue(vooEntity, VooDTO.class))
+                .toList()
+        );
 
         Mockito.when(vooRepository.findVooIdCompanhia(Mockito.anyInt(), Mockito.any(Pageable.class))).thenReturn(vooEntitiesPage);
         Mockito.doReturn(pageDTO).when(vooService).listaPaginada(Mockito.any(Page.class), Mockito.anyInt(), Mockito.anyInt());
@@ -235,8 +242,8 @@ public class VooServiceTest {
 
         //ASSERT
         Assert.assertNotNull(vooDTOPageDTO);
-        Assert.assertEquals(pageDTO.getPagina(), vooDTOPageDTO.getPagina());
-        Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(pagina, vooDTOPageDTO.getPagina());
+        Assert.assertEquals(tamanho, vooDTOPageDTO.getTamanho());
         Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
         Assert.assertEquals(pageDTO.getQuantidadePaginas(), vooDTOPageDTO.getQuantidadePaginas());
         Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
@@ -247,15 +254,18 @@ public class VooServiceTest {
         //SETUP
         Integer pagina = 0;
         Integer tamanho = 2;
-        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
-        List<VooDTO> vooDTOs = vooEntities.stream().map(vooEntity ->  objectMapper.convertValue(vooEntity, VooDTO.class)).toList();
 
-        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>(
+                List.of(getVooEntity(), getVooEntity())
+        );
         PageDTO<VooDTO> pageDTO = new PageDTO<>(vooEntitiesPage.getTotalElements(),
                 vooEntitiesPage.getTotalPages(),
                 pagina,
                 tamanho,
-                vooDTOs);
+                vooEntitiesPage.getContent().stream()
+                .map(vooEntity -> objectMapper.convertValue(vooEntity, VooDTO.class))
+                .toList()
+        );
 
         Mockito.when(vooRepository.findAll(Mockito.any(Pageable.class))).thenReturn(vooEntitiesPage);
         Mockito.doReturn(pageDTO).when(vooService).listaPaginada(Mockito.any(Page.class), Mockito.anyInt(), Mockito.anyInt());
@@ -265,8 +275,8 @@ public class VooServiceTest {
 
         //ASSERT
         Assert.assertNotNull(vooDTOPageDTO);
-        Assert.assertEquals(pageDTO.getPagina(), vooDTOPageDTO.getPagina());
-        Assert.assertEquals(pageDTO.getTamanho(), vooDTOPageDTO.getTamanho());
+        Assert.assertEquals(pagina, vooDTOPageDTO.getPagina());
+        Assert.assertEquals(tamanho, vooDTOPageDTO.getTamanho());
         Assert.assertEquals(pageDTO.getTotalElementos(), vooDTOPageDTO.getTotalElementos());
         Assert.assertEquals(pageDTO.getElementos(), vooDTOPageDTO.getElementos());
     }
@@ -277,8 +287,11 @@ public class VooServiceTest {
         Integer pagina = 0;
         Integer tamanho = 2;
         CompanhiaEntity companhiaEntity = getCompanhiaEntity();
-        List<VooEntity> vooEntities = List.of(getVooEntity(), getVooEntity(), getVooEntity());
-        Page<VooEntity> vooEntitiesPage = new PageImpl<>((vooEntities));
+
+        Page<VooEntity> vooEntitiesPage = new PageImpl<>(
+                List.of(getVooEntity(), getVooEntity(), getVooEntity())
+        );
+
         Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
 
         //ACT
@@ -288,8 +301,8 @@ public class VooServiceTest {
         Assert.assertNotNull(vooDTOPageDTO);
         Assert.assertEquals(pagina, vooDTOPageDTO.getPagina());
         Assert.assertEquals(tamanho, vooDTOPageDTO.getTamanho());
-        Assert.assertEquals(Optional.of(vooEntitiesPage.getTotalPages()).get(), vooDTOPageDTO.getQuantidadePaginas());
-        Assert.assertEquals(Optional.of(vooEntitiesPage.getTotalElements()).get(), vooDTOPageDTO.getTotalElementos());
+        Assert.assertEquals((Integer) vooEntitiesPage.getTotalPages(), vooDTOPageDTO.getQuantidadePaginas());
+        Assert.assertEquals((Long) vooEntitiesPage.getTotalElements(), vooDTOPageDTO.getTotalElementos());
         Assert.assertEquals(vooEntitiesPage.getContent().size(), vooDTOPageDTO.getElementos().size());
     }
 
@@ -354,7 +367,7 @@ public class VooServiceTest {
         Assert.assertEquals(vooEntity.getIdAviao(), vooReturn.getIdAviao());
     }
 
-    public static VooCreateDTO getVooCreateDTO(){
+    private static VooCreateDTO getVooCreateDTO(){
         VooCreateDTO vooCreateDTO = new VooCreateDTO();
         vooCreateDTO.setOrigem("SALVADOR");
         vooCreateDTO.setDestino("PORTO ALEGRE");
@@ -365,7 +378,7 @@ public class VooServiceTest {
         return vooCreateDTO;
     }
 
-    public static VooEntity getVooEntity(){
+    private static VooEntity getVooEntity(){
         VooEntity vooEntity = new VooEntity();
         vooEntity.setAviao(getAviaoEntity());
         vooEntity.setOrigem("SALVADOR");
@@ -378,7 +391,7 @@ public class VooServiceTest {
         return vooEntity;
     }
 
-    public static AviaoEntity getAviaoEntity(){
+    private static AviaoEntity getAviaoEntity(){
         AviaoEntity aviaoEntity = new AviaoEntity();
         aviaoEntity.setAtivo(true);
         aviaoEntity.setIdAviao(100);

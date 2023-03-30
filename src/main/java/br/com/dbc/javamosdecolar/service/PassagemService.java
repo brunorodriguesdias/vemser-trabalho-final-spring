@@ -154,7 +154,7 @@ public class PassagemService {
        return listaPaginada(passagemRepository.findAllByStatusIs(Status.DISPONIVEL, solcitacaoPagina), pagina, tamanho);
     }
 
-    private PageDTO<PassagemDTO> listaPaginada (Page<PassagemEntity> pagePassagemEntity, Integer pagina, Integer tamanho){
+    protected PageDTO<PassagemDTO> listaPaginada (Page<PassagemEntity> pagePassagemEntity, Integer pagina, Integer tamanho){
         List<PassagemDTO> listaPassagensDoVoo = pagePassagemEntity
                 .map(passagem -> {
                     PassagemDTO passagemDTO = objectMapper.convertValue(passagem, PassagemDTO.class);
