@@ -38,7 +38,7 @@ public class VendaService {
 
         UUID codigo = UUID.randomUUID();
 
-        CompradorEntity compradorEntity = compradorService.getCompradorSemId();
+        CompradorEntity compradorEntity = compradorService.getLoggedComprador();
 
         PassagemEntity passagem = passagemService.getPassagem(vendaDTO.getIdPassagem());
         if (passagem.getStatus() != Status.DISPONIVEL) {

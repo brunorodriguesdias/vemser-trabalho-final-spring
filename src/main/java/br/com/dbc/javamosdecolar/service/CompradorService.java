@@ -46,7 +46,7 @@ public class CompradorService {
                 compradores);
     }
 
-    public PageDTO<CompradorRelatorioDTO> compradorComComprasRelatorio(Integer pagina, Integer tamanho){
+    public PageDTO<CompradorRelatorioDTO> gerarRelatorioCompras(Integer pagina, Integer tamanho){
         Pageable page = PageRequest.of(pagina, tamanho);
         Integer id = null;
 
@@ -80,7 +80,7 @@ public class CompradorService {
         compradorEntity.getCargos().add(cargoService.findByNome("ROLE_COMPRADOR"));
 
         //salvando no bd o novo comprador
-        compradorRepository.save(compradorEntity);
+        compradorEntity = compradorRepository.save(compradorEntity);
         cargoService.saveCargo(compradorEntity);
         emailService.sendEmail(compradorEntity);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
@@ -88,7 +88,7 @@ public class CompradorService {
 
     public CompradorDTO update(String novaSenha) throws RegraDeNegocioException {
         //Retorna o comprador
-        CompradorEntity compradorEntity = getCompradorSemId();
+        CompradorEntity compradorEntity = getLoggedComprador();
 
         if(compradorEntity.getSenha().equals(novaSenha.trim())){
             throw new RegraDeNegocioException("Senha idêntica! Informe uma senha diferente.");
@@ -106,7 +106,7 @@ public class CompradorService {
 
     public void delete() throws RegraDeNegocioException {
         //recuperando comprador
-        CompradorEntity comprador = getCompradorSemId();
+        CompradorEntity comprador = getLoggedComprador();
 
         //deletando comprador do bd
         usuarioService.deleteById(comprador.getIdUsuario());
@@ -125,7 +125,7 @@ public class CompradorService {
     }
 
     public CompradorDTO getByComprador() throws RegraDeNegocioException {
-        return objectMapper.convertValue(getCompradorSemId(), CompradorDTO.class);
+        return objectMapper.convertValue(getLoggedComprador(), CompradorDTO.class);
     }
 
     protected void validCpf(String cpf) throws RegraDeNegocioException {
@@ -139,7 +139,7 @@ public class CompradorService {
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
     }
 
-    protected CompradorEntity getCompradorSemId() throws RegraDeNegocioException {
+    protected CompradorEntity getLoggedComprador() throws RegraDeNegocioException {
         return compradorRepository.findById(usuarioService.getIdLoggedUser())
                 .orElseThrow(() -> new RegraDeNegocioException("Comprador não encontrado!"));
     }

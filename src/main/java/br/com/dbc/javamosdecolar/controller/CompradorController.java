@@ -41,7 +41,7 @@ public class CompradorController implements CompradorDoc {
     @GetMapping("/retornar-compras")
     public  ResponseEntity<PageDTO<CompradorRelatorioDTO>> relatorioDeCompras(@RequestParam Integer pagina,
                                                                               @RequestParam Integer tamanho){
-        return new ResponseEntity<>(compradorService.compradorComComprasRelatorio(pagina, tamanho), OK);
+        return new ResponseEntity<>(compradorService.gerarRelatorioCompras(pagina, tamanho), OK);
     }
 
     @PostMapping("/create")
