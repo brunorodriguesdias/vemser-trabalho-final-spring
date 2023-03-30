@@ -78,11 +78,9 @@ public class AvaliacaoService {
     }
 
     public AvaliacaoDTO findByIdAvaliacao(String idAvaliacao) throws RegraDeNegocioException {
-        Optional<AvaliacaoEntity> avaliacaoDTO = avaliacaoRepository.findById(idAvaliacao);
-        if(avaliacaoDTO.isEmpty()){
-            throw new RegraDeNegocioException("Avaliação não encontrada!");
-        }
-        return  objectMapper.convertValue(avaliacaoDTO.get(), AvaliacaoDTO.class);
+        AvaliacaoEntity avaliacao = avaliacaoRepository.findById(idAvaliacao)
+                .orElseThrow(()-> new RegraDeNegocioException("Avaliação não encontrada!"));
+        return  objectMapper.convertValue(avaliacao, AvaliacaoDTO.class);
     }
 
     public AvaliacaoDTO create(AvaliacaoCreateDTO avaliacaoCreateDTO){
