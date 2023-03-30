@@ -42,7 +42,7 @@ public class CompanhiaRelatorioDTO {
     private String origem;
     @Schema(example = "Porto Alegre")
     private String destino;
-    @Schema(example = "2023-03-24T17:14:33.871Z")
+    @Schema(example = "2023-03-24T15:14:33.871Z")
     private LocalDateTime dataPartida;
     @Schema(example = "2023-03-24T17:14:33.871Z")
     private LocalDateTime dataChegada;

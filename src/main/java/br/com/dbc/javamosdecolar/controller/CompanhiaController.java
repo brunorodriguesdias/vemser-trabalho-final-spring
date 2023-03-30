@@ -34,13 +34,13 @@ public class CompanhiaController implements CompanhiaDoc{
     @GetMapping("/retornar-passagens")
     public  ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
                                                                                 @RequestParam Integer tamanho) {
-        return new ResponseEntity<>(companhiaService.companhiaRelatorio(pagina, tamanho), OK);
+        return new ResponseEntity<>(companhiaService.gerarCompanhiaRelatorio(pagina, tamanho), OK);
     }
 
 
     @GetMapping("/buscar-companhia-logada")
     public ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.getByCompanhia(), OK);
+        return new ResponseEntity<>(companhiaService.getLoggedCompanhia(), OK);
     }
 
     @PostMapping("/create")

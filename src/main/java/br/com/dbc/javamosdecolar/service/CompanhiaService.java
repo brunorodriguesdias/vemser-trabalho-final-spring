@@ -79,7 +79,7 @@ public class CompanhiaService {
         companhiaEntity.getCargos().add(cargoService.findByNome("ROLE_COMPANHIA"));
 
         //salvando no bd o novo comprador
-        companhiaRepository.save(companhiaEntity);
+        companhiaEntity = companhiaRepository.save(companhiaEntity);
         cargoService.saveCargo(companhiaEntity);
         emailService.sendEmail(companhiaEntity);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
@@ -123,12 +123,12 @@ public class CompanhiaService {
         }
     }
 
-    public CompanhiaDTO getByCompanhia() throws RegraDeNegocioException {
+    public CompanhiaDTO getLoggedCompanhia() throws RegraDeNegocioException {
         return objectMapper.convertValue(getCompanhiaSemId(), CompanhiaDTO.class);
     }
 
-    protected CompanhiaEntity recuperarCompanhia(String param, Integer idPassagem){
-        return companhiaRepository.findSingleResultByParamAndValue(param, idPassagem);
+    protected CompanhiaEntity recuperarCompanhia(String param, Integer identificador){
+        return companhiaRepository.findSingleResultByParamAndValue(param, identificador);
     }
 
     protected void validCnpj(String cnpj) throws RegraDeNegocioException {

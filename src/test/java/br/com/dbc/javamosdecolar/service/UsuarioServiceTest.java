@@ -153,7 +153,7 @@ public class UsuarioServiceTest {
 
     private static UsuarioCreateDTO getUsuarioCreateDTO() {
         UsuarioCreateDTO minhaNovaPessoa = new UsuarioCreateDTO(
-                "joao.victor@email.com", "mypassword", "João Victor"
+                "carlos.cunha@emai.com", "mypassword", "Carlos Cunha"
         );
         return minhaNovaPessoa;
     }
@@ -161,8 +161,8 @@ public class UsuarioServiceTest {
     private static UsuarioEntity getUsuarioEntity() {
         UsuarioEntity usuarioMockadoBanco = new UsuarioEntity();
         usuarioMockadoBanco.setIdUsuario(1);
-        usuarioMockadoBanco.setNome("João Victor");
-        usuarioMockadoBanco.setLogin("joao.victor@email.com");
+        usuarioMockadoBanco.setNome("Carlos Cunha");
+        usuarioMockadoBanco.setLogin("carlos.cunha@emai.com");
 //        usuarioMockadoBanco.setSenha("dsfasffsda");
         usuarioMockadoBanco.setAtivo(true);
         return usuarioMockadoBanco;
