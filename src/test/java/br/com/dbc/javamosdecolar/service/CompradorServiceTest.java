@@ -246,17 +246,7 @@ public class CompradorServiceTest {
     }
 
 
-    private static CompradorCreateDTO getCompradorCreateDTO() {
-        CompradorCreateDTO meuNovoComprador = new CompradorCreateDTO(
-                "914.029.190-18",
-                "carlos.cunha@email.com",
-                "mypassword",
-                "Carlos Cunha"
-                );
-        return meuNovoComprador;
-    }
-
-    private static CompradorEntity getCompradorEntity() {
+    protected static CompradorEntity getCompradorEntity() {
         CompradorEntity compradorMockado = new CompradorEntity();
         compradorMockado.setIdUsuario(1);
         compradorMockado.setNome("Carlos Cunha");
@@ -265,6 +255,16 @@ public class CompradorServiceTest {
         compradorMockado.setCpf("914.029.190-18");
         compradorMockado.setAtivo(true);
         return compradorMockado;
+    }
+
+    private static CompradorCreateDTO getCompradorCreateDTO() {
+        CompradorCreateDTO meuNovoComprador = new CompradorCreateDTO(
+                "914.029.190-18",
+                "carlos.cunha@email.com",
+                "mypassword",
+                "Carlos Cunha"
+                );
+        return meuNovoComprador;
     }
 
     private static CompradorRelatorioDTO getCompradorRelatorioDTO() {

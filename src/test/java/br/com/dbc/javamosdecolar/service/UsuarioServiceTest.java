@@ -151,14 +151,7 @@ public class UsuarioServiceTest {
         Assertions.assertEquals(1, quantidadeDeUsuarios);
     }
 
-    private static UsuarioCreateDTO getUsuarioCreateDTO() {
-        UsuarioCreateDTO minhaNovaPessoa = new UsuarioCreateDTO(
-                "carlos.cunha@emai.com", "mypassword", "Carlos Cunha"
-        );
-        return minhaNovaPessoa;
-    }
-
-    private static UsuarioEntity getUsuarioEntity() {
+    protected static UsuarioEntity getUsuarioEntity() {
         UsuarioEntity usuarioMockadoBanco = new UsuarioEntity();
         usuarioMockadoBanco.setIdUsuario(1);
         usuarioMockadoBanco.setNome("Carlos Cunha");
@@ -166,6 +159,13 @@ public class UsuarioServiceTest {
 //        usuarioMockadoBanco.setSenha("dsfasffsda");
         usuarioMockadoBanco.setAtivo(true);
         return usuarioMockadoBanco;
+    }
+
+    private static UsuarioCreateDTO getUsuarioCreateDTO() {
+        UsuarioCreateDTO minhaNovaPessoa = new UsuarioCreateDTO(
+                "carlos.cunha@emai.com", "mypassword", "Carlos Cunha"
+        );
+        return minhaNovaPessoa;
     }
 
     private static void getMockedSecurityContext() {

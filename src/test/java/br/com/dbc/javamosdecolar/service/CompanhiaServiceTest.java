@@ -264,6 +264,17 @@ public class CompanhiaServiceTest {
     }
 
 
+    protected static CompanhiaEntity getCompanhiaEntity() {
+        CompanhiaEntity companhiaMockada = new CompanhiaEntity();
+        companhiaMockada.setIdUsuario(1);
+        companhiaMockada.setNome("Carlos Cunha");
+        companhiaMockada.setLogin("carlos.cunha@email.com");
+        companhiaMockada.setSenha("mypassword");
+        companhiaMockada.setCnpj("90.451.383/0001-07");
+        companhiaMockada.setAtivo(true);
+        return companhiaMockada;
+    }
+
     private static CompanhiaCreateDTO getCompanhiaCreateDTO() {
         CompanhiaCreateDTO minhaNovaCompanhia = new CompanhiaCreateDTO(
                 "carlos.cunha@email.com",
@@ -273,17 +284,6 @@ public class CompanhiaServiceTest {
                 "90.451.383/0001-07"
         );
         return minhaNovaCompanhia;
-    }
-
-    private static CompanhiaEntity getCompanhiaEntity() {
-        CompanhiaEntity companhiaMockada = new CompanhiaEntity();
-        companhiaMockada.setIdUsuario(1);
-        companhiaMockada.setNome("Carlos Cunha");
-        companhiaMockada.setLogin("carlos.cunha@email.com");
-        companhiaMockada.setSenha("mypassword");
-        companhiaMockada.setCnpj("90.451.383/0001-07");
-        companhiaMockada.setAtivo(true);
-        return companhiaMockada;
     }
 
     private static CompanhiaRelatorioDTO getCompanhiaRelatorioDTO() {
