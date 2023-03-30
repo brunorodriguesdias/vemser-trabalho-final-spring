@@ -51,6 +51,8 @@ public class CompanhiaServiceTest {
     private EmailService emailService;
     @Mock
     private CargoService cargoService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private PasswordEncoder passwordEncoder = new StandardPasswordEncoder();

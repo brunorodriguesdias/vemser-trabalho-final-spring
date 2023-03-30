@@ -4,8 +4,10 @@ import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.outs.LogDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
@@ -30,6 +32,7 @@ public class CompanhiaService {
     private final EmailService emailService;
     private final CargoService cargoService;
     private final PasswordEncoder passwordEncoder;
+    private final LogService logService;
 
     public PageDTO<CompanhiaDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -64,6 +67,10 @@ public class CompanhiaService {
                 relatorios);
     }
 
+    public List<LogDTO> consultLogUsuario() throws RegraDeNegocioException {
+        return logService.consultLogUsuario(getCompanhiaSemId().getIdUsuario());
+    }
+
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
         //validando se o login já está registrado
         usuarioService.existsLogin(companhiaCreateDTO.getLogin());
@@ -82,6 +89,7 @@ public class CompanhiaService {
         companhiaEntity = companhiaRepository.save(companhiaEntity);
         cargoService.saveCargo(companhiaEntity);
         emailService.sendEmail(companhiaEntity);
+        logService.saveLog(companhiaEntity, CompanhiaEntity.class, TipoOperacao.CRIAR);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
@@ -141,7 +149,6 @@ public class CompanhiaService {
         return companhiaRepository.findById(usuarioService.getIdLoggedUser())
                 .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
     }
-
 
     protected CompanhiaEntity getCompanhiaComId(Integer id) throws RegraDeNegocioException {
         return companhiaRepository.findById(id)

@@ -5,6 +5,7 @@ import br.com.dbc.javamosdecolar.dto.in.CompanhiaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.CompanhiaUpdateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
+import br.com.dbc.javamosdecolar.dto.outs.LogDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
@@ -14,6 +15,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
 
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -37,10 +40,14 @@ public class CompanhiaController implements CompanhiaDoc{
         return new ResponseEntity<>(companhiaService.gerarCompanhiaRelatorio(pagina, tamanho), OK);
     }
 
-
     @GetMapping("/buscar-companhia-logada")
     public ResponseEntity<CompanhiaDTO> getByCompanhia() throws RegraDeNegocioException {
         return new ResponseEntity<>(companhiaService.getLoggedCompanhia(), OK);
+    }
+
+    @GetMapping("/buscar-log")
+    public ResponseEntity<List<LogDTO>> consultLogUsuario() throws RegraDeNegocioException {
+        return new ResponseEntity<>(companhiaService.consultLogUsuario(), OK);
     }
 
     @PostMapping("/create")
