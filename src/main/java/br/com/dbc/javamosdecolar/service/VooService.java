@@ -44,8 +44,8 @@ public class VooService {
         vooEntity = vooRepository.save(vooEntity);
 
         VooDTO vooDTO = objectMapper.convertValue(vooEntity, VooDTO.class);
-        vooDTO.setNomeCompanhia(recuperarCompanhia(vooDTO.getIdVoo()).getNome());
-
+        CompanhiaEntity companhiaEntity = recuperarCompanhia(vooDTO.getIdVoo());
+        vooDTO.setNomeCompanhia(companhiaEntity.getNome());
         return vooDTO;
     }
 
@@ -104,7 +104,7 @@ public class VooService {
         return listaPaginada(vooRepository.findAll(pageable), pagina, tamanho);
     }
 
-    private PageDTO<VooDTO> listaPaginada (Page<VooEntity> pageVooEntity, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
+    protected PageDTO<VooDTO> listaPaginada (Page<VooEntity> pageVooEntity, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         if(pageVooEntity.isEmpty()){
             throw new RegraDeNegocioException("Id não encontrado!");
         }
@@ -123,11 +123,11 @@ public class VooService {
                 listaVoo);
     }
 
-    private CompanhiaEntity recuperarCompanhia(Integer idVoo) {
+    protected CompanhiaEntity recuperarCompanhia(Integer idVoo) {
         return companhiaService.recuperarCompanhia("idVoo", idVoo);
     }
 
-    private void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
+    protected void validarDatas(LocalDateTime dataPartida, LocalDateTime dataChegada) throws RegraDeNegocioException {
         if (dataChegada.isBefore(dataPartida)) {
             throw new RegraDeNegocioException("Data inválida!");
         }
