@@ -46,7 +46,7 @@ public class CompanhiaService {
         listaCompanhiaDTO);
     }
 
-    public PageDTO<CompanhiaRelatorioDTO> companhiaRelatorio(Integer pagina, Integer tamanho){
+    public PageDTO<CompanhiaRelatorioDTO> gerarCompanhiaRelatorio(Integer pagina, Integer tamanho){
         Pageable page = PageRequest.of(pagina, tamanho);
         Integer id = null;
 
