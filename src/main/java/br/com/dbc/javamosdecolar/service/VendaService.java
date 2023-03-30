@@ -139,7 +139,7 @@ public class VendaService {
                             tamanho);
     }
 
-    private PageDTO<VendaDTO> listaPaginada (Page<VendaDTO> pageVendaDTO, Integer pagina, Integer tamanho){
+    protected PageDTO<VendaDTO> listaPaginada (Page<VendaDTO> pageVendaDTO, Integer pagina, Integer tamanho){
 
         return new PageDTO<>(pageVendaDTO.getTotalElements(),
                 pageVendaDTO.getTotalPages(),
