@@ -97,29 +97,59 @@ public class AviaoServiceTest {
         assertEquals(aviaoCreateDTO.getUltimaManutencao(), aviaoRetornado.getUltimaManutencao());
     }
 
-//    @Test
-//    public void deveTestarDeletar() throws RegraDeNegocioException {
-//        AviaoEntity aviaoEntity = getAviaoEntityMock();
-//        CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
-//        when(aviaoService.getAviao(Mockito.anyInt())).thenReturn(aviaoEntity);
-//        when(aviaoRepository.findById(anyInt())).thenReturn(Optional.of(aviaoEntity));
-//        when(companhiaService.getCompanhiaSemId()).thenReturn(companhiaEntity);
-//
-//        aviaoService.delete(aviaoEntity.getIdAviao());
-//
-//        verify(aviaoRepository, times(1)).delete(any(AviaoEntity.class));
-//    }
-//
-//    @Test
-//    public void getById() throws RegraDeNegocioException {
-//        AviaoEntity aviaoEntity = getAviaoEntityMock();
-//        when(aviaoService.getAviao(anyInt())).thenReturn(aviaoEntity);
-//        when(aviaoRepository.findById(1)).thenReturn(Optional.of(aviaoEntity));
-//
-//        AviaoDTO aviaoDTO = aviaoService.getById(1);
-//
-//        assertNotNull(aviaoDTO);
-//    }
+    @Test
+    public void deveEditarComSucesso() throws RegraDeNegocioException {
+        AviaoCreateDTO aviaoCreateDTO = getAviaoDTOEntityMock();
+        AviaoEntity aviaoEntity = getAviaoEntityMock();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
+
+        when(aviaoRepository.findById(anyInt())).thenReturn(Optional.of(getAviaoEntityMock()));
+        when(companhiaService.getCompanhiaSemId()).thenReturn(companhiaEntity);
+        when(aviaoRepository.save(any())).thenReturn(aviaoEntity);
+
+        AviaoDTO aviaoDTO = aviaoService.update(aviaoEntity.getIdAviao(), aviaoCreateDTO);
+
+        assertNotNull(aviaoDTO);
+        assertEquals(aviaoEntity.getIdAviao(), aviaoDTO.getIdAviao());
+        assertEquals(aviaoEntity.getIdCompanhia(), aviaoDTO.getIdCompanhia());
+        assertEquals(aviaoCreateDTO.getCodigoAviao(), aviaoDTO.getCodigoAviao());
+        assertEquals(aviaoCreateDTO.getCapacidade(), aviaoDTO.getCapacidade());
+        assertEquals(aviaoCreateDTO.getUltimaManutencao(), aviaoDTO.getUltimaManutencao());
+        assertTrue(aviaoDTO.isAtivo());
+    }
+
+    @Test
+    public void deveTestarDeletar() throws RegraDeNegocioException {
+        AviaoEntity aviaoEntity = getAviaoEntityMock();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
+        Mockito.doReturn(aviaoEntity).when(aviaoService).getAviao(anyInt());
+        when(aviaoRepository.findById(anyInt())).thenReturn(Optional.of(aviaoEntity));
+        when(companhiaService.getCompanhiaSemId()).thenReturn(companhiaEntity);
+
+        aviaoService.delete(aviaoEntity.getIdAviao());
+
+        verify(aviaoRepository, times(1)).delete(any(AviaoEntity.class));
+    }
+
+    @Test
+    public void getById() throws RegraDeNegocioException {
+        AviaoEntity aviaoEntity = getAviaoEntityMock();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
+        Mockito.doReturn(aviaoEntity).when(aviaoService).getAviao(anyInt());
+        when(aviaoRepository.findById(anyInt())).thenReturn(Optional.of(aviaoEntity));
+        when(companhiaService.getCompanhiaSemId()).thenReturn(companhiaEntity);
+
+        AviaoDTO aviaoDTO = aviaoService.getById(1);
+
+        assertNotNull(aviaoDTO);
+        assertEquals(aviaoEntity.getIdAviao(), aviaoDTO.getIdAviao());
+        assertEquals(aviaoEntity.getIdCompanhia(), aviaoDTO.getIdCompanhia());
+        assertEquals(aviaoEntity.getCodigoAviao(), aviaoDTO.getCodigoAviao());
+        assertEquals(aviaoEntity.getCapacidade(), aviaoDTO.getCapacidade());
+        assertEquals(aviaoEntity.getUltimaManutencao(), aviaoDTO.getUltimaManutencao());
+        assertTrue(aviaoDTO.isAtivo());
+
+    }
 
     @Test
     public void DeveRetornarAviao() throws RegraDeNegocioException {
