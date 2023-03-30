@@ -44,7 +44,6 @@ public class EmailService {
             emailSender.send(mimeMessageHelper.getMimeMessage());
 
         } catch (MessagingException e) {
-            e.printStackTrace();
             throw new RegraDeNegocioException("Erro ao enviar e-mail.");
         }
     }
