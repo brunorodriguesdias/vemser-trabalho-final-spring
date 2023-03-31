@@ -55,13 +55,13 @@ public class AvaliacaoController implements AvaliacaoDoc {
     }
 
     @GetMapping("/relatorio")
-    public ResponseEntity<AvaliacaoRelatorioDTO> findByIdAvaliacao() throws RegraDeNegocioException {
+    public ResponseEntity<AvaliacaoRelatorioDTO> findByIdAvaliacao() {
         return new ResponseEntity<>(avaliacaoService.gerarRelatorio(), OK);
     }
 
     @Override
     @PostMapping("/create")
-    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) {
+    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.create(avaliacaoCreateDTO), OK);
     }
 

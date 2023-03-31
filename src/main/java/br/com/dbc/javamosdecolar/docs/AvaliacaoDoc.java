@@ -77,7 +77,7 @@ public interface AvaliacaoDoc {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO);
+    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar avaliação", description = "Deletar uma avaliação pelo seu id")
     @ApiResponses(
