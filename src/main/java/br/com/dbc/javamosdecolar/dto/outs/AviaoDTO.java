@@ -14,9 +14,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class AviaoDTO extends AviaoCreateDTO {
 
-    @NotNull
-    @Schema(description = "ID da companhia", example = "5")
-    private Integer idCompanhia;
     @Schema(description = "ID do avião", example = "1")
     private Integer idAviao;
 
@@ -28,8 +25,7 @@ public class AviaoDTO extends AviaoCreateDTO {
 
     public AviaoDTO(Integer idCompanhia, String codigoAviao, Integer capacidade, LocalDate ultimaManutencao,
                     Integer idAviao, boolean ativo, String nomeCompanhia) {
-        super(codigoAviao, capacidade, ultimaManutencao);
-        this.idCompanhia = idCompanhia;
+        super(codigoAviao, capacidade, ultimaManutencao, idCompanhia);
         this.idAviao = idAviao;
         this.ativo = ativo;
         this.nomeCompanhia = nomeCompanhia;
