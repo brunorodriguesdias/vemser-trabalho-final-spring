@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class UsuarioCreateDTO {
     @NotNull
+    @Email(message = "Email inválido!")
     @Schema(description = "Login de acesso ao sistema", example = "example@dbccompany.com.br")
     private String login;
 
