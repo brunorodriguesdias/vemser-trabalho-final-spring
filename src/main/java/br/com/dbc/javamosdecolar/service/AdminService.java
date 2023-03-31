@@ -23,12 +23,10 @@ public class AdminService {
     }
 
     public PassagemDTO createPassagem(Integer idCompanhia, PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
-        passagemCreateDTO.setIdCompanhia(idCompanhia);
         return passagemService.create(passagemCreateDTO);
     }
 
-    public VooDTO createVoo(Integer idCompanhia, VooCreateDTO vooCreateDTO) {
-        vooCreateDTO.setIdCompanhia(idCompanhia);
+    public VooDTO createVoo(Integer idCompanhia, VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
         return vooService.create(vooCreateDTO);
     }
 
