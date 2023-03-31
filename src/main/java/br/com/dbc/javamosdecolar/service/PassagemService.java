@@ -52,6 +52,7 @@ public class PassagemService {
 
         //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateDTO.getIdVoo());
+        vooService.validarCompanhiaLogada(vooEntity);
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - 1);
 
         //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
@@ -79,6 +80,7 @@ public class PassagemService {
 
         //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateAmountDTO.getIdVoo());
+        vooService.validarCompanhiaLogada(vooEntity);
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - passagemCreateAmountDTO.getQuantidadeDePassagens());
 
         //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
