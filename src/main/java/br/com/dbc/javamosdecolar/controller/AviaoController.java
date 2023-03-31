@@ -29,7 +29,7 @@ public class AviaoController implements AviaoDoc {
         return new ResponseEntity<>(aviaoService.getAll(pagina, tamanho), OK);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<AviaoDTO> create(@Valid @RequestBody AviaoCreateDTO aviao)
             throws RegraDeNegocioException{
         return new ResponseEntity<>(aviaoService.create(aviao), CREATED);
@@ -51,4 +51,5 @@ public class AviaoController implements AviaoDoc {
     public ResponseEntity<AviaoDTO> getById(Integer idAviao) throws RegraDeNegocioException {
         return new ResponseEntity<>(aviaoService.getById(idAviao), OK);
     }
+
 }
