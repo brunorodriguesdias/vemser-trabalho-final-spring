@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VendaEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.PassagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,12 +30,14 @@ public class PassagemService {
     private final ObjectMapper objectMapper;
     private final CompanhiaService companhiaService;
     private final VooService vooService;
+    private final LogService logService;
 
-    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService, @Lazy VooService vooService) {
+    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService, @Lazy VooService vooService, LogService logService) {
         this.passagemRepository = passagemRepository;
         this.objectMapper = objectMapper;
         this.companhiaService = companhiaService;
         this.vooService = vooService;
+        this.logService = logService;
     }
 
     public PassagemDTO create(PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
@@ -54,8 +57,9 @@ public class PassagemService {
         passagem.setNumeroAssento(++nAssento);
 
         PassagemEntity passagemCriada = passagemRepository.save(passagem);
-        PassagemDTO passagemDTO = objectMapper.convertValue(passagemCriada, PassagemDTO.class);
         CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.CRIAR);
+        PassagemDTO passagemDTO = objectMapper.convertValue(passagemCriada, PassagemDTO.class);
         passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
 
         //ATUALIZANDO O NUMERO DE ASSENTOS DISPONIVEIS DAQUELE VOO
@@ -83,6 +87,7 @@ public class PassagemService {
             passagemEntity.setCodigo(UUID.randomUUID().toString());
             passagemEntity.setNumeroAssento(++nPassagem);
             PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.save(passagemEntity), PassagemDTO.class);
+            logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.CRIAR);
             passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
             passagemDTOS.add(passagemDTO);
         }
@@ -108,6 +113,7 @@ public class PassagemService {
         passagemEncontrada.setTipoAssento(passagemCreateDTO.getTipoAssento());
         passagemEncontrada.setIdVoo(passagemCreateDTO.getIdVoo());
         PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.save(passagemEncontrada), PassagemDTO.class);
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.ALTERAR);
         passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
 
         return passagemDTO;
@@ -115,12 +121,14 @@ public class PassagemService {
 
     public void delete(Integer passagemId) throws RegraDeNegocioException {
         PassagemEntity passagem = getPassagem(passagemId);
+        CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
 
         if (passagem.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Passagem já cancelada!");
         }
 
         passagemRepository.deleteById(passagemId);
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.DELETAR);
     }
 
     public PassagemDTO getById(Integer id) throws RegraDeNegocioException {
@@ -182,6 +190,8 @@ public class PassagemService {
         passagem.setStatus(Status.VENDIDA);
         passagem.setIdVenda(vendaEntity.getIdVenda());
         passagemRepository.save(passagem);
+        CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.ALTERAR);
         return true;
     }
 }
