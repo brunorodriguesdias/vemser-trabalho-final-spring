@@ -102,8 +102,8 @@ public class CompanhiaService {
         companhiaEntity.setNomeFantasia(companhiaUpdateDTO.getNomeFantasia());
 
         //salvando no bd
-        logService.saveLog(companhiaEntity, CompanhiaEntity.class, TipoOperacao.ALTERAR);
         companhiaRepository.save(companhiaEntity);
+        logService.saveLog(companhiaEntity, CompanhiaEntity.class, TipoOperacao.ALTERAR);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
@@ -122,6 +122,7 @@ public class CompanhiaService {
 
         //deletando companhia do bd
         if(companhia.getCnpj().trim().equals(cnpj.trim())){
+            logService.saveLog(companhia, CompanhiaEntity.class, TipoOperacao.DELETAR);
             usuarioService.deleteById(companhia.getIdUsuario());
         } else {
             throw new RegraDeNegocioException("CNPJ Inválido!");
@@ -151,5 +152,4 @@ public class CompanhiaService {
         return companhiaRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Companhia não encontrada"));
     }
-
 }
