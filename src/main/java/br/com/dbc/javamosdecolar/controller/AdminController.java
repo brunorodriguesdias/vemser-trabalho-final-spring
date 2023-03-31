@@ -37,15 +37,16 @@ public class AdminController {
             throws RegraDeNegocioException {
         return new ResponseEntity<>(adminService.createAviao(idCompanhia, aviaoCreateDTO), CREATED);
     }
-    @PostMapping("/create-passagem/{idCompanhia}")
-    public ResponseEntity<PassagemDTO> createPassagem(@PathVariable("idCompanhia") Integer idCompanhia,
-            @RequestBody @Valid PassagemCreateDTO passagemCreateDTO)
-            throws RegraDeNegocioException {
-        return new ResponseEntity<>(this.adminService.createPassagem(idCompanhia, passagemCreateDTO), CREATED);
-    }
-    @PostMapping("/create-voo/{idCompanhia}")
-    public ResponseEntity<VooDTO> createVoo(@PathVariable("idCompanhia") Integer idCompanhia,
-            @RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
-        return new ResponseEntity<>(this.adminService.createVoo(idCompanhia, vooCreateDTO), CREATED);
-    }
+//    @PostMapping("/create-passagem/{idCompanhia}")
+//    public ResponseEntity<PassagemDTO> createPassagem(@PathVariable("idCompanhia") Integer idCompanhia,
+//            @RequestBody @Valid PassagemCreateDTO passagemCreateDTO)
+//            throws RegraDeNegocioException {
+//        return new ResponseEntity<>(this.adminService.createPassagem(idCompanhia, passagemCreateDTO), CREATED);
+//    }
+//
+//    @PostMapping("/create-voo/{idCompanhia}")
+//    public ResponseEntity<VooDTO> createVoo(@PathVariable("idCompanhia") Integer idCompanhia,
+//            @RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
+//        return new ResponseEntity<>(this.adminService.createVoo(idCompanhia, vooCreateDTO), CREATED);
+//    }
 }
