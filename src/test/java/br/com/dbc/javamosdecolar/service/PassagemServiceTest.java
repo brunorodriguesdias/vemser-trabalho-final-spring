@@ -46,6 +46,8 @@ public class PassagemServiceTest {
     private CompanhiaService companhiaService;
     @Mock
     private VooService vooService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

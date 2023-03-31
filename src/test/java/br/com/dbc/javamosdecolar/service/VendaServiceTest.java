@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.java.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,6 +51,8 @@ public class VendaServiceTest {
     private CompanhiaService companhiaService;
     @Mock
     private UsuarioService usuarioService;
+    @Mock
+    private LogService logService;
     @Before
     public void init() {
         objectMapper.registerModule(new JavaTimeModule());
@@ -59,6 +62,7 @@ public class VendaServiceTest {
     }
     @Test
     public void deveCriarComSucesso() throws RegraDeNegocioException {
+        // SETUP
         CompradorEntity compradorEntity = getCompradorEntityMock();
         PassagemEntity passagemEntity = getPassagemEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
@@ -70,8 +74,11 @@ public class VendaServiceTest {
         when(vendaRepository.save(any())).thenReturn(vendaEntity);
         when(passagemService.alteraDisponibilidadePassagem(any(), any())).thenReturn(true);
 
+
+        // ACT
         VendaDTO vendaDTO = vendaService.create(getVendaCreateDTOMock());
 
+        // ASSERT
         assertNotNull(vendaDTO);
         assertEquals(vendaEntity.getIdVenda(), vendaDTO.getIdVenda());
         assertEquals(vendaEntity.getIdPassagem(), vendaDTO.getIdPassagem());
