@@ -30,8 +30,4 @@ public class PassagemCreateDTO {
     @Schema(description = "id do voo", example = "1", required = true)
     @NotNull(message = "Informe o id do voo!")
     private Integer idVoo;
-
-    @Schema(description = "Identificador da companhia")
-    @JsonIgnore
-    private Integer idCompanhia;
 }

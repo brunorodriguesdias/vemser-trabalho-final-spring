@@ -98,7 +98,7 @@ public class AviaoService {
             throw new RegraDeNegocioException("Avião já está inativo!");
         }
 
-        // VALIDANDO COMPANHIA
+        // VALIDANDO USUARIO
         validarCompanhiaLogada(aviao);
 
         aviaoRepository.delete(aviao);
@@ -118,7 +118,9 @@ public class AviaoService {
     }
 
     protected void validarCompanhiaLogada(AviaoEntity aviao) throws RegraDeNegocioException {
-        if (!Objects.equals(aviao.getIdCompanhia(), companhiaService.getCompanhiaSemId().getIdUsuario())) {
+        UsuarioDTO loggedUser = usuarioService.getLoggedUser();
+        if (!Objects.equals(aviao.getIdCompanhia(), loggedUser.getIdUsuario())
+        && loggedUser.getTipoUsuario() != TipoUsuario.ADMIN) {
             throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
                     "O avião informado pertence à outra companhia!");
         }
