@@ -91,6 +91,7 @@ public class VendaServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarPassagemIndisponivel() throws RegraDeNegocioException {
+        //SETUP
         PassagemEntity passagemEntity = getPassagemEntityMock();
         VendaEntity vendaEntity = getVendaEntityMock();
         CompradorEntity compradorEntity = getCompradorEntityMock();
@@ -99,10 +100,12 @@ public class VendaServiceTest {
         when(compradorService.getLoggedComprador()).thenReturn(compradorEntity);
         when(passagemService.getPassagem(anyInt())).thenReturn(passagemEntity);
 
+        //ACT
         VendaDTO vendaDTO = vendaService.create(getVendaCreateDTOMock());
     }
     @Test
     public void deveDeletarComSucesso() throws RegraDeNegocioException {
+        //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
         UsuarioDTO usuarioDTO = getUsuarioDTOMock();
@@ -111,13 +114,16 @@ public class VendaServiceTest {
         when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
         when(companhiaService.recuperarCompanhia(anyString(), anyInt())).thenReturn(companhiaEntity);
 
+        //ACT
         vendaService.delete(vendaEntity.getIdVenda());
 
+        //ASSERT
         verify(vendaRepository, times(1)).deleteById(anyInt());
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarPermissaoDeletar() throws RegraDeNegocioException {
+        //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
         companhiaEntity.setIdUsuario(3);
@@ -128,21 +134,25 @@ public class VendaServiceTest {
         when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
         when(companhiaService.recuperarCompanhia(anyString(), anyInt())).thenReturn(companhiaEntity);
 
+        //ACT
         vendaService.delete(vendaEntity.getIdVenda());
     }
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarVendaCancelada() throws RegraDeNegocioException {
+        //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         vendaEntity.setStatus(Status.CANCELADO);
 
         when(vendaRepository.findById(anyInt())).thenReturn(Optional.of(vendaEntity));
 
+        //ACT
         vendaService.delete(vendaEntity.getIdVenda());
     }
 
     @Test
     public void deveListarComprasComprador() throws RegraDeNegocioException {
+        //SETUP
         CompradorEntity compradorEntity = getCompradorEntityMock();
         UsuarioEntity usuarioEntity = getUsuarioEntityMock();
         Integer pagina = 0;
@@ -155,8 +165,10 @@ public class VendaServiceTest {
         when(usuarioService.getIdLoggedUser()).thenReturn(usuarioEntity.getIdUsuario());
         when(vendaRepository.findAllByIdComprador(anyInt(), any())).thenReturn(comprasPaginadas);
 
+        //ACT
         PageDTO<VendaDTO> comprasPaginadasDTO = vendaService.getHistoricoComprasComprador(compradorEntity.getIdUsuario(), pagina, tamanho);
 
+        //ASSERT
         assertNotNull(comprasPaginadasDTO);
         assertEquals(pagina, comprasPaginadasDTO.getPagina());
         assertEquals(tamanho, comprasPaginadasDTO.getTamanho());
@@ -167,6 +179,7 @@ public class VendaServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarPermissaoNegadaComprador() throws RegraDeNegocioException {
+        //SETUP
         CompradorEntity compradorEntity = getCompradorEntityMock();
         UsuarioEntity usuarioEntity = getUsuarioEntityMock();
         UsuarioDTO usuarioDTO = getUsuarioDTOMock();
@@ -176,16 +189,17 @@ public class VendaServiceTest {
         List<VendaDTO> comprasDTO = List.of(getVendaDTOMock(), getVendaDTOMock(), getVendaDTOMock());
         Page<VendaDTO> comprasPaginadas = new PageImpl<>(comprasDTO);
 
-
         when(compradorService.getCompradorComId(anyInt())).thenReturn(compradorEntity);
         when(usuarioService.getIdLoggedUser()).thenReturn(usuarioEntity.getIdUsuario());
         when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
 
+        //ACT
         PageDTO<VendaDTO> comprasPaginadasDTO = vendaService.getHistoricoComprasComprador(32, pagina, tamanho);
     }
 
     @Test
     public void deveListarVendasCompanhia() throws RegraDeNegocioException {
+        //SETUP
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
         UsuarioEntity usuarioEntity = getUsuarioEntityMock();
         usuarioEntity.setIdUsuario(1);
@@ -200,8 +214,10 @@ public class VendaServiceTest {
         when(usuarioService.getIdLoggedUser()).thenReturn(usuarioEntity.getIdUsuario());
         when(vendaRepository.findAllByIdCompanhia(anyInt(), any())).thenReturn(vendasPaginadas);
 
+        //ACT
         PageDTO<VendaDTO> vendasPaginadasDTO = vendaService.getHistoricoVendasCompanhia(companhiaEntity.getIdUsuario(), pagina, tamanho);
 
+        //ASSERT
         assertNotNull(vendasPaginadasDTO);
         assertEquals(pagina, vendasPaginadasDTO.getPagina());
         assertEquals(tamanho, vendasPaginadasDTO.getTamanho());
@@ -212,6 +228,7 @@ public class VendaServiceTest {
 
     @Test(expected = RegraDeNegocioException.class)
     public void deveTestarPermissaoNegadaCompanhia() throws RegraDeNegocioException {
+        //SETUP
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
         UsuarioEntity usuarioEntity = getUsuarioEntityMock();
         UsuarioDTO usuarioDTO = getUsuarioDTOMock();
@@ -221,16 +238,17 @@ public class VendaServiceTest {
         List<VendaDTO> vendasDTO = List.of(getVendaDTOMock(), getVendaDTOMock(), getVendaDTOMock());
         Page<VendaDTO> vendasPaginadas = new PageImpl<>(vendasDTO);
 
-
         when(companhiaService.getCompanhiaComId(anyInt())).thenReturn(companhiaEntity);
         when(usuarioService.getIdLoggedUser()).thenReturn(usuarioEntity.getIdUsuario());
         when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
 
+        //ACT
         PageDTO<VendaDTO> vendasPaginadasDTO = vendaService.getHistoricoVendasCompanhia(32, pagina, tamanho);
     }
 
     @Test
     public void deveTestarVendasBetween() {
+        //SETUP
         List<VendaDTO> vendasDTO = List.of(getVendaDTOMock(), getVendaDTOMock(), getVendaDTOMock());
         Page<VendaDTO> vendasPaginadas = new PageImpl<>(vendasDTO);
         LocalDateTime dataInicio = LocalDateTime.parse("2021-10-10T16:11:26.2");
@@ -240,8 +258,10 @@ public class VendaServiceTest {
 
         when(vendaRepository.findAllByDataBetween(any(), any(), any())).thenReturn(vendasPaginadas);
 
+        //ACT
         PageDTO<VendaDTO> vendasBetween = vendaService.getVendasBetween(dataInicio, dataFim, pagina, tamanho);
 
+        //ASSERT
         assertNotNull(vendasBetween);
         assertEquals(pagina, vendasBetween.getPagina());
         assertEquals(tamanho, vendasBetween.getTamanho());
@@ -252,13 +272,16 @@ public class VendaServiceTest {
 
     @Test
     public void deveTestarListaPaginada() {
+        //SETUP
         List<VendaDTO> vendasDTO = List.of(getVendaDTOMock(), getVendaDTOMock(), getVendaDTOMock());
         Page<VendaDTO> vendasPaginadas = new PageImpl<>(vendasDTO);
         Integer pagina = 0;
         Integer tamanho = 3;
 
+        //ACT
         PageDTO<VendaDTO> vendasPaginadasDTO = vendaService.listaPaginada(vendasPaginadas,pagina, tamanho);
 
+        //ASSERT
         assertNotNull(vendasPaginadasDTO);
         assertEquals(pagina, vendasPaginadasDTO.getPagina());
         assertEquals(tamanho, vendasPaginadasDTO.getTamanho());
@@ -266,6 +289,8 @@ public class VendaServiceTest {
         assertEquals(vendasPaginadas.getTotalPages(), vendasPaginadasDTO.getQuantidadePaginas());
         assertEquals(vendasPaginadas.getContent(), vendasPaginadasDTO.getElementos());
     }
+
+    //OBJETOS DE USO NOS TESTES
 
     private static VendaCreateDTO getVendaCreateDTOMock() {
         VendaCreateDTO vendaCreateDTO = new VendaCreateDTO();

@@ -61,6 +61,12 @@ public class UsuarioService {
         return objectMapper.convertValue(usuarioEntity, UsuarioDTO.class);
     }
 
+    public UsuarioEntity getLoggedUserEntity() throws RegraDeNegocioException {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(getIdLoggedUser())
+                .orElseThrow(() -> new RegraDeNegocioException("Usuário não encontrado!"));
+        return usuarioEntity;
+    }
+
     public Optional<UsuarioEntity> findByLogin (String login) {
         return usuarioRepository.findByLogin(login);
     }

@@ -6,8 +6,10 @@ import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VooRepository;
@@ -30,6 +32,7 @@ public class VooService {
     private final AviaoService aviaoService;
     private final ObjectMapper objectMapper;
     private final UsuarioService usuarioService;
+    private final LogService logService;
 
     public VooDTO create(VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
 
@@ -47,6 +50,7 @@ public class VooService {
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
         vooEntity.setStatus(Status.DISPONIVEL);
         vooEntity = vooRepository.save(vooEntity);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.CRIAR);
 
         VooDTO vooDTO = objectMapper.convertValue(vooEntity, VooDTO.class);
         CompanhiaEntity companhiaEntity = recuperarCompanhia(vooDTO.getIdVoo());
@@ -74,6 +78,7 @@ public class VooService {
 
         //UPDATE VOO
         vooRepository.save(vooEncontrado);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.ALTERAR);
 
         VooDTO vooDTO = objectMapper.convertValue(vooEncontrado, VooDTO.class);
         vooDTO.setNomeCompanhia(recuperarCompanhia(vooDTO.getIdVoo()).getNome());
@@ -89,6 +94,7 @@ public class VooService {
 
         // Validar companhia
         validarCompanhiaLogada(vooEntity);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.DELETAR);
 
         vooRepository.deleteById(idVoo);
     }
