@@ -1,13 +1,19 @@
 package br.com.dbc.javamosdecolar.controller;
 
-import br.com.dbc.javamosdecolar.dto.outs.LogDTO;
-import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
-import br.com.dbc.javamosdecolar.service.LogService;
+import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
+import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
+import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
+import br.com.dbc.javamosdecolar.dto.outs.*;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import br.com.dbc.javamosdecolar.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -16,6 +22,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Validated
 public class AdminController {
 
+    private final AdminService adminService;
     private final LogService logService;
 
     @GetMapping("/buscar-log/{pagina}/{tamanho}")
@@ -23,5 +30,11 @@ public class AdminController {
                                                               @PathVariable("pagina") Integer pagina,
                                                               @PathVariable("tamanho") Integer tamanho) {
         return new ResponseEntity<>(logService.consultLogsUsuario(idUsuario, pagina, tamanho), OK);
+    }
+    @PostMapping("/create-aviao/{idCompanhia}")
+    public ResponseEntity<AviaoDTO> createAviao(@PathVariable("idCompanhia") Integer idCompanhia,
+            @Valid @RequestBody AviaoCreateDTO aviaoCreateDTO)
+            throws RegraDeNegocioException {
+        return new ResponseEntity<>(adminService.createAviao(idCompanhia, aviaoCreateDTO), CREATED);
     }
 }

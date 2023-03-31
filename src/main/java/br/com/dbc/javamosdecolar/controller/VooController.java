@@ -48,7 +48,7 @@ public class VooController implements VooDoc {
         return new ResponseEntity<>(this.vooService.getAllVoo(pagina, tamanho), OK);
     }
 
-    @PostMapping("/criar")
+    @PostMapping("/create")
     public ResponseEntity<VooDTO> create(@RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.vooService.create(vooCreateDTO), CREATED);
     }

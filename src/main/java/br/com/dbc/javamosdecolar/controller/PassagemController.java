@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.OK;
 public class PassagemController implements PassagemDoc {
     private final PassagemService passagemService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<PassagemDTO> create(@RequestBody @Valid PassagemCreateDTO passagemDTO)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.create(passagemDTO), CREATED);

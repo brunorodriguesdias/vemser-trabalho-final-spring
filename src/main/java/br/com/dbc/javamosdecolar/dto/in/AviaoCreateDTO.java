@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.dto.in;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +27,8 @@ public class AviaoCreateDTO {
     @PastOrPresent
     @Schema(description = "Data da ultima manutenção", example = "2018-01-07")
     private LocalDate ultimaManutencao;
+
+    @Schema(description = "Identificador da companhia")
+    @JsonIgnore
+    private Integer idCompanhia;
 }
