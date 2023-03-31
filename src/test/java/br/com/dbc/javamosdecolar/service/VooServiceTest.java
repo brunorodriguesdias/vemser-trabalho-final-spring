@@ -53,6 +53,8 @@ public class VooServiceTest {
     private AviaoService aviaoService;
     @Mock
     private UsuarioService usuarioService;
+    @Mock
+    private LogService logService;
 
 
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -74,6 +76,7 @@ public class VooServiceTest {
         Mockito.when(aviaoService.getAviao(Mockito.anyInt())).thenReturn(vooEntity.getAviao());
         Mockito.when(vooRepository.save(Mockito.any(VooEntity.class))).thenReturn(vooEntity);
         Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
+
 
         //ACT
         VooDTO vooDTO = vooService.create(vooCreateDTO);

@@ -46,6 +46,8 @@ public class AvaliacaoServiceTest {
     private AvaliacaoRepository avaliacaoRepository;
     @Mock
     private UsuarioService usuarioService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 

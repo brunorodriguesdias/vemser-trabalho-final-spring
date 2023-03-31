@@ -262,10 +262,10 @@ public class CompradorServiceTest {
 
     private static CompradorCreateDTO getCompradorCreateDTO() {
         CompradorCreateDTO meuNovoComprador = new CompradorCreateDTO(
-                "914.029.190-18",
                 "carlos.cunha@email.com",
                 "mypassword",
-                "Carlos Cunha"
+                "Carlos Cunha",
+                "914.029.190-18"
                 );
         return meuNovoComprador;
     }
