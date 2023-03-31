@@ -34,6 +34,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @NoArgsConstructor
 @RunWith(MockitoJUnitRunner.class)
 public class VooServiceTest {
@@ -47,6 +51,9 @@ public class VooServiceTest {
     private CompanhiaService companhiaService;
     @Mock
     private AviaoService aviaoService;
+    @Mock
+    private UsuarioService usuarioService;
+
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -104,6 +111,8 @@ public class VooServiceTest {
         Mockito.when(vooRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(vooEntity));
         Mockito.when(vooRepository.save(Mockito.any())).thenReturn(vooEntity);
         Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
 
         //ACT
         VooDTO vooDTO = vooService.update(id, vooCreateDTO);
@@ -138,6 +147,10 @@ public class VooServiceTest {
         Integer idVoo = 5;
         VooEntity vooEntity = getVooEntity();
         Mockito.doReturn(vooEntity).when(vooService).getVoo(Mockito.anyInt());
+        Mockito.when(companhiaService.recuperarCompanhia(anyString(), anyInt()))
+                .thenReturn(CompanhiaServiceTest.getCompanhiaEntity());
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
 
         //ACT
         vooService.delete(idVoo);

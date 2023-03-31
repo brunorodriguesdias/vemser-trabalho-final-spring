@@ -34,6 +34,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+
 @RunWith(MockitoJUnitRunner.class)
 public class PassagemServiceTest {
 
@@ -48,6 +51,8 @@ public class PassagemServiceTest {
     private VooService vooService;
     @Mock
     private LogService logService;
+    @Mock
+    private UsuarioService usuarioService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -125,6 +130,8 @@ public class PassagemServiceTest {
         Mockito.when(vooService.getVoo(Mockito.anyInt())).thenReturn(vooEntity);
         Mockito.doReturn(companhiaEntity).when(passagemService).recuperarCompanhia(Mockito.any());
         Mockito.when(passagemRepository.save(Mockito.any(PassagemEntity.class))).thenReturn(passagemEntity);
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
         //ACT
         PassagemDTO passagemDTO = passagemService.update(passagemEntity.getIdPassagem(), passagemCreateDTO);
 
@@ -148,6 +155,8 @@ public class PassagemServiceTest {
         Mockito.when(passagemRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(passagemEntity));
         Mockito.when(vooService.getVoo(Mockito.anyInt())).thenReturn(vooEntity);
         Mockito.doReturn(companhiaEntity).when(passagemService).recuperarCompanhia(Mockito.any());
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
         //ACT
         passagemService.update(passagemEntity.getIdPassagem(), passagemCreateDTO);
     }
@@ -158,7 +167,10 @@ public class PassagemServiceTest {
         Integer idPassagem = 5;
         PassagemEntity passagemEntity = getPassagemEntity();
         Mockito.doReturn(passagemEntity).when(passagemService).getPassagem(Mockito.anyInt());
-
+        Mockito.when(companhiaService.recuperarCompanhia(anyString(), anyInt()))
+                .thenReturn(CompanhiaServiceTest.getCompanhiaEntity());
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
         //ACT
         passagemService.delete(idPassagem);
 

@@ -160,6 +160,15 @@ public class UsuarioServiceTest {
         usuarioMockadoBanco.setAtivo(true);
         return usuarioMockadoBanco;
     }
+    protected static UsuarioDTO getUsuarioDTO() {
+        UsuarioDTO usuarioDTOMockado = new UsuarioDTO();
+        usuarioDTOMockado.setIdUsuario(1);
+        usuarioDTOMockado.setNome("Carlos Cunha");
+        usuarioDTOMockado.setLogin("carlos.cunha@emai.com");
+        usuarioDTOMockado.setAtivo(true);
+        usuarioDTOMockado.setTipoUsuario(TipoUsuario.ADMIN);
+        return usuarioDTOMockado;
+    }
 
     private static UsuarioCreateDTO getUsuarioCreateDTO() {
         UsuarioCreateDTO minhaNovaPessoa = new UsuarioCreateDTO(
