@@ -77,17 +77,4 @@ public interface AviaoDoc {
     ResponseEntity<AviaoDTO> getById(@PathVariable("idAviao") Integer idAviao)
             throws RegraDeNegocioException;
 
-//    @Operation(summary = "Retorna aviãos de uma companhia", description = "Lista todos os aviãos cadastrados" +
-//            " pertencentes a uma companhia")
-//    @ApiResponses(
-//            value = {
-//                    @ApiResponse(responseCode = "200", description = "Retorna a lista solicitada"),
-//                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-//            }
-//    )
-//    @GetMapping("/{idCompanhia}")
-//    ResponseEntity<PageDTO<AviaoDTO>> getByCompanhia(@PathVariable("idCompanhia") Integer idCompanhia)
-//            throws RegraDeNegocioException;
 }

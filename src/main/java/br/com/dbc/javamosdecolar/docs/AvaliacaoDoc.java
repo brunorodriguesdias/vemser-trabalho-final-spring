@@ -82,7 +82,7 @@ public interface AvaliacaoDoc {
     @Operation(summary = "Deletar avaliação", description = "Deletar uma avaliação pelo seu id")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "200", description = "Retorna que a operação foi realizada"),
+                    @ApiResponse(responseCode = "204", description = "Retorna que a operação foi realizada"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
