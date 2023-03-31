@@ -25,6 +25,7 @@ public class CompradorCreateDTO {
 
     @NotBlank(message = "É necessário informar uma senha!")
     @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!")
+    @Pattern(regexp = "^\\S+(?=\\s*$)", message = "Senha inválida!")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(description = "Senha do comprador", example = "123456", required = true)
     private String senha;
