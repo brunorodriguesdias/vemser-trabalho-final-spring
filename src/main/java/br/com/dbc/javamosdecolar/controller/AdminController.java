@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.controller;
 
+import br.com.dbc.javamosdecolar.docs.AdminDoc;
 import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
@@ -20,7 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @Validated
-public class AdminController {
+public class AdminController implements AdminDoc {
 
     private final AdminService adminService;
     private final LogService logService;

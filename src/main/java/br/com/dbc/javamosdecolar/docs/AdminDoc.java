@@ -4,14 +4,16 @@ import br.com.dbc.javamosdecolar.dto.in.AviaoCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.AviaoDTO;
 import br.com.dbc.javamosdecolar.dto.outs.LogDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+@Tag(name = "Admin")
 public interface AdminDoc {
     @Operation(summary = "Buscar um voo", description = "Buscar um voo pelo ID")
     @ApiResponses(
@@ -36,5 +38,7 @@ public interface AdminDoc {
             }
     )
     @PostMapping("/create-aviao/{idCompanhia}")
-    public ResponseEntity<AviaoDTO> createAviao(@Valid @RequestBody AviaoCreateDTO aviaoCreateDTO);
+    public ResponseEntity<AviaoDTO> createAviao(@PathVariable("idCompanhia") Integer idCompanhia,
+                                                @Valid @RequestBody AviaoCreateDTO aviaoCreateDTO)
+            throws RegraDeNegocioException;
 }
