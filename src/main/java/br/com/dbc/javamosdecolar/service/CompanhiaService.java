@@ -120,6 +120,10 @@ public class CompanhiaService {
         //procurando companhia pelo ID
         CompanhiaEntity companhia = getCompanhiaComId(id);
 
+        if(Boolean.FALSE.equals(companhia.getAtivo())){
+            throw new RegraDeNegocioException("Companhia já desativada!");
+        }
+
         //deletando companhia do bd
         if(companhia.getCnpj().trim().equals(cnpj.trim())){
             logService.saveLog(companhia, CompanhiaEntity.class, TipoOperacao.DELETAR);
