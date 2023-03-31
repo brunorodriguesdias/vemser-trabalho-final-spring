@@ -149,7 +149,7 @@ public class AvaliacaoServiceTest {
     }
 
     @Test
-    public void shouldCreateWithSucess() {
+    public void shouldCreateWithSucess() throws RegraDeNegocioException {
         // SETUP
         AvaliacaoCreateDTO novaAvalicao = getAvaliacaoCreateDTO();
         AvaliacaoEntity avalicaoMockada = getAvalicaoEntity();

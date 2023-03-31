@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.java.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -51,6 +52,8 @@ public class CompradorServiceTest {
     private EmailService emailService;
     @Mock
     private CargoService cargoService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private PasswordEncoder passwordEncoder = new StandardPasswordEncoder();
