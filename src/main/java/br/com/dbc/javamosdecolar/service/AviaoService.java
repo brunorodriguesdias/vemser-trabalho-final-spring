@@ -6,6 +6,7 @@ import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.AviaoRepository;
@@ -26,6 +27,7 @@ public class AviaoService {
     private final ObjectMapper objectMapper;
     private final CompanhiaService companhiaService;
     private final UsuarioService usuarioService;
+    private final LogService logService;
 
     public PageDTO<AviaoDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -62,7 +64,7 @@ public class AviaoService {
         AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.save(aviao)
                                                 , AviaoDTO.class);
         aviaoDTO.setNomeCompanhia(companhiaProprietaria.getNomeFantasia());
-
+        logService.saveLog(usuarioService.getLoggedUserEntity(), AviaoEntity.class, TipoOperacao.CRIAR);
         return aviaoDTO;
     }
 
@@ -86,7 +88,7 @@ public class AviaoService {
         AviaoDTO aviaoDTO = objectMapper.convertValue(aviaoRepository.save(aviaoEncontrado)
                 , AviaoDTO.class);
         aviaoDTO.setNomeCompanhia(aviaoEncontrado.getCompanhia().getNomeFantasia());
-
+        logService.saveLog(usuarioService.getLoggedUserEntity(), AviaoEntity.class, TipoOperacao.ALTERAR);
         return aviaoDTO;
     }
 
@@ -102,6 +104,7 @@ public class AviaoService {
         validarCompanhiaLogada(aviao);
 
         aviaoRepository.delete(aviao);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), AviaoEntity.class, TipoOperacao.DELETAR);
     }
 
     public AviaoDTO getById(Integer id) throws RegraDeNegocioException {

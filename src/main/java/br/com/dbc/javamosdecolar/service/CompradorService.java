@@ -101,7 +101,7 @@ public class CompradorService {
 
         //salvando no bd
         compradorRepository.save(compradorEntity);
-        logService.saveLog(compradorEntity, CompradorEntity.class, TipoOperacao.ALTERAR);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), CompradorEntity.class, TipoOperacao.ALTERAR);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
 
@@ -118,10 +118,14 @@ public class CompradorService {
         //recuperando comprador
         CompradorEntity comprador = getCompradorComId(id);
 
+        if(Boolean.FALSE.equals(comprador.getAtivo())){
+            throw new RegraDeNegocioException("Comrpador já desativado!");
+        }
+
         //deletando comprador do bd
         if(comprador.getCpf().trim().equals(cpf.trim())) {
-            logService.saveLog(comprador, CompradorEntity.class, TipoOperacao.DELETAR);
             usuarioService.deleteById(comprador.getIdUsuario());
+            logService.saveLog(usuarioService.getLoggedUserEntity(), CompradorEntity.class, TipoOperacao.DELETAR);
         } else {
             throw new RegraDeNegocioException("CPF Inválido!");
         }
