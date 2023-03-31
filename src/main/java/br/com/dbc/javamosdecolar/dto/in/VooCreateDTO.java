@@ -1,5 +1,6 @@
 package br.com.dbc.javamosdecolar.dto.in;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,4 +41,8 @@ public class VooCreateDTO {
     @NotNull
     @Schema(description = "ID do avião que fará o voo", example = "3",required = true)
     private Integer idAviao;
+
+    @Schema(description = "Identificador da companhia")
+    @JsonIgnore
+    private Integer idCompanhia;
 }

@@ -1,6 +1,7 @@
 package br.com.dbc.javamosdecolar.dto.in;
 
 import br.com.dbc.javamosdecolar.entity.enums.TipoAssento;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +30,8 @@ public class PassagemCreateDTO {
     @Schema(description = "id do voo", example = "1", required = true)
     @NotNull(message = "Informe o id do voo!")
     private Integer idVoo;
+
+    @Schema(description = "Identificador da companhia")
+    @JsonIgnore
+    private Integer idCompanhia;
 }
