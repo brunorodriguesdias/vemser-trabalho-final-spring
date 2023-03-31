@@ -31,8 +31,8 @@ public class SecurityConfiguration {
                         requisicao
                                 //All Admin
                                 .antMatchers(
-                                        "/comprador/all",
-                                        "/companhia/all",
+                                        "/comprador/listar-todos",
+                                        "/companhia/listar-todas",
                                         "/aviao/all",
                                         "/auth/create",
                                         "/auth/get-usuario-loggado",
@@ -91,8 +91,8 @@ public class SecurityConfiguration {
                 "/v3/api-docs/**",
                 "/auth",
                 // Qualquer pessoa pode se cadastrar como companhia ou comprador
-                "/comprador/create",
-                "/companhia/create");
+                "/comprador/criar",
+                "/companhia/criar");
     }
 
     @Bean
