@@ -45,11 +45,6 @@ public class CompanhiaController implements CompanhiaDoc{
         return new ResponseEntity<>(companhiaService.getLoggedCompanhia(), OK);
     }
 
-    @GetMapping("/buscar-log")
-    public ResponseEntity<List<LogDTO>> consultLogUsuario() throws RegraDeNegocioException {
-        return new ResponseEntity<>(companhiaService.consultLogUsuario(), OK);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO)
             throws RegraDeNegocioException {

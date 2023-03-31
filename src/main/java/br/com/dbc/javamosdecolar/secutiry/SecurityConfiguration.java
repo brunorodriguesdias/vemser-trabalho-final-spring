@@ -40,7 +40,8 @@ public class SecurityConfiguration {
                                         "/companhia/deletar/admin",
                                         "/venda/vendas-between",
                                         "/avaliacao/deletar",
-                                        "/avaliacao/relatorio").hasAuthority("ROLE_ADMIN")
+                                        "/avaliacao/relatorio",
+                                        "/admin/**").hasAuthority("ROLE_ADMIN")
 
                                 //Iguais
                                 .antMatchers("/voo/all",

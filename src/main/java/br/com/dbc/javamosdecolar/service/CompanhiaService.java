@@ -67,10 +67,6 @@ public class CompanhiaService {
                 relatorios);
     }
 
-    public List<LogDTO> consultLogUsuario() throws RegraDeNegocioException {
-        return logService.consultLogUsuario(getCompanhiaSemId().getIdUsuario());
-    }
-
     public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
         //validando se o login já está registrado
         usuarioService.existsLogin(companhiaCreateDTO.getLogin());
@@ -85,7 +81,7 @@ public class CompanhiaService {
         companhiaEntity.setCargos(new HashSet<>());
         companhiaEntity.getCargos().add(cargoService.findByNome("ROLE_COMPANHIA"));
 
-        //salvando no bd o novo comprador
+        //salvando no bd o novo comprador, enviando email, salvando log
         companhiaEntity = companhiaRepository.save(companhiaEntity);
         cargoService.saveCargo(companhiaEntity);
         emailService.sendEmail(companhiaEntity);
@@ -106,8 +102,8 @@ public class CompanhiaService {
         companhiaEntity.setNomeFantasia(companhiaUpdateDTO.getNomeFantasia());
 
         //salvando no bd
+        logService.saveLog(companhiaEntity, CompanhiaEntity.class, TipoOperacao.ALTERAR);
         companhiaRepository.save(companhiaEntity);
-
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }
 
@@ -116,6 +112,7 @@ public class CompanhiaService {
         CompanhiaEntity companhia = getCompanhiaSemId();
 
         //deletando companhia do bd
+        logService.saveLog(companhia, CompanhiaEntity.class, TipoOperacao.DELETAR);
         usuarioService.deleteById(companhia.getIdUsuario());
     }
 
