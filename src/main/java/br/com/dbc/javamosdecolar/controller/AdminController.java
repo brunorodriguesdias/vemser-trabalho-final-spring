@@ -31,9 +31,8 @@ public class AdminController implements AdminDoc {
         return new ResponseEntity<>(logService.consultLogsUsuario(idUsuario, pagina, tamanho), OK);
     }
     @PostMapping("/create-aviao/{idCompanhia}")
-    public ResponseEntity<AviaoDTO> createAviao(Integer idCompanhia,
-            @Valid @RequestBody AviaoCreateDTO aviaoCreateDTO)
-            throws RegraDeNegocioException {
+    public ResponseEntity<AviaoDTO> createAviao(Integer idCompanhia, AviaoCreateDTO aviaoCreateDTO)
+                                                                    throws RegraDeNegocioException {
         return new ResponseEntity<>(adminService.createAviao(idCompanhia, aviaoCreateDTO), CREATED);
     }
 }
