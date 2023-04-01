@@ -9,10 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -77,7 +74,7 @@ public interface AvaliacaoDoc {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException;
+    public ResponseEntity<AvaliacaoDTO> create (@RequestBody @Valid AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException;
 
     @Operation(summary = "Deletar avaliação", description = "Deletar uma avaliação pelo seu id")
     @ApiResponses(

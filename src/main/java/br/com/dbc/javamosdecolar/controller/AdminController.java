@@ -27,13 +27,11 @@ public class AdminController implements AdminDoc {
     private final LogService logService;
 
     @GetMapping("/buscar-log/{pagina}/{tamanho}")
-    public ResponseEntity<PageDTO<LogDTO>> consultLogsUsuario(@RequestParam(value = "idUsuario", required = false) Integer idUsuario,
-                                                              @PathVariable("pagina") Integer pagina,
-                                                              @PathVariable("tamanho") Integer tamanho) {
+    public ResponseEntity<PageDTO<LogDTO>> consultLogsUsuario(Integer idUsuario, Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(logService.consultLogsUsuario(idUsuario, pagina, tamanho), OK);
     }
     @PostMapping("/create-aviao/{idCompanhia}")
-    public ResponseEntity<AviaoDTO> createAviao(@PathVariable("idCompanhia") Integer idCompanhia,
+    public ResponseEntity<AviaoDTO> createAviao(Integer idCompanhia,
             @Valid @RequestBody AviaoCreateDTO aviaoCreateDTO)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(adminService.createAviao(idCompanhia, aviaoCreateDTO), CREATED);
