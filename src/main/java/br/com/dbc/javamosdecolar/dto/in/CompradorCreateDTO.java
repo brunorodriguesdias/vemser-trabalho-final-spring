@@ -18,14 +18,15 @@ import javax.validation.constraints.Size;
 public class CompradorCreateDTO {
 
     @NotBlank(message = "É necessário informar um Login!")
-    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message = "Endereço de e-mail inválido")
+//    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message = "Endereço de e-mail inválido")
     @Email(message = "E-mail inválido!")
     @Schema(description = "Login do comprador", example = "bruno.rodrigues@email.com", required = true)
     private String login;
 
     @NotBlank(message = "É necessário informar uma senha!")
     @Size(min=3, max=20, message = "A senha deve ter entre 3 à 20 caracteres!")
-    @Pattern(regexp = "^\\S+(?=\\s*$)", message = "Senha inválida!")
+    @Pattern(regexp = "^\\S+(?=\\s*$)", message = "Senha inválida! " +
+            "Sugiro que não tenha espaço em branco no começo e ao final da senha.")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Schema(description = "Senha do comprador", example = "123456", required = true)
     private String senha;
