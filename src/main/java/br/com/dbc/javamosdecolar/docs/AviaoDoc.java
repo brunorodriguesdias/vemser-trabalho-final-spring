@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 
 @Tag(name = "Avião", description = "Endpoints de avião")
 public interface AviaoDoc {
@@ -25,7 +27,7 @@ public interface AviaoDoc {
             }
     )
     @GetMapping
-    ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam Integer pagina, @RequestParam Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam @Valid @Min(0) Integer pagina, @RequestParam @Positive Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Cria um avião", description = "Cadastra um novo avião")
     @ApiResponses(
@@ -77,17 +79,4 @@ public interface AviaoDoc {
     ResponseEntity<AviaoDTO> getById(@PathVariable("idAviao") Integer idAviao)
             throws RegraDeNegocioException;
 
-//    @Operation(summary = "Retorna aviãos de uma companhia", description = "Lista todos os aviãos cadastrados" +
-//            " pertencentes a uma companhia")
-//    @ApiResponses(
-//            value = {
-//                    @ApiResponse(responseCode = "200", description = "Retorna a lista solicitada"),
-//                    @ApiResponse(responseCode = "400", description = "Bad Request"),
-//                    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
-//                    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
-//            }
-//    )
-//    @GetMapping("/{idCompanhia}")
-//    ResponseEntity<PageDTO<AviaoDTO>> getByCompanhia(@PathVariable("idCompanhia") Integer idCompanhia)
-//            throws RegraDeNegocioException;
 }

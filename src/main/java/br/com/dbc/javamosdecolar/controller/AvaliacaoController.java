@@ -27,47 +27,42 @@ public class AvaliacaoController implements AvaliacaoDoc {
     private final AvaliacaoService avaliacaoService;
     @Override
     @GetMapping("/all")
-    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(@RequestParam Integer pagina,
-                                                         @RequestParam @Valid @Positive Integer tamanho) {
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(Integer pagina, Integer tamanho) {
         return new ResponseEntity(avaliacaoService.findAll(pagina, tamanho), OK);
     }
 
     @Override
     @GetMapping("/listar-nota")
-    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(@RequestParam Integer nota,
-                                                               @RequestParam Integer pagina,
-                                                               @RequestParam @Valid @Positive Integer tamanho) {
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(Integer nota, Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(avaliacaoService.findAllByNota(pagina, tamanho, nota), HttpStatus.OK);
     }
 
     @Override
     @GetMapping("/listar-nome")
-    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNome(@RequestParam String nome,
-                                                               @RequestParam Integer pagina,
-                                                               @RequestParam @Valid @Positive Integer tamanho) {
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNome(String nome, Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(avaliacaoService.findAllByNome(pagina, tamanho, nome), HttpStatus.OK);
     }
 
     @Override
     @GetMapping("/buscar-id")
-    public ResponseEntity<AvaliacaoDTO> findByIdAvaliacao(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
+    public ResponseEntity<AvaliacaoDTO> findByIdAvaliacao(String idAvaliacao) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.findByIdAvaliacao(idAvaliacao), OK);
     }
 
     @GetMapping("/relatorio")
-    public ResponseEntity<AvaliacaoRelatorioDTO> findByIdAvaliacao() throws RegraDeNegocioException {
+    public ResponseEntity<AvaliacaoRelatorioDTO> findByIdAvaliacao() {
         return new ResponseEntity<>(avaliacaoService.gerarRelatorio(), OK);
     }
 
     @Override
     @PostMapping("/create")
-    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) {
+    public ResponseEntity<AvaliacaoDTO> create (AvaliacaoCreateDTO avaliacaoCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(avaliacaoService.create(avaliacaoCreateDTO), OK);
     }
 
     @Override
     @DeleteMapping("/deletar")
-    public ResponseEntity<Void> delete(@RequestParam String idAvaliacao) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete(String idAvaliacao) throws RegraDeNegocioException {
         avaliacaoService.delete(idAvaliacao);
         return ResponseEntity.noContent().build();
     }

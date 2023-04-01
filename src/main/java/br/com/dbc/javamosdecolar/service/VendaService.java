@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.entity.CompradorEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VendaEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
@@ -33,6 +34,7 @@ public class VendaService {
 //    private final EmailService emailService;
     private final ObjectMapper objectMapper;
     private final UsuarioService usuarioService;
+    private final LogService logService;
 
     public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
 
@@ -54,6 +56,7 @@ public class VendaService {
         vendaEntity.setStatus(Status.CONCLUIDO);
         vendaEntity.setData(LocalDateTime.now());
         VendaEntity vendaEfetuada = vendaRepository.save(vendaEntity);
+        logService.saveLog(companhiaEntity, VendaEntity.class, TipoOperacao.CRIAR);
         passagemService.alteraDisponibilidadePassagem(passagem, vendaEfetuada);
 
         VendaDTO vendaEfetuadaDTO = objectMapper.convertValue(vendaEfetuada, VendaDTO.class);
@@ -86,6 +89,7 @@ public class VendaService {
         vendaRepository.deleteById(idVenda);
 //        emailService.sendEmail(venda, "DELETAR",
 //                compradorService.getCompradorComId(venda.getIdComprador()));
+        logService.saveLog(companhiaVendedora, VendaEntity.class, TipoOperacao.DELETAR);
         return true;
     }
 

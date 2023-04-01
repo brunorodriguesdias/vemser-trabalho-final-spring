@@ -163,7 +163,6 @@ public class CompanhiaServiceTest {
         companhiaService.update(minhaCompanhiaEditada);
     }
 
-
     @Test
     public void shouldDeleteWithSuccess() throws RegraDeNegocioException {
         // SETUP
@@ -188,6 +187,19 @@ public class CompanhiaServiceTest {
 
         // ASSERT
         verify(usuarioService, times(1)).deleteById(anyInt());
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void shouldDeleteAsAdminWithFail() throws RegraDeNegocioException {
+        // SETUP
+        Integer idUsuario = 1;
+        String cnpj = "90.451.383/0001-07";
+        CompanhiaEntity companhiaEntity = getCompanhiaEntity();
+        companhiaEntity.setAtivo(Boolean.FALSE);
+
+        when(companhiaRepository.findById(anyInt())).thenReturn(Optional.of(companhiaEntity));
+        // ACT
+        companhiaService.delete(idUsuario, cnpj);
     }
 
     @Test(expected = RegraDeNegocioException.class)

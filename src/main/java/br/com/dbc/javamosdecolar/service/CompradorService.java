@@ -5,6 +5,7 @@ import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.entity.CompradorEntity;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
@@ -29,7 +30,7 @@ public class CompradorService {
     private final EmailService emailService;
     private final CargoService cargoService;
     private final PasswordEncoder passwordEncoder;
-
+    private final LogService logService;
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -83,6 +84,7 @@ public class CompradorService {
         compradorEntity = compradorRepository.save(compradorEntity);
         cargoService.saveCargo(compradorEntity);
         emailService.sendEmail(compradorEntity);
+        logService.saveLog(compradorEntity, CompradorEntity.class, TipoOperacao.CRIAR);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
 
@@ -99,9 +101,8 @@ public class CompradorService {
 
         //salvando no bd
         compradorRepository.save(compradorEntity);
-
+        logService.saveLog(usuarioService.getLoggedUserEntity(), CompradorEntity.class, TipoOperacao.ALTERAR);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
-
     }
 
     public void delete() throws RegraDeNegocioException {
@@ -109,6 +110,7 @@ public class CompradorService {
         CompradorEntity comprador = getLoggedComprador();
 
         //deletando comprador do bd
+        logService.saveLog(comprador, CompradorEntity.class, TipoOperacao.DELETAR);
         usuarioService.deleteById(comprador.getIdUsuario());
     }
 
@@ -116,9 +118,14 @@ public class CompradorService {
         //recuperando comprador
         CompradorEntity comprador = getCompradorComId(id);
 
+        if(Boolean.FALSE.equals(comprador.getAtivo())){
+            throw new RegraDeNegocioException("Comrpador já desativado!");
+        }
+
         //deletando comprador do bd
         if(comprador.getCpf().trim().equals(cpf.trim())) {
             usuarioService.deleteById(comprador.getIdUsuario());
+            logService.saveLog(usuarioService.getLoggedUserEntity(), CompradorEntity.class, TipoOperacao.DELETAR);
         } else {
             throw new RegraDeNegocioException("CPF Inválido!");
         }

@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public interface VendaDoc {
             }
     )
     @DeleteMapping("/{idVenda}/cancelar")
-    ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@PathVariable("idVenda") @Valid @Positive Integer idVenda) throws RegraDeNegocioException;
 
     @Operation(summary = "Historico de compras do comprador", description = "Lista o historico de compras do comprador " +
     "páginados")
@@ -54,9 +56,9 @@ public interface VendaDoc {
             }
     )
     @GetMapping("/{idComprador}/comprador")
-    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id,
-                                                            @RequestParam Integer pagina,
-                                                            @RequestParam Integer tamanho)
+    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") @Valid @Positive Integer id,
+                                                            @RequestParam @Valid @Min(0) Integer pagina,
+                                                            @RequestParam @Valid @Positive Integer tamanho)
                                                             throws RegraDeNegocioException;
 
     @Operation(summary = "Historico de vendas da companhia", description = "Lista o historico de vendas da companhia " +
@@ -70,9 +72,9 @@ public interface VendaDoc {
             }
     )
     @GetMapping("/{idCompanhia}/companhia")
-    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id,
-                                                           @RequestParam Integer pagina,
-                                                           @RequestParam Integer tamanho)
+    ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") @Valid @Positive Integer id,
+                                                           @RequestParam @Valid @Min(0) Integer pagina,
+                                                           @RequestParam @Valid @Positive Integer tamanho)
             throws RegraDeNegocioException;
 
     @Operation(summary = "Vendas realizadas entre as datas informadas", description = "Lista as vendas dentro do intervalo de tempo informado")
@@ -87,6 +89,6 @@ public interface VendaDoc {
     @GetMapping("/vendas-between")
     public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
                                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
-                                                              @RequestParam Integer paginaSolicitada,
-                                                              @RequestParam Integer tamanhoPagina);
+                                                              @RequestParam @Valid @Min(0) Integer paginaSolicitada,
+                                                              @RequestParam @Valid @Positive Integer tamanhoPagina);
 }

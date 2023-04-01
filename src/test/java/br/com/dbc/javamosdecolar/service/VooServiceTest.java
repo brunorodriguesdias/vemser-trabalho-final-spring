@@ -2,9 +2,11 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
@@ -34,6 +36,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
 @NoArgsConstructor
 @RunWith(MockitoJUnitRunner.class)
 public class VooServiceTest {
@@ -47,6 +53,11 @@ public class VooServiceTest {
     private CompanhiaService companhiaService;
     @Mock
     private AviaoService aviaoService;
+    @Mock
+    private UsuarioService usuarioService;
+    @Mock
+    private LogService logService;
+
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -67,6 +78,7 @@ public class VooServiceTest {
         Mockito.when(aviaoService.getAviao(Mockito.anyInt())).thenReturn(vooEntity.getAviao());
         Mockito.when(vooRepository.save(Mockito.any(VooEntity.class))).thenReturn(vooEntity);
         Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
+
 
         //ACT
         VooDTO vooDTO = vooService.create(vooCreateDTO);
@@ -104,6 +116,8 @@ public class VooServiceTest {
         Mockito.when(vooRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(vooEntity));
         Mockito.when(vooRepository.save(Mockito.any())).thenReturn(vooEntity);
         Mockito.when(companhiaService.recuperarCompanhia(Mockito.anyString(), Mockito.anyInt())).thenReturn(companhiaEntity);
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
 
         //ACT
         VooDTO vooDTO = vooService.update(id, vooCreateDTO);
@@ -138,6 +152,10 @@ public class VooServiceTest {
         Integer idVoo = 5;
         VooEntity vooEntity = getVooEntity();
         Mockito.doReturn(vooEntity).when(vooService).getVoo(Mockito.anyInt());
+        Mockito.when(companhiaService.recuperarCompanhia(anyString(), anyInt()))
+                .thenReturn(CompanhiaServiceTest.getCompanhiaEntity());
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(
+                UsuarioServiceTest.getUsuarioDTO());
 
         //ACT
         vooService.delete(idVoo);
@@ -365,6 +383,27 @@ public class VooServiceTest {
         Assert.assertEquals(vooEntity.getStatus(), vooReturn.getStatus());
         Assert.assertEquals(vooEntity.getAssentosDisponiveis(), vooReturn.getAssentosDisponiveis());
         Assert.assertEquals(vooEntity.getIdAviao(), vooReturn.getIdAviao());
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void shouldValidarCompanhiaLogarWithFail() throws RegraDeNegocioException {
+        //SETUP
+        UsuarioDTO usuarioDTO = getUsuarioDTO();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntity();
+        VooEntity passagemEntity = getVooEntity();
+
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
+        Mockito.doReturn(companhiaEntity).when(vooService).recuperarCompanhia(Mockito.anyInt());
+
+        //ACT
+        vooService.validarCompanhiaLogada(passagemEntity);
+    }
+
+    private static UsuarioDTO getUsuarioDTO(){
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setTipoUsuario(TipoUsuario.COMPANHIA);
+        usuarioDTO.setIdUsuario(1);
+        return usuarioDTO;
     }
 
     private static VooCreateDTO getVooCreateDTO(){

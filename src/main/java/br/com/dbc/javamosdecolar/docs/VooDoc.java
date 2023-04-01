@@ -13,67 +13,69 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Tag(name = "Voo", description = "Endpoints dos voos")
 public interface VooDoc {
 
-    @Operation(summary = "Buscar um voô", description = "Buscar um voô pelo ID")
+    @Operation(summary = "Buscar um voo", description = "Buscar um voo pelo ID")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô buscado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo buscado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/id")
-    ResponseEntity<VooDTO> getById(@RequestParam @Valid @NotNull(message = "Digite um ID") Integer idVoo) throws RegraDeNegocioException;
+    ResponseEntity<VooDTO> getById(@RequestParam @Valid @NotNull(message = "Digite um ID") @Positive Integer idVoo) throws RegraDeNegocioException;
 
-    @Operation(summary = "Buscar um voô pelo avião", description = "Buscar um voô pelo ID avião")
+    @Operation(summary = "Buscar um voo pelo avião", description = "Buscar um voo pelo ID avião")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô buscado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo buscado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/voo-aviao")
-    ResponseEntity<PageDTO<VooDTO>> getByVooAviao(@RequestParam("idAviao") Integer idAviao,
-                                                         @RequestParam("pagina") Integer pagina,
-                                                         @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<VooDTO>> getByVooAviao(@RequestParam("idAviao") @Valid @NotNull @Positive Integer idAviao,
+                                                         @RequestParam("pagina") @Valid @NotNull Integer pagina,
+                                                         @RequestParam("tamanho") @Valid @NotNull @Positive Integer tamanho) throws RegraDeNegocioException;
 
-    @Operation(summary = "Buscar um voô pela companhia", description = "Buscar um voô pelo ID companhia")
+    @Operation(summary = "Buscar um voo pela companhia", description = "Buscar um voo pelo ID companhia")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô buscado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo buscado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/voo-companhia")
-    ResponseEntity<PageDTO<VooDTO>> getByVooCompanhia(@RequestParam("idCompanhia") Integer idCompanhia,
-                                                             @RequestParam("pagina") Integer pagina,
-                                                             @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<VooDTO>> getByVooCompanhia(@RequestParam("idCompanhia") @Valid @NotNull @Positive Integer idCompanhia,
+                                                             @RequestParam("pagina") @Valid @NotNull Integer pagina,
+                                                             @RequestParam("tamanho") @Valid @NotNull @Positive Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar todos os voos", description = "Buscar um voô pelo ID voo")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô buscado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo buscado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
             }
     )
     @GetMapping("/voo-all")
-    ResponseEntity<PageDTO<VooDTO>> getAllVoo( @RequestParam("pagina") Integer pagina,
-                                                      @RequestParam("tamanho") Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<VooDTO>> getAllVoo( @RequestParam("pagina") @Valid @NotNull Integer pagina,
+                                                      @RequestParam("tamanho") @Valid @NotNull @Positive Integer tamanho) throws RegraDeNegocioException;
 
-    @Operation(summary = "Criar um voô", description = "Cria um novo voô")
+    @Operation(summary = "Criar um voo", description = "Cria um novo voo")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô criado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo criado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
@@ -83,10 +85,10 @@ public interface VooDoc {
     public ResponseEntity<VooDTO> create(@RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException;
 
 
-    @Operation(summary = "Editar um voô", description = "Edita o voô informado")
+    @Operation(summary = "Editar um voo", description = "Edita o voô informado")
     @ApiResponses(
             value = {
-                    @ApiResponse(responseCode = "201", description = "Retorna o voô editado"),
+                    @ApiResponse(responseCode = "201", description = "Retorna o voo editado"),
                     @ApiResponse(responseCode = "400", description = "Bad Request"),
                     @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso"),
                     @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
@@ -97,7 +99,7 @@ public interface VooDoc {
                                           @RequestBody @Valid VooCreateDTO vooCreateDTO) throws RegraDeNegocioException;
 
 
-    @Operation(summary = "Cancelar voô", description = "Cancela o voô informado")
+    @Operation(summary = "Cancelar voo", description = "Cancela o voo informado")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Retorna que a operação foi concluida"),
@@ -107,5 +109,5 @@ public interface VooDoc {
             }
     )
     @DeleteMapping
-    ResponseEntity<Void> delete(@PathVariable("idVoo") Integer idVoo) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@PathVariable("idVoo") @Valid @Positive Integer idVoo) throws RegraDeNegocioException;
 }

@@ -46,6 +46,8 @@ public class AvaliacaoServiceTest {
     private AvaliacaoRepository avaliacaoRepository;
     @Mock
     private UsuarioService usuarioService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -149,7 +151,7 @@ public class AvaliacaoServiceTest {
     }
 
     @Test
-    public void shouldCreateWithSucess() {
+    public void shouldCreateWithSucess() throws RegraDeNegocioException {
         // SETUP
         AvaliacaoCreateDTO novaAvalicao = getAvaliacaoCreateDTO();
         AvaliacaoEntity avalicaoMockada = getAvalicaoEntity();
