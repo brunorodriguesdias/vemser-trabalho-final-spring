@@ -83,7 +83,7 @@ public class AviaoServiceTest {
     }
 
     @Test
-    public void deveCriarComSucesso() throws RegraDeNegocioException {
+    public void deveCriarComSucessoCompanhiaComId() throws RegraDeNegocioException {
         //SETUP
         AviaoCreateDTO aviaoCreateDTO = getAviaoDTOEntityMock();
 //        aviaoCreateDTO.setIdCompanhia(1);
@@ -95,6 +95,32 @@ public class AviaoServiceTest {
         when(aviaoRepository.save(any())).thenReturn(aviaoEntity);
         Mockito.when(usuarioService.getLoggedUser()).thenReturn(
                 UsuarioServiceTest.getUsuarioDTO());
+
+        //ACT
+        AviaoDTO aviaoRetornado = aviaoService.create(aviaoCreateDTO);
+
+        //ASSERT
+        assertNotNull(aviaoRetornado);
+        assertTrue(aviaoRetornado.isAtivo());
+        assertNotNull(aviaoRetornado.getIdAviao());
+        assertEquals(aviaoCreateDTO.getCodigoAviao(), aviaoRetornado.getCodigoAviao());
+        assertEquals(aviaoCreateDTO.getCapacidade(), aviaoRetornado.getCapacidade());
+        assertEquals(aviaoCreateDTO.getUltimaManutencao(), aviaoRetornado.getUltimaManutencao());
+    }
+
+    @Test
+    public void deveCriarComSucessoCompanhiaSemId() throws RegraDeNegocioException {
+        //SETUP
+        AviaoCreateDTO aviaoCreateDTO = getAviaoDTOEntityMock();
+        UsuarioDTO usuarioDTO = UsuarioServiceTest.getUsuarioDTO();
+        usuarioDTO.setTipoUsuario(TipoUsuario.COMPANHIA);
+        AviaoEntity aviaoEntity = getAviaoEntityMock();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
+
+        when(aviaoRepository.existsByCodigoAviao(Mockito.anyString())).thenReturn(false);
+        when(companhiaService.getCompanhiaSemId()).thenReturn(companhiaEntity);
+        when(aviaoRepository.save(any())).thenReturn(aviaoEntity);
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
 
         //ACT
         AviaoDTO aviaoRetornado = aviaoService.create(aviaoCreateDTO);

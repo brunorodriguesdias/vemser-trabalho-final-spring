@@ -187,6 +187,19 @@ public class CompradorServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
+    public void shouldDeleteAsAdminWithFail() throws RegraDeNegocioException {
+        // SETUP
+        Integer idUsuario = 1;
+        String cpf = "914.029.190-18";
+        CompradorEntity compradorEntity = getCompradorEntity();
+        compradorEntity.setAtivo(Boolean.FALSE);
+        when(compradorRepository.findById(anyInt())).thenReturn(Optional.of(compradorEntity));
+
+        // ACT
+        compradorService.delete(idUsuario, cpf);
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
     public void shouldDeleteAsAdminWithInvalidCnpj() throws RegraDeNegocioException {
         // SETUP
         Integer idUsuario = 1;

@@ -2,9 +2,11 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
@@ -381,6 +383,27 @@ public class VooServiceTest {
         Assert.assertEquals(vooEntity.getStatus(), vooReturn.getStatus());
         Assert.assertEquals(vooEntity.getAssentosDisponiveis(), vooReturn.getAssentosDisponiveis());
         Assert.assertEquals(vooEntity.getIdAviao(), vooReturn.getIdAviao());
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
+    public void shouldValidarCompanhiaLogarWithFail() throws RegraDeNegocioException {
+        //SETUP
+        UsuarioDTO usuarioDTO = getUsuarioDTO();
+        CompanhiaEntity companhiaEntity = getCompanhiaEntity();
+        VooEntity passagemEntity = getVooEntity();
+
+        Mockito.when(usuarioService.getLoggedUser()).thenReturn(usuarioDTO);
+        Mockito.doReturn(companhiaEntity).when(vooService).recuperarCompanhia(Mockito.anyInt());
+
+        //ACT
+        vooService.validarCompanhiaLogada(passagemEntity);
+    }
+
+    private static UsuarioDTO getUsuarioDTO(){
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        usuarioDTO.setTipoUsuario(TipoUsuario.COMPANHIA);
+        usuarioDTO.setIdUsuario(1);
+        return usuarioDTO;
     }
 
     private static VooCreateDTO getVooCreateDTO(){

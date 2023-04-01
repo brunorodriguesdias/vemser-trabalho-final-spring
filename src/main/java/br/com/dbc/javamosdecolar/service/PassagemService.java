@@ -215,7 +215,7 @@ public class PassagemService {
         if (!Objects.equals(companhia.getIdUsuario(), loggedUser.getIdUsuario())
                 && loggedUser.getTipoUsuario() != TipoUsuario.ADMIN) {
             throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
-                    "A passagem informado pertence à outra companhia!");
+                    "A passagem informada pertence à outra companhia!");
         }
     }
 }
