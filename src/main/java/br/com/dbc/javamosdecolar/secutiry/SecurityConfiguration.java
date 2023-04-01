@@ -65,14 +65,18 @@ public class SecurityConfiguration {
                                         "/avaliacao/create")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
 
+                                //Only Companhia
+                                .antMatchers("/aviao/create")
+                                .hasAuthority("ROLE_COMPANHIA")
+
                                 //All Companhia
                                 .antMatchers("/aviao/**",
-                                        "/passagem/**",
-                                        "/venda/**/companhia",
-                                        "/companhia/**",
-                                        "/voo/criar",
-                                        "/voo/alterar/**",
-                                        "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
+                                    "/passagem/**",
+                                    "/venda/**/companhia",
+                                    "/companhia/**",
+                                    "/voo/criar",
+                                    "/voo/alterar/**",
+                                    "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
 
                                 //Iguais mais genericos
                                 .antMatchers("/voo/**").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_COMPRADOR", "ROLE_ADMIN")
