@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 @Tag(name = "Admin")
 public interface AdminDoc {
-    @Operation(summary = "Buscar um voo", description = "Buscar um voo pelo ID")
+    @Operation(summary = "Listar logs", description = "Lista os logs das operações realizadas no sistema. " +
+            "Opcionalmente, pode filtrar pelo id do usuário que realizou a operação.")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "201", description = "Retorna o voo buscado"),
