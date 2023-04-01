@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -56,7 +57,7 @@ public interface VendaDoc {
     )
     @GetMapping("/{idComprador}/comprador")
     ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") @Valid @Positive Integer id,
-                                                            @RequestParam Integer pagina,
+                                                            @RequestParam @Valid @Min(0) Integer pagina,
                                                             @RequestParam @Valid @Positive Integer tamanho)
                                                             throws RegraDeNegocioException;
 
@@ -72,7 +73,7 @@ public interface VendaDoc {
     )
     @GetMapping("/{idCompanhia}/companhia")
     ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") @Valid @Positive Integer id,
-                                                           @RequestParam Integer pagina,
+                                                           @RequestParam @Valid @Min(0) Integer pagina,
                                                            @RequestParam @Valid @Positive Integer tamanho)
             throws RegraDeNegocioException;
 
@@ -88,6 +89,6 @@ public interface VendaDoc {
     @GetMapping("/vendas-between")
     public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
                                                               @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
-                                                              @RequestParam Integer paginaSolicitada,
+                                                              @RequestParam @Valid @Min(0) Integer paginaSolicitada,
                                                               @RequestParam @Valid @Positive Integer tamanhoPagina);
 }

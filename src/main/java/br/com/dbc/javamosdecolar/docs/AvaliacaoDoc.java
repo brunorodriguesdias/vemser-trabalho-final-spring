@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 @Tag(name = "Avaliação")
 public interface AvaliacaoDoc {
@@ -25,7 +26,7 @@ public interface AvaliacaoDoc {
             }
     )
     @GetMapping("/all")
-    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(@RequestParam Integer pagina,
+    public ResponseEntity<PageDTO<AvaliacaoDTO>> findAll(@RequestParam @Valid @Min(0) Integer pagina,
                                                          @RequestParam @Valid @Positive Integer tamanho);
 
     @Operation(summary = "Listar avaliações por nota", description = "Lista avaliações com a nota desejada")
@@ -38,7 +39,7 @@ public interface AvaliacaoDoc {
     )
     @GetMapping("/listar-nota")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNota(@RequestParam Integer nota,
-                                                               @RequestParam Integer pagina,
+                                                               @RequestParam @Valid @Min(0) Integer pagina,
                                                                @RequestParam @Valid @Positive Integer tamanho);
     @Operation(summary = "Listar avaliações por nome do avaliador", description = "Lista avaliações cujo nome do " +
             "avaliador contenha a palavra determinada")
@@ -51,7 +52,7 @@ public interface AvaliacaoDoc {
     )
     @GetMapping("/listar-nome")
     public ResponseEntity<PageDTO<AvaliacaoDTO>> findAllByNome(@RequestParam String nome,
-                                                               @RequestParam Integer pagina,
+                                                               @RequestParam @Valid @Min(0) Integer pagina,
                                                                @RequestParam @Valid @Positive Integer tamanho);
 
     @Operation(summary = "Busca avaliação por id", description = "Busca uma avaliação pelo seu id")

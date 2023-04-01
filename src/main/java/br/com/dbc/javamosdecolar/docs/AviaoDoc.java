@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 
 @Tag(name = "Avião", description = "Endpoints de avião")
@@ -26,7 +27,7 @@ public interface AviaoDoc {
             }
     )
     @GetMapping
-    ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam Integer pagina, @RequestParam @Positive Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<AviaoDTO>> getAll(@RequestParam @Valid @Min(0) Integer pagina, @RequestParam @Positive Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Cria um avião", description = "Cadastra um novo avião")
     @ApiResponses(

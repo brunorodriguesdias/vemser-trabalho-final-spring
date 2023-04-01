@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
@@ -84,7 +85,7 @@ public interface PassagemDoc {
             }
     )
     @GetMapping("/new")
-    ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina, @RequestParam @Valid @Positive Integer tamanho);
+    ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam @Valid @Min(0) Integer pagina, @RequestParam @Valid @Positive Integer tamanho);
 
     @Operation(summary = "Buscar passagens por id do voo", description = "Lista as passagens id do voo")
     @ApiResponses(
@@ -97,7 +98,7 @@ public interface PassagemDoc {
     )
     @GetMapping("/voo")
     ResponseEntity<PageDTO<PassagemDTO>> getByVoo(@RequestParam("idVoo") @Valid @Positive Integer idVoo,
-                                                  @RequestParam Integer pagina,
+                                                  @RequestParam @Valid @Min(0) Integer pagina,
                                                   @RequestParam @Valid @Positive Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Buscar passagem por valor", description = "Lista as passagens até o limite de valor selecionado")
