@@ -18,8 +18,8 @@ import javax.validation.constraints.Size;
 public class CompanhiaCreateDTO {
 
     @NotBlank(message = "É necessário informar um login!")
-    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$", message = "Endereço de e-mail inválido")
-    @Email(message = "E-mail inválido!")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+            message = "Endereço de e-mail inválido")
     @Schema(description = "Login de acesso", example = "companhia.aviao@email.com", required = true)
     private String login;
 

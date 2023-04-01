@@ -15,7 +15,8 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 public class UsuarioCreateDTO {
     @NotNull
-    @Email(message = "Email inválido!")
+    @Pattern(regexp = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$",
+            message = "Endereço de e-mail inválido")
     @Schema(description = "Login de acesso ao sistema", example = "example@dbccompany.com.br")
     private String login;
 
