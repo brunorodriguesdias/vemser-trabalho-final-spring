@@ -4,11 +4,14 @@ import br.com.dbc.javamosdecolar.dto.in.PassagemCreateAmountDTO;
 import br.com.dbc.javamosdecolar.dto.in.PassagemCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PassagemDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.PassagemEntity;
 import br.com.dbc.javamosdecolar.entity.VendaEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
+import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.PassagemRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -29,12 +33,17 @@ public class PassagemService {
     private final ObjectMapper objectMapper;
     private final CompanhiaService companhiaService;
     private final VooService vooService;
+    private final LogService logService;
+    private final UsuarioService usuarioService;
 
-    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService, @Lazy VooService vooService) {
+    public PassagemService(PassagemRepository passagemRepository, ObjectMapper objectMapper, CompanhiaService companhiaService,
+                           @Lazy VooService vooService, LogService logService, UsuarioService usuarioService) {
         this.passagemRepository = passagemRepository;
         this.objectMapper = objectMapper;
         this.companhiaService = companhiaService;
         this.vooService = vooService;
+        this.logService = logService;
+        this.usuarioService = usuarioService;
     }
 
     public PassagemDTO create(PassagemCreateDTO passagemCreateDTO) throws RegraDeNegocioException {
@@ -43,6 +52,7 @@ public class PassagemService {
 
         //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateDTO.getIdVoo());
+        vooService.validarCompanhiaLogada(vooEntity);
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - 1);
 
         //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
@@ -54,8 +64,9 @@ public class PassagemService {
         passagem.setNumeroAssento(++nAssento);
 
         PassagemEntity passagemCriada = passagemRepository.save(passagem);
-        PassagemDTO passagemDTO = objectMapper.convertValue(passagemCriada, PassagemDTO.class);
         CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.CRIAR);
+        PassagemDTO passagemDTO = objectMapper.convertValue(passagemCriada, PassagemDTO.class);
         passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
 
         //ATUALIZANDO O NUMERO DE ASSENTOS DISPONIVEIS DAQUELE VOO
@@ -69,6 +80,7 @@ public class PassagemService {
 
         //VALIDANDO VOO
         VooEntity vooEntity = vooService.getVoo(passagemCreateAmountDTO.getIdVoo());
+        vooService.validarCompanhiaLogada(vooEntity);
         vooEntity.setAssentosDisponiveis(vooEntity.getAssentosDisponiveis() - passagemCreateAmountDTO.getQuantidadeDePassagens());
 
         //BUSCANDO A ÚLTIMA PASSAGEM CRIADA DAQUELE VOO
@@ -83,6 +95,7 @@ public class PassagemService {
             passagemEntity.setCodigo(UUID.randomUUID().toString());
             passagemEntity.setNumeroAssento(++nPassagem);
             PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.save(passagemEntity), PassagemDTO.class);
+            logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.CRIAR);
             passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
             passagemDTOS.add(passagemDTO);
         }
@@ -100,6 +113,9 @@ public class PassagemService {
         vooService.getVoo(passagemCreateDTO.getIdVoo());
         CompanhiaEntity companhiaEntity = recuperarCompanhia(passagemEncontrada.getIdPassagem());
 
+        // Validar companhia
+        validarCompanhiaLogada(passagemEncontrada);
+
         if(passagemEncontrada.getStatus() == Status.CANCELADO){
             throw new RegraDeNegocioException("Passagem cancelada, não é possível editar!");
         }
@@ -108,6 +124,7 @@ public class PassagemService {
         passagemEncontrada.setTipoAssento(passagemCreateDTO.getTipoAssento());
         passagemEncontrada.setIdVoo(passagemCreateDTO.getIdVoo());
         PassagemDTO passagemDTO = objectMapper.convertValue(passagemRepository.save(passagemEncontrada), PassagemDTO.class);
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.ALTERAR);
         passagemDTO.setNomeCompanhia(companhiaEntity.getNome());
 
         return passagemDTO;
@@ -115,12 +132,17 @@ public class PassagemService {
 
     public void delete(Integer passagemId) throws RegraDeNegocioException {
         PassagemEntity passagem = getPassagem(passagemId);
+        CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
 
         if (passagem.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Passagem já cancelada!");
         }
 
+        // Validar companhia
+        validarCompanhiaLogada(passagem);
+
         passagemRepository.deleteById(passagemId);
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.DELETAR);
     }
 
     public PassagemDTO getById(Integer id) throws RegraDeNegocioException {
@@ -182,6 +204,18 @@ public class PassagemService {
         passagem.setStatus(Status.VENDIDA);
         passagem.setIdVenda(vendaEntity.getIdVenda());
         passagemRepository.save(passagem);
+        CompanhiaEntity companhiaEntity = recuperarCompanhia(passagem.getIdPassagem());
+        logService.saveLog(companhiaEntity, PassagemEntity.class, TipoOperacao.ALTERAR);
         return true;
+    }
+
+    protected void validarCompanhiaLogada(PassagemEntity passsagemEntity) throws RegraDeNegocioException {
+        UsuarioDTO loggedUser = usuarioService.getLoggedUser();
+        CompanhiaEntity companhia = recuperarCompanhia(passsagemEntity.getIdVoo());
+        if (!Objects.equals(companhia.getIdUsuario(), loggedUser.getIdUsuario())
+                && loggedUser.getTipoUsuario() != TipoUsuario.ADMIN) {
+            throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
+                    "A passagem informada pertence à outra companhia!");
+        }
     }
 }

@@ -27,12 +27,12 @@ public class AuthController implements AuthDoc {
     private final AuthenticationService authenticationService;
 
     @PostMapping
-    public String auth(@RequestBody @Valid LoginDTO loginDTO) throws RegraDeNegocioException {
+    public String auth(LoginDTO loginDTO) throws RegraDeNegocioException {
         return tokenService.gerarToken(authenticationService.autenticar(loginDTO));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UsuarioDTO> create(@RequestBody @Valid UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
+    public ResponseEntity<UsuarioDTO> create(UsuarioCreateDTO usuarioCreateDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(usuarioService.create(usuarioCreateDTO), HttpStatus.OK);
     }
 

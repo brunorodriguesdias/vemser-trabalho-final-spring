@@ -2,11 +2,15 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.VooCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
+import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VooDTO;
 import br.com.dbc.javamosdecolar.entity.AviaoEntity;
 import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
+import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.VooEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
+import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
+import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VooRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +31,14 @@ public class VooService {
     private final CompanhiaService companhiaService;
     private final AviaoService aviaoService;
     private final ObjectMapper objectMapper;
+    private final UsuarioService usuarioService;
+    private final LogService logService;
 
     public VooDTO create(VooCreateDTO vooCreateDTO) throws RegraDeNegocioException {
 
         //VALIDANDO AVIAO
         AviaoEntity aviaoEntity = aviaoService.getAviao(vooCreateDTO.getIdAviao());
+        aviaoService.validarCompanhiaLogada(aviaoEntity);
         if (!aviaoEntity.isAtivo()){
             throw new RegraDeNegocioException("O avião informado está inativo!");
         }
@@ -42,6 +50,7 @@ public class VooService {
         VooEntity vooEntity = objectMapper.convertValue(vooCreateDTO, VooEntity.class);
         vooEntity.setStatus(Status.DISPONIVEL);
         vooEntity = vooRepository.save(vooEntity);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.CRIAR);
 
         VooDTO vooDTO = objectMapper.convertValue(vooEntity, VooDTO.class);
         CompanhiaEntity companhiaEntity = recuperarCompanhia(vooDTO.getIdVoo());
@@ -57,6 +66,9 @@ public class VooService {
             throw new RegraDeNegocioException("Voô cancelado, não é possível editar!");
         }
 
+        // Validar companhia
+        validarCompanhiaLogada(vooEncontrado);
+
         vooEncontrado.setIdAviao(vooCreateDTO.getIdAviao());
         vooEncontrado.setOrigem(vooCreateDTO.getOrigem());
         vooEncontrado.setDestino(vooCreateDTO.getDestino());
@@ -66,6 +78,7 @@ public class VooService {
 
         //UPDATE VOO
         vooRepository.save(vooEncontrado);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.ALTERAR);
 
         VooDTO vooDTO = objectMapper.convertValue(vooEncontrado, VooDTO.class);
         vooDTO.setNomeCompanhia(recuperarCompanhia(vooDTO.getIdVoo()).getNome());
@@ -78,6 +91,10 @@ public class VooService {
         if (vooEntity.getStatus() == Status.CANCELADO) {
             throw new RegraDeNegocioException("Voô já cancelado!");
         }
+
+        // Validar companhia
+        validarCompanhiaLogada(vooEntity);
+        logService.saveLog(usuarioService.getLoggedUserEntity(), VooEntity.class, TipoOperacao.DELETAR);
 
         vooRepository.deleteById(idVoo);
     }
@@ -140,5 +157,15 @@ public class VooService {
 
     protected VooEntity updateAssentosDisponiveis(VooEntity vooEntity) {
         return vooRepository.save(vooEntity);
+    }
+
+    protected void validarCompanhiaLogada(VooEntity vooEntity) throws RegraDeNegocioException {
+        UsuarioDTO loggedUser = usuarioService.getLoggedUser();
+        CompanhiaEntity companhia = recuperarCompanhia(vooEntity.getIdVoo());
+        if (!Objects.equals(companhia.getIdUsuario(), loggedUser.getIdUsuario())
+                && loggedUser.getTipoUsuario() != TipoUsuario.ADMIN) {
+            throw new RegraDeNegocioException("Você não tem permissão de realizar essa operação: " +
+                    "O voo informado pertence à outra companhia!");
+        }
     }
 }

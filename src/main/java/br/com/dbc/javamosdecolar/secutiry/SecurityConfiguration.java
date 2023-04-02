@@ -31,8 +31,8 @@ public class SecurityConfiguration {
                         requisicao
                                 //All Admin
                                 .antMatchers(
-                                        "/comprador/all",
-                                        "/companhia/all",
+                                        "/comprador/listar-todos",
+                                        "/companhia/listar-todas",
                                         "/aviao/all",
                                         "/auth/create",
                                         "/auth/get-usuario-loggado",
@@ -65,14 +65,18 @@ public class SecurityConfiguration {
                                         "/avaliacao/create")
                                 .hasAnyAuthority("ROLE_COMPRADOR", "ROLE_ADMIN")
 
+                                //Only Companhia
+                                .antMatchers("/aviao/create")
+                                .hasAuthority("ROLE_COMPANHIA")
+
                                 //All Companhia
                                 .antMatchers("/aviao/**",
-                                        "/passagem/**",
-                                        "/venda/**/companhia",
-                                        "/companhia/**",
-                                        "/voo/criar",
-                                        "/voo/alterar/**",
-                                        "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
+                                    "/passagem/**",
+                                    "/venda/**/companhia",
+                                    "/companhia/**",
+                                    "/voo/criar",
+                                    "/voo/alterar/**",
+                                    "/voo/deletar").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_ADMIN")
 
                                 //Iguais mais genericos
                                 .antMatchers("/voo/**").hasAnyAuthority("ROLE_COMPANHIA", "ROLE_COMPRADOR", "ROLE_ADMIN")
@@ -91,8 +95,8 @@ public class SecurityConfiguration {
                 "/v3/api-docs/**",
                 "/auth",
                 // Qualquer pessoa pode se cadastrar como companhia ou comprador
-                "/comprador/create",
-                "/companhia/create");
+                "/comprador/criar",
+                "/companhia/criar");
     }
 
     @Bean

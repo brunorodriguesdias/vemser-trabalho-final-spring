@@ -29,38 +29,32 @@ public class VendaController implements VendaDoc{
 
     @Override
     @GetMapping("/{idComprador}/comprador")
-    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(@PathVariable("idComprador") Integer id,
-                                                                @RequestParam Integer pagina,
-                                                                @RequestParam Integer tamanho)
+    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoCompras(Integer id, Integer pagina, Integer tamanho)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.getHistoricoComprasComprador(id, pagina, tamanho), OK);
     }
     @Override
     @GetMapping("/{idCompanhia}/companhia")
-    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(@PathVariable("idCompanhia") Integer id,
-                                                               @RequestParam Integer pagina,
-                                                               @RequestParam Integer tamanho)
+    public ResponseEntity<PageDTO<VendaDTO>> getByHistoricoVendas(Integer id, Integer pagina, Integer tamanho)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.getHistoricoVendasCompanhia(id, pagina, tamanho), OK);
     }
     @Override
     @GetMapping("/vendas-between")
-    public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime inicioConsulta,
-                                                           @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fimConsulta,
-                                                           @RequestParam Integer paginaSolicitada,
-                                                           @RequestParam Integer tamanhoPagina) {
+    public ResponseEntity<PageDTO<VendaDTO>> getVendasBetween(LocalDateTime inicioConsulta, LocalDateTime fimConsulta,
+                                                           Integer paginaSolicitada, Integer tamanhoPagina) {
         return new ResponseEntity<>(vendaService.getVendasBetween(inicioConsulta,
                 fimConsulta, paginaSolicitada, tamanhoPagina), OK);
     }
     @Override
     @PostMapping
-    public ResponseEntity<VendaDTO> create(@RequestBody @Valid VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VendaDTO> create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(vendaService.create(vendaDTO), CREATED);
     }
 
     @Override
     @DeleteMapping("/{idVenda}/cancelar")
-    public ResponseEntity<Void> delete(@PathVariable("idVenda") Integer idVenda) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete(Integer idVenda) throws RegraDeNegocioException {
         vendaService.delete(idVenda);
         return ResponseEntity.noContent().build();
     }

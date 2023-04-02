@@ -2,6 +2,7 @@ package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.UsuarioCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.UsuarioDTO;
+import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.UsuarioEntity;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
@@ -10,6 +11,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -18,14 +20,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.security.core.Authentication;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -125,6 +126,20 @@ public class UsuarioServiceTest {
     }
 
     @Test
+    public void shouldGetLoggedUserEntity() throws RegraDeNegocioException{
+        //SETUP
+        getMockedSecurityContext();
+        when(usuarioService.getIdLoggedUser()).thenReturn(getUsuarioEntity().getIdUsuario());
+        when(usuarioRepository.findById(anyInt())).thenReturn(Optional.of(getUsuarioEntity()));
+
+        //ACT
+        UsuarioEntity usuarioEntity = usuarioService.getLoggedUserEntity();
+
+        //ASSERT
+        Assert.assertNotNull(usuarioEntity);
+    }
+
+    @Test
     public void shouldReturnUsuarioOptional() {
         // SETUP
         when(usuarioRepository.findByLogin(anyString()))
@@ -159,6 +174,16 @@ public class UsuarioServiceTest {
 //        usuarioMockadoBanco.setSenha("dsfasffsda");
         usuarioMockadoBanco.setAtivo(true);
         return usuarioMockadoBanco;
+    }
+
+    protected static UsuarioDTO getUsuarioDTO() {
+        UsuarioDTO usuarioDTOMockado = new UsuarioDTO();
+        usuarioDTOMockado.setIdUsuario(1);
+        usuarioDTOMockado.setNome("Carlos Cunha");
+        usuarioDTOMockado.setLogin("carlos.cunha@emai.com");
+        usuarioDTOMockado.setAtivo(true);
+        usuarioDTOMockado.setTipoUsuario(TipoUsuario.ADMIN);
+        return usuarioDTOMockado;
     }
 
     private static UsuarioCreateDTO getUsuarioCreateDTO() {

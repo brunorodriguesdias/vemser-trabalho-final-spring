@@ -10,10 +10,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hibernate.validator.constraints.br.CNPJ;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Tag(name = "Companhia", description = "Endpoints de companhia")
 public interface CompanhiaDoc {
@@ -28,8 +31,8 @@ public interface CompanhiaDoc {
             }
     )
     @GetMapping
-    ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam Integer pagina,
-                                                 @RequestParam Integer tamanho) throws RegraDeNegocioException;
+    ResponseEntity<PageDTO<CompanhiaDTO>> getAll(@RequestParam @Valid @PositiveOrZero(message = "Tamanho tem que ser igual ou maior que 0!") Integer pagina,
+                                                 @RequestParam @Valid @Positive(message = "Tamanho tem que ser maior que 0!") Integer tamanho) throws RegraDeNegocioException;
 
     @Operation(summary = "Listar companhias com passagens", description = "Listar companhias com passagens vendidas/disponíveis/canceladas")
     @ApiResponses(
@@ -41,8 +44,8 @@ public interface CompanhiaDoc {
             }
     )
     @GetMapping("/retornar-passagens")
-    ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam Integer pagina,
-                                                                        @RequestParam Integer tamanho);
+    ResponseEntity<PageDTO<CompanhiaRelatorioDTO>> relatorioDePassagens(@RequestParam @Valid @PositiveOrZero(message = "Tamanho tem que ser igual ou maior que 0!") Integer pagina,
+                                                                        @RequestParam @Valid @Positive(message = "Tamanho tem que ser maior que 0!") Integer tamanho);
 
     @Operation(summary = "Buscar companhia", description = "Mostra os dados da companhia")
     @ApiResponses(
@@ -102,7 +105,6 @@ public interface CompanhiaDoc {
             }
     )
     @DeleteMapping("/deletar/admin")
-    ResponseEntity<Void> deleteCompanhiaAdmin(@RequestHeader("id") Integer id,
-                                              @RequestHeader("cnpj") String cnpj) throws RegraDeNegocioException;
-
+    ResponseEntity<Void> deleteCompanhiaAdmin(@RequestHeader("id") @Valid @PositiveOrZero(message = "Tamanho tem que ser igual ou maior que 0!") Integer id,
+                                              @RequestHeader("cnpj") @Valid @CNPJ String cnpj) throws RegraDeNegocioException;
 }

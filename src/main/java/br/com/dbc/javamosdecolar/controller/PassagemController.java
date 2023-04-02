@@ -26,55 +26,46 @@ import static org.springframework.http.HttpStatus.OK;
 public class PassagemController implements PassagemDoc {
     private final PassagemService passagemService;
 
-    @PostMapping
-    public ResponseEntity<PassagemDTO> create(@RequestBody @Valid PassagemCreateDTO passagemDTO)
+    @PostMapping("/create")
+    public ResponseEntity<PassagemDTO> create(PassagemCreateDTO passagemDTO)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.create(passagemDTO), CREATED);
     }
 
     @PostMapping("/amount")
-    public ResponseEntity<List<PassagemDTO>> createAmount(@RequestBody @Valid PassagemCreateAmountDTO passagemCreateAmountDTO) throws RegraDeNegocioException {
+    public ResponseEntity<List<PassagemDTO>> createAmount(PassagemCreateAmountDTO passagemCreateAmountDTO) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.createAmount(passagemCreateAmountDTO), CREATED);
     }
 
     @PutMapping("/{idPassagem}")
-    public ResponseEntity<PassagemDTO> update(@PathVariable("idPassagem") Integer id,
-                                              @RequestBody @Valid PassagemCreateDTO passagemDTO)
+    public ResponseEntity<PassagemDTO> update(Integer id, PassagemCreateDTO passagemDTO)
             throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.update(id, passagemDTO), OK);
     }
 
     @DeleteMapping("/{idPassagem}")
-    public ResponseEntity<Void> delete(@PathVariable("idPassagem") Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete(Integer id) throws RegraDeNegocioException {
         this.passagemService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/all-new")
-    public ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(@RequestParam Integer pagina,
-                                                                    @RequestParam Integer tamanho) {
+    public ResponseEntity<PageDTO<PassagemDTO>> getUltimasPassagens(Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(this.passagemService.getUltimasPassagens(pagina, tamanho), OK);
     }
 
     @GetMapping("/voo")
-    public ResponseEntity<PageDTO<PassagemDTO>> getByVoo(
-            @RequestParam("idVoo") Integer idVoo,
-            @RequestParam Integer pagina,
-            @RequestParam Integer tamanho) throws RegraDeNegocioException {
+    public ResponseEntity<PageDTO<PassagemDTO>> getByVoo(Integer idVoo, Integer pagina, Integer tamanho) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.getByVoo(idVoo, pagina, tamanho), OK);
     }
 
     @GetMapping("/valor")
-    public ResponseEntity<PageDTO<PassagemDTO>> getByValorMaximo(
-            @RequestParam("max") BigDecimal valor,
-            @RequestParam("pagina") Integer pagina,
-            @RequestParam("tamanho") Integer tamanho) {
+    public ResponseEntity<PageDTO<PassagemDTO>> getByValorMaximo(BigDecimal valor, Integer pagina, Integer tamanho) {
         return new ResponseEntity<>(this.passagemService.getByValorMaximo(valor, pagina, tamanho), OK);
     }
 
     @GetMapping("/buscar/{idPassagem}")
-    public ResponseEntity<PassagemDTO> getById(
-            @PathVariable("idPassagem") Integer id) throws RegraDeNegocioException {
+    public ResponseEntity<PassagemDTO> getById(Integer id) throws RegraDeNegocioException {
         return new ResponseEntity<>(this.passagemService.getById(id), OK);
     }
 }

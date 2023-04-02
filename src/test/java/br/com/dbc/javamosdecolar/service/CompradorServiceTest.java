@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.extern.java.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -51,6 +52,8 @@ public class CompradorServiceTest {
     private EmailService emailService;
     @Mock
     private CargoService cargoService;
+    @Mock
+    private LogService logService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
     private PasswordEncoder passwordEncoder = new StandardPasswordEncoder();
@@ -184,6 +187,19 @@ public class CompradorServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
+    public void shouldDeleteAsAdminWithFail() throws RegraDeNegocioException {
+        // SETUP
+        Integer idUsuario = 1;
+        String cpf = "914.029.190-18";
+        CompradorEntity compradorEntity = getCompradorEntity();
+        compradorEntity.setAtivo(Boolean.FALSE);
+        when(compradorRepository.findById(anyInt())).thenReturn(Optional.of(compradorEntity));
+
+        // ACT
+        compradorService.delete(idUsuario, cpf);
+    }
+
+    @Test(expected = RegraDeNegocioException.class)
     public void shouldDeleteAsAdminWithInvalidCnpj() throws RegraDeNegocioException {
         // SETUP
         Integer idUsuario = 1;
@@ -259,10 +275,10 @@ public class CompradorServiceTest {
 
     private static CompradorCreateDTO getCompradorCreateDTO() {
         CompradorCreateDTO meuNovoComprador = new CompradorCreateDTO(
-                "914.029.190-18",
                 "carlos.cunha@email.com",
                 "mypassword",
-                "Carlos Cunha"
+                "Carlos Cunha",
+                "914.029.190-18"
                 );
         return meuNovoComprador;
     }
