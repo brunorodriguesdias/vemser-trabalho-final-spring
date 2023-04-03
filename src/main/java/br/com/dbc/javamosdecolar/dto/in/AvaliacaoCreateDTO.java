@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Data
 @AllArgsConstructor
@@ -19,7 +17,8 @@ public class AvaliacaoCreateDTO {
     private String nome;
     @NotNull
     @Schema(example = "10")
-    @Size(min = 0, max = 10, message = "Digite um nota de 0 à 10!")
+    @Min(value = 0, message = "Digite um nota de 0 à 10!")
+    @Max(value = 10, message = "Digite um nota de 0 à 10!")
     private Integer nota;
     @Schema(example = "Muito bom!")
     private String descricao;
