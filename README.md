@@ -53,5 +53,9 @@ Podemos também fazer uma consulta paginada sobre vendas entre um intervalo de t
 * Time Spring Web: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Kelly Castelo](https://github.com/zam0k) e [Mariana Machado](https://github.com/marimaccos).
 * Time Spring Data: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Gabriel de Jesus](https://github.com/gabrielSdejesus) e [Gabriel Meira](https://github.com/Gabriel-Gomes-Meira).
 <hr>
+* Time Spring Security: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Gabriel de Jesus](https://github.com/gabrielSdejesus) e [Gabriel Meira](https://github.com/Gabriel-Gomes-Meira).
+<hr>
+* Time Mongo + Mockito: [Bruno Rodrigues](https://github.com/brunorodriguesdias), [Gabriel de Jesus](https://github.com/gabrielSdejesus) e [Gabriel Meira](https://github.com/Gabriel-Gomes-Meira).
+<hr>
 
 <p align="center">Feito com ☕ para o #VemSer 11º edição</p>
