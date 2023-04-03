@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
-@Tag(name = "Avaliação")
+@Tag(name = "Avaliação", description = "Endpoints de avaliação")
 public interface AvaliacaoDoc {
 
     @Operation(summary = "Listar avaliações", description = "Lista todas a avaliações")

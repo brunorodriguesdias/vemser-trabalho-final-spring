@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-@Tag(name = "Admin")
+@Tag(name = "Admin", description = "Endpoints de admin")
 public interface AdminDoc {
     @Operation(summary = "Listar logs", description = "Lista os logs das operações realizadas no sistema. " +
             "Opcionalmente, pode filtrar pelo id do usuário que realizou a operação.")
