@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.dto.outs.LogDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompanhiaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,7 @@ public class CompanhiaController implements CompanhiaDoc{
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<CompanhiaDTO> create(CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException {
+    public ResponseEntity<CompanhiaDTO> create(CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException, JsonProcessingException {
         return new ResponseEntity<>(companhiaService.create(companhiaDTO), CREATED);
     }
 

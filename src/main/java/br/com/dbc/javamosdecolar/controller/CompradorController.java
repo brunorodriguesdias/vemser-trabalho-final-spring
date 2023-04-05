@@ -7,6 +7,7 @@ import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.CompradorService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -44,7 +45,7 @@ public class CompradorController implements CompradorDoc {
     }
 
     @PostMapping("/criar")
-    public ResponseEntity<CompradorDTO> create(CompradorCreateDTO comprador) throws RegraDeNegocioException {
+    public ResponseEntity<CompradorDTO> create(CompradorCreateDTO comprador) throws RegraDeNegocioException, JsonProcessingException {
         return new ResponseEntity<>(compradorService.create(comprador), CREATED);
     }
 

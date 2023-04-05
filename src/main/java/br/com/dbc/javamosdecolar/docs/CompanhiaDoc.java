@@ -6,6 +6,7 @@ import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompanhiaRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -69,7 +70,7 @@ public interface CompanhiaDoc {
             }
     )
     @PostMapping
-    ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException;
+    ResponseEntity<CompanhiaDTO> create(@Valid @RequestBody CompanhiaCreateDTO companhiaDTO) throws RegraDeNegocioException, JsonProcessingException;
 
     @Operation(summary = "Editar companhia", description = "Edita os dados da companhia")
     @ApiResponses(

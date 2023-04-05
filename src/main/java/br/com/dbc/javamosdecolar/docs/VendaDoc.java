@@ -4,6 +4,7 @@ import br.com.dbc.javamosdecolar.dto.in.VendaCreateDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,7 +32,7 @@ public interface VendaDoc {
             }
     )
     @PostMapping
-    ResponseEntity<VendaDTO> create(@RequestBody @Valid VendaCreateDTO vendaDTO) throws RegraDeNegocioException;
+    ResponseEntity<VendaDTO> create(@RequestBody @Valid VendaCreateDTO vendaDTO) throws RegraDeNegocioException, JsonProcessingException;
 
     @Operation(summary = "Cancelar venda", description = "Cancela uma venda realizada")
     @ApiResponses(
@@ -43,7 +44,7 @@ public interface VendaDoc {
             }
     )
     @DeleteMapping("/{idVenda}/cancelar")
-    ResponseEntity<Void> delete(@PathVariable("idVenda") @Valid @Positive Integer idVenda) throws RegraDeNegocioException;
+    ResponseEntity<Void> delete(@PathVariable("idVenda") @Valid @Positive Integer idVenda) throws RegraDeNegocioException, JsonProcessingException;
 
     @Operation(summary = "Historico de compras do comprador", description = "Lista o historico de compras do comprador " +
     "páginados")

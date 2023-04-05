@@ -5,6 +5,7 @@ import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -72,7 +73,7 @@ public interface CompradorDoc {
     )
     @PostMapping
     ResponseEntity<CompradorDTO> create(@Valid @RequestBody CompradorCreateDTO comprador)
-            throws RegraDeNegocioException;
+            throws RegraDeNegocioException, JsonProcessingException;
 
     @Operation(summary = "Editar comprador", description = "Edita os dados do comprador")
     @ApiResponses(

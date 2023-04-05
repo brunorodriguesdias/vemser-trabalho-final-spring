@@ -13,6 +13,7 @@ import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,12 +32,12 @@ public class VendaService {
     private final PassagemService passagemService;
     private final CompradorService compradorService;
     private final CompanhiaService companhiaService;
-//    private final EmailService emailService;
+    private final ProducerService producerService;
     private final ObjectMapper objectMapper;
     private final UsuarioService usuarioService;
     private final LogService logService;
 
-    public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
+    public VendaDTO create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException, JsonProcessingException {
 
         UUID codigo = UUID.randomUUID();
 
@@ -64,12 +65,11 @@ public class VendaService {
         vendaEfetuadaDTO.setIdComprador(compradorEntity.getIdUsuario());
         vendaEfetuadaDTO.setCompanhia(companhiaEntity.getNome());
 
-//        emailService.sendEmail(vendaEfetuada, "CRIAR", compradorEntity);
-
+        producerService.enviarEmailVenda(vendaEfetuada, "CRIAR");
         return vendaEfetuadaDTO;
     }
 
-    public boolean delete(Integer idVenda) throws RegraDeNegocioException {
+    public boolean delete(Integer idVenda) throws RegraDeNegocioException, JsonProcessingException {
 
         VendaEntity venda = vendaRepository.findById(idVenda)
                 .orElseThrow(() -> new RegraDeNegocioException("Venda não encontrada!"));
@@ -87,8 +87,7 @@ public class VendaService {
         }
 
         vendaRepository.deleteById(idVenda);
-//        emailService.sendEmail(venda, "DELETAR",
-//                compradorService.getCompradorComId(venda.getIdComprador()));
+        producerService.enviarEmailVenda(venda, "DELETAR");
         logService.saveLog(companhiaVendedora, VendaEntity.class, TipoOperacao.DELETAR);
         return true;
     }

@@ -11,6 +11,7 @@ import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class CompanhiaService {
     private final CompanhiaRepository companhiaRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-    private final EmailService emailService;
+    private final ProducerService producerService;
     private final CargoService cargoService;
     private final PasswordEncoder passwordEncoder;
     private final LogService logService;
@@ -67,7 +68,7 @@ public class CompanhiaService {
                 relatorios);
     }
 
-    public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException {
+    public CompanhiaDTO create(CompanhiaCreateDTO companhiaCreateDTO) throws RegraDeNegocioException, JsonProcessingException {
         //validando se o login já está registrado
         usuarioService.existsLogin(companhiaCreateDTO.getLogin());
         //validando se o cpnj já está registrado
@@ -84,7 +85,7 @@ public class CompanhiaService {
         //salvando no bd o novo comprador, enviando email, salvando log
         companhiaEntity = companhiaRepository.save(companhiaEntity);
         cargoService.saveCargo(companhiaEntity);
-        emailService.sendEmail(companhiaEntity);
+        producerService.enviarEmailUsuario(companhiaEntity);
         logService.saveLog(companhiaEntity, CompanhiaEntity.class, TipoOperacao.CRIAR);
         return objectMapper.convertValue(companhiaEntity, CompanhiaDTO.class);
     }

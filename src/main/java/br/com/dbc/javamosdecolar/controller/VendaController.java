@@ -6,6 +6,7 @@ import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
 import br.com.dbc.javamosdecolar.dto.outs.VendaDTO;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.service.VendaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -48,13 +49,13 @@ public class VendaController implements VendaDoc{
     }
     @Override
     @PostMapping
-    public ResponseEntity<VendaDTO> create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException {
+    public ResponseEntity<VendaDTO> create(VendaCreateDTO vendaDTO) throws RegraDeNegocioException, JsonProcessingException {
         return new ResponseEntity<>(vendaService.create(vendaDTO), CREATED);
     }
 
     @Override
     @DeleteMapping("/{idVenda}/cancelar")
-    public ResponseEntity<Void> delete(Integer idVenda) throws RegraDeNegocioException {
+    public ResponseEntity<Void> delete(Integer idVenda) throws RegraDeNegocioException, JsonProcessingException {
         vendaService.delete(idVenda);
         return ResponseEntity.noContent().build();
     }

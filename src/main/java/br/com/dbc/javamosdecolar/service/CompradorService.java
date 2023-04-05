@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.entity.enums.TipoOperacao;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,10 +28,10 @@ public class CompradorService {
     private final CompradorRepository compradorRepository;
     private final UsuarioService usuarioService;
     private final ObjectMapper objectMapper;
-    private final EmailService emailService;
     private final CargoService cargoService;
     private final PasswordEncoder passwordEncoder;
     private final LogService logService;
+    private final ProducerService producerService;
 
     public PageDTO<CompradorDTO> getAll(Integer pagina, Integer tamanho) {
         Pageable solcitacaoPagina = PageRequest.of(pagina, tamanho);
@@ -65,7 +66,7 @@ public class CompradorService {
                 relatorios);
     }
 
-    public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException {
+    public CompradorDTO create(CompradorCreateDTO compradorCreateDTO) throws RegraDeNegocioException, JsonProcessingException {
         //validando se o login se já está registrado
         usuarioService.existsLogin(compradorCreateDTO.getLogin());
         //validando se cpf já está registrado
@@ -83,7 +84,8 @@ public class CompradorService {
         //salvando no bd o novo comprador
         compradorEntity = compradorRepository.save(compradorEntity);
         cargoService.saveCargo(compradorEntity);
-        emailService.sendEmail(compradorEntity);
+//        emailService.sendEmail(compradorEntity);
+        producerService.enviarEmailUsuario(compradorEntity);
         logService.saveLog(compradorEntity, CompradorEntity.class, TipoOperacao.CRIAR);
         return objectMapper.convertValue(compradorEntity, CompradorDTO.class);
     }
