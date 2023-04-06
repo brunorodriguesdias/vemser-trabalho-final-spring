@@ -1,7 +1,6 @@
 package br.com.dbc.javamosdecolar.service;
 
 import br.com.dbc.javamosdecolar.dto.in.CompradorCreateDTO;
-import br.com.dbc.javamosdecolar.dto.outs.CompanhiaDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorDTO;
 import br.com.dbc.javamosdecolar.dto.outs.CompradorRelatorioDTO;
 import br.com.dbc.javamosdecolar.dto.outs.PageDTO;
@@ -10,11 +9,11 @@ import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.entity.enums.TipoAssento;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompradorRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.extern.java.Log;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +48,7 @@ public class CompradorServiceTest {
     @Mock
     private CompradorRepository compradorRepository;
     @Mock
-    private EmailService emailService;
+    private ProducerService producerService;
     @Mock
     private CargoService cargoService;
     @Mock
@@ -106,7 +105,7 @@ public class CompradorServiceTest {
     }
 
     @Test
-    public void shouldCreateWithSucess() throws RegraDeNegocioException {
+    public void shouldCreateWithSucess() throws RegraDeNegocioException, JsonProcessingException {
         // SETUP
         CompradorCreateDTO meuNovoComprador = getCompradorCreateDTO();
         CompradorEntity compradorMockado = getCompradorEntity();

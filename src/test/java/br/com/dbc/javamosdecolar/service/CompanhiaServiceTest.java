@@ -9,6 +9,7 @@ import br.com.dbc.javamosdecolar.entity.CompanhiaEntity;
 import br.com.dbc.javamosdecolar.entity.enums.Status;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.CompanhiaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -48,7 +49,7 @@ public class CompanhiaServiceTest {
     @Mock
     private CompanhiaRepository companhiaRepository;
     @Mock
-    private EmailService emailService;
+    private ProducerService producerService;
     @Mock
     private CargoService cargoService;
     @Mock
@@ -105,7 +106,7 @@ public class CompanhiaServiceTest {
     }
 
     @Test
-    public void shouldCreateWithSucess() throws RegraDeNegocioException {
+    public void shouldCreateWithSucess() throws RegraDeNegocioException, JsonProcessingException {
         // SETUP
         CompanhiaCreateDTO minhaNovaCompanhia = getCompanhiaCreateDTO();
         CompanhiaEntity companhiaMockada = getCompanhiaEntity();

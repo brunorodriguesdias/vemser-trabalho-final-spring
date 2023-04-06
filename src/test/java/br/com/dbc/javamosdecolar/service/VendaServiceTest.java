@@ -10,6 +10,7 @@ import br.com.dbc.javamosdecolar.entity.enums.TipoAssento;
 import br.com.dbc.javamosdecolar.entity.enums.TipoUsuario;
 import br.com.dbc.javamosdecolar.exception.RegraDeNegocioException;
 import br.com.dbc.javamosdecolar.repository.VendaRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -52,6 +53,8 @@ public class VendaServiceTest {
     @Mock
     private UsuarioService usuarioService;
     @Mock
+    private ProducerService producerService;
+    @Mock
     private LogService logService;
     @Before
     public void init() {
@@ -61,7 +64,7 @@ public class VendaServiceTest {
         ReflectionTestUtils.setField(vendaService, "objectMapper", objectMapper);
     }
     @Test
-    public void deveCriarComSucesso() throws RegraDeNegocioException {
+    public void deveCriarComSucesso() throws RegraDeNegocioException, JsonProcessingException {
         // SETUP
         CompradorEntity compradorEntity = getCompradorEntityMock();
         PassagemEntity passagemEntity = getPassagemEntityMock();
@@ -90,7 +93,7 @@ public class VendaServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarPassagemIndisponivel() throws RegraDeNegocioException {
+    public void deveTestarPassagemIndisponivel() throws RegraDeNegocioException, JsonProcessingException {
         //SETUP
         PassagemEntity passagemEntity = getPassagemEntityMock();
         VendaEntity vendaEntity = getVendaEntityMock();
@@ -104,7 +107,7 @@ public class VendaServiceTest {
         VendaDTO vendaDTO = vendaService.create(getVendaCreateDTOMock());
     }
     @Test
-    public void deveDeletarComSucesso() throws RegraDeNegocioException {
+    public void deveDeletarComSucesso() throws RegraDeNegocioException, JsonProcessingException {
         //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
@@ -122,7 +125,7 @@ public class VendaServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarPermissaoDeletar() throws RegraDeNegocioException {
+    public void deveTestarPermissaoDeletar() throws RegraDeNegocioException, JsonProcessingException {
         //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         CompanhiaEntity companhiaEntity = getCompanhiaEntityMock();
@@ -139,7 +142,7 @@ public class VendaServiceTest {
     }
 
     @Test(expected = RegraDeNegocioException.class)
-    public void deveTestarVendaCancelada() throws RegraDeNegocioException {
+    public void deveTestarVendaCancelada() throws RegraDeNegocioException, JsonProcessingException {
         //SETUP
         VendaEntity vendaEntity = getVendaEntityMock();
         vendaEntity.setStatus(Status.CANCELADO);
